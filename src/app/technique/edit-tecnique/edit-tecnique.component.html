@@ -1,0 +1,40 @@
+<div *ngIf="travaux">
+  <mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <p>Les informations sur le chantier</p>
+        </mat-panel-title>
+        <mat-panel-description>
+          {{panelOpenState ? 'Fermer' : 'Ouvrir'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <h3 class="site">Site : {{travaux.site.nomChantier}}</h3>
+      <h3 class="site">Numero du bon  : {{travaux.numeroBon}}</h3>
+      <h3 class="site">Budget : {{travaux.budget | number}} CFA</h3>
+      <h3 class="site">Acompte : {{travaux.accompte | number}} CFFA</h3>
+      <h3 class="site"> Solde : {{travaux.reste | number}} CFA</h3>
+      <h3 class="site">Dépense : {{travaux.total | number}} CFA</h3>
+      <h3 class="site">Debut des travaux : {{travaux.date | date: 'dd/MM/yyyy'}}</h3>
+      <h3 class="site">Date de livraison : {{travaux.dateLivraison | date: 'dd/MM/yyyy'}}</h3>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <br>
+  <mat-divider></mat-divider>
+  <div class="div-second">
+    <mat-list>
+      <mat-list-item>
+        <button mat-button (click)="onImage()" color="accent">Images</button>
+      </mat-list-item>
+
+    </mat-list>
+
+  </div>
+  <div>
+    <app-detail-tech travauxId="{{travauxId}}"></app-detail-tech>
+  </div>
+</div>
+<div>
+</div>

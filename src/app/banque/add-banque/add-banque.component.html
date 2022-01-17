@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-header>Enregistrer une opération</mat-card-header>
+  <form class="example-form" [formGroup]="addBanqueForm" (ngSubmit)="onSubmit(addBanqueForm.value)">
+    <mat-form-field class="example-full-width">
+      <input matInput  placeholder="Choisir le nom de la banque" formControlName="nom">
+    </mat-form-field>
+    <button type="submit" class="btn btn-primary">Valider</button>
+  </form>
+</mat-card>
+
+
+
+
+

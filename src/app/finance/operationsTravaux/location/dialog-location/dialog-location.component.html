@@ -1,0 +1,32 @@
+<div class="mat-elevation-z8">
+  <div fxLayout fxLayoutAlign="center center">
+    <mat-form-field class="example-full-width">
+      <input matInput type="text" (keyup)="doFilter($event)" placeholder="Filter">
+    </mat-form-field>
+  </div>
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="materiaux">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Materiel </th>
+      <td mat-cell *matCellDef="let detailLocation"> {{detailLocation.materiaux.libelle}} </td>
+    </ng-container>
+    <ng-container matColumnDef="montant">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Montant </th>
+      <td mat-cell *matCellDef="let detailLocation"> {{detailLocation.montant|number}} </td>
+    </ng-container>
+    <ng-container matColumnDef="fournisseur">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Fournisseur </th>
+      <td mat-cell *matCellDef="let detailLocation"> {{detailLocation.fournisseur.libelle}} </td>
+    </ng-container>
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> Delete </th>
+      <td mat-cell *matCellDef="let detailLocation">
+        <button mat-icon-button color="warn" (click)="redirectToDelete(detailLocation.id)">
+          <mat-icon class="mat-18">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[1, 2, 20]" showFirstLastButtons></mat-paginator>
+</div>

@@ -1,0 +1,45 @@
+
+<div *ngIf="travaux">
+<div class="main-div" fxLayoutAlign="space-evenly" *ngIf="!devicesXs">
+   <h2 class="site">Site
+     <h3 class="travaux">{{travaux.site.nomChantier}}</h3></h2>
+  <h2 class="site">Numero du bon<h3 class="travaux">{{travaux.budget |number}}</h3></h2>
+  <h2 class="site">Reste<h3 class="travaux">{{travaux.budget | number}}</h3></h2>
+</div>
+ <br>
+  <mat-divider></mat-divider>
+  <div class="div-second">
+    <mat-list>
+    <mat-list-item>
+      <button mat-button (click)="achat()" color="accent">Achat</button>
+    </mat-list-item>
+      <mat-list-item>
+        <button mat-button (click)="location()" color="accent">location</button>
+      </mat-list-item>
+    <mat-list-item>
+      <button mat-button (click)="salaire()" color="accent">salaire</button>
+      </mat-list-item>
+    <mat-list-item>
+      <button mat-button (click)="loyer()" color="accent">loyer</button></mat-list-item>
+    <mat-list-item>
+      <button mat-button (click)="ouvre()" color="accent">main d'ouvre</button></mat-list-item>
+    <mat-list-item>
+      <button mat-button (click)="transport()" color="accent">transport</button></mat-list-item>
+      <mat-list-item>
+        <button mat-button (click)="autre()" color="accent">Autres</button></mat-list-item>
+  </mat-list>
+
+  </div>
+  <div>
+    <app-edit-achat-travaux travauxId="{{travauxId}}" *ngIf="edit==0"></app-edit-achat-travaux>
+    <app-edit-paiement-salaire-travaux *ngIf="edit==1"></app-edit-paiement-salaire-travaux>
+    <app-edit-location-travaux *ngIf="edit==2"></app-edit-location-travaux>
+    <app-edit-mainouvre-travaux *ngIf="edit==3"></app-edit-mainouvre-travaux>
+    <app-edit-paie-loyer *ngIf="edit==4"></app-edit-paie-loyer>
+    <app-edit-transp-travaux *ngIf="edit==5"></app-edit-transp-travaux>
+    <app-edit-autredepense-travaux *ngIf="edit==6"></app-edit-autredepense-travaux>
+  </div>
+</div>
+<div>
+
+</div>

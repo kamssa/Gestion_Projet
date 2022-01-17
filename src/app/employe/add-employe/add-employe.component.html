@@ -1,0 +1,65 @@
+<mat-toolbar>
+  <span>{{clientService.form.controls['id'].value?"Modifier le client":"Nouveau client"}}</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+<form [formGroup]="clientService.form" (submit)="onSubmit()">
+
+  <mat-stepper [linear]="isLinear" #stepper>
+    <mat-step>
+      <ng-template matStepLabel>INFORMATIONS SUR LE CLIENT</ng-template>
+      <input type="hidden" formControlName="id">
+      <mat-form-field appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input matInput placeholder="nom" formControlName="nom" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Prénom</mat-label>
+        <input matInput placeholder="prénom" formControlName="prenom" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput placeholder="Mot de passe" formControlName="password" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext type="button">Suivant</button>
+      </div>
+    </mat-step>
+    <mat-step  label="INFORMATIONS COMPLEMENTAIRES">
+      <div>
+        <mat-form-field appearance="fill">
+          <input matInput type="text" ng2TelInput [ng2TelInputOptions]="{initialCountry: 'ci'}"
+                 (intlTelInputObject)="telInputObject($event)"
+                 (countryChange)="onCountryChange($event)"
+                 formControlName="telephone" required>
+        </mat-form-field>
+      </div>
+      <mat-form-field appearance="fill">
+        <mat-label>Numéro CNI</mat-label>
+        <input matInput formControlName="numCni" placeholder="numéro Cni"
+               required>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Numéro Passport</mat-label>
+        <input matInput formControlName="numPassport" placeholder="numéro passport">
+      </mat-form-field>
+      <section class="example-section">
+        <mat-checkbox class="example-margin" formControlName='actived'>Activer</mat-checkbox>
+      </section>
+      <section class="example-section">
+        <mat-checkbox class="example-margin" [disabled]="!clientService.form.controls['id'].value"
+                      formControlName='desactiver'>
+          Interdiction
+        </mat-checkbox>
+      </section>
+      <div>
+        <button mat-button matStepperPrevious type="button">Retour</button>
+        <button mat-button type="submit" [disabled]="clientService.form.invalid">Valider</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</form>

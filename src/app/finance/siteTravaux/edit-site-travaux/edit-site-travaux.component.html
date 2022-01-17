@@ -1,0 +1,97 @@
+<div class="main-div">
+  <div *ngIf="editMode; else new">
+    <mat-card>Modifier Chantier</mat-card>
+    <br>
+    <div class="container">
+      <form [formGroup]="createSiteForm" (ngSubmit)="onSubmit(createSiteForm.value)">
+        <ul class="flex-outer">
+          <li formGroupName="ville">
+            <label for="nom" class="lelabel">Le nom de ville</label>
+            <input type="text" placeholder="Entrer le nom de la ville" formControlName="nom">
+          </li>
+          <li formGroupName="site">
+            <label for="libelle" class="lelabel">Le nom du site</label>
+            <input type="text" id="libelle" placeholder="Enter le nom du chantier" formControlName="nomChantier">
+          </li>
+          <li>
+            <label for="budget" class="lelabel">Le budget</label>
+            <input type="text" id="budget" placeholder="Enter le budget" formControlName="budget">
+          </li>
+          <li>
+            <label for="accompte" class="lelabel">L'accompte</label>
+            <input type="text" id="accompte" placeholder="Enter l'accompte" formControlName="accompte">
+          </li>
+          <li>
+            <button type="submit">Enregistrer</button>
+          </li>
+        </ul>
+      </form>
+    </div>
+
+  </div>
+  <ng-template #new>
+
+    <br>
+    <div class="well">
+      <div class="container">
+        <form class="example-form" [formGroup]="createSiteForm" autocomplete="off" novalidate (ngSubmit)="createSiteChantier(createSiteForm.value)" fxLayout="column wrap"
+              fxLayoutAlign="center center" fxLayoutGap="10px">
+          <mat-card-title>NOUVEAU CHANTIER</mat-card-title>
+          <mat-card-content>
+            <div>
+         <mat-form-field class="example-full-width" formGroupName="ville">
+              <input matInput type="text" placeholder="Nom de la ville" formControlName="nom" id="nom">
+              <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
+              <mat-error *ngIf="hasError('nom', 'required')">Champ obligatoire</mat-error>
+            </mat-form-field>
+            </div>
+            <mat-form-field class="example-full-width" formGroupName="site">
+              <input matInput type="text" placeholder="Nom du chantier" formControlName="nomChantier" id="nomChantier">
+              <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
+              <mat-error *ngIf="hasError('nomChantier', 'required')">Champ obligatoire</mat-error>
+            </mat-form-field>
+           
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" placeholder="Numero du bon" formControlName="numeroBon" id="numeroBon">
+              <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
+              <mat-error *ngIf="hasError('numeroBon', 'required')">Champ obligatoire</mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" placeholder="Budget" formControlName="budget" id="budget">
+              <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
+              <mat-error *ngIf="hasError('budget', 'required')">Champ obligatoire</mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" placeholder="Acompte" formControlName="accompte" id="accompte">
+              <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
+              <mat-error *ngIf="hasError('accompte', 'required')">Champ obligatoire</mat-error>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="picker" placeholder="Choisir la date de debut du chantier" formControlName="date" id="date"
+                     readonly (click)="picker.open()">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="example-full-width">
+              <input matInput [matDatepicker]="pickers" placeholder="Choisir la date de livraison" formControlName="dateLivraison" id="dateL"
+                     readonly (click)="pickers.open()">
+              <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+              <mat-datepicker #pickers></mat-datepicker>
+            </mat-form-field>
+
+          </mat-card-content>
+          <mat-card-actions>
+            <mat-card-actions align="center">
+              <button mat-raised-button color="primary" [disabled]="!createSiteForm.valid">Enregistrer</button>
+              <button type="button" mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+            </mat-card-actions>
+          </mat-card-actions>
+        </form>
+
+      </div>
+
+    </div>
+  </ng-template>
+</div>
+
+

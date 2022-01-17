@@ -1,0 +1,38 @@
+<div *ngIf="travaux">
+  <mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <p>Les informations sur le chantier : {{travaux.site.nom}}</p>
+        </mat-panel-title>
+        <mat-panel-description>
+          {{panelOpenState ? 'Fermer' : 'Ouvrir'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <h3 class="site">Site : {{travaux.site.nom}}</h3>
+      <h3 class="site">Numero du bon  : {{travaux.numeroBon}}</h3>
+      <h3 class="site">Nom du chantier : {{travaux.nomChantier }}</h3>
+      <h3 class="site">Budget : {{travaux.budget | number}}</h3>
+      <h3 class="site"> Solde : {{travaux.reste| number}}</h3>
+      <h3 class="site">Dépense : {{travaux.total | number}}</h3>
+      <h3 class="site">Debut des travaux : {{travaux.date | date: 'dd/MM/yyyy'}}</h3>
+      <h3 class="site">Date de livraison : </h3>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <br>
+  <mat-divider></mat-divider>
+  <div class="div-second">
+    <mat-list>
+      <mat-list-item>
+        <button mat-button (click)="loyer()" color="accent">La liste des Loyers</button>
+      </mat-list-item>
+
+    </mat-list>
+  <div>
+    <app-list-loyer travauxId="{{travauxId}}" *ngIf="edit==0"></app-list-loyer>
+  </div>
+</div>
+<div>
+</div>

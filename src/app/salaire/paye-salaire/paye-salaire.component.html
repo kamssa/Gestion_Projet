@@ -1,0 +1,49 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-rose">
+            <h4 class="card-title">Paiement de salaire </h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="detailSalaireForm" (ngSubmit)="createDetailSalaire(detailSalaireForm.value)">
+              <div class="row">
+                <mat-form-field class="example-full-width">
+                  <input matInput [matDatepicker]="picker" placeholder="Choisir la date de paiement" formControlName="date" id="date"
+                         readonly (click)="picker.open()">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Libelle" formControlName="libelle">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Montant versé" formControlName="montantVerse">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Employe</mat-label>
+                    <mat-select formControlName="employeId">
+                      <mat-option *ngFor="let employe of employes" [value]="employe.id">
+                        {{employe.nom}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <button mat-raised-button type="submit" class="btn btn-danger pull-right">Valider</button>
+              <div class="clearfix"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
