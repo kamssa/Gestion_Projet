@@ -1,0 +1,51 @@
+<div class="mat-elevation-z8">
+  <div fxLayout fxLayoutAlign="center center">
+    <mat-form-field class="example-full-width">
+      <input matInput type="text" (keyup)="doFilter($event)" placeholder="Filter" #input>
+    </mat-form-field>
+  </div>
+  <table mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+      <td mat-cell *matCellDef="let autres"> {{autres.createdAt | date:'dd-MM-yyyy'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="total">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> total </th>
+      <td mat-cell *matCellDef="let autres"> {{autres.montant |number}} </td>
+    </ng-container>
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef> Details </th>
+      <td mat-cell *matCellDef="let autres">
+        <button mat-icon-button color="primary" (click)="openDialog(autres.id)">
+          <mat-icon class="mat-18">reorder</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="update">
+      <th mat-header-cell *matHeaderCellDef> Update </th>
+      <td mat-cell *matCellDef="let autres">
+        <button mat-icon-button color="accent" (click)="redirectToUpdate(autres.id)">
+          <mat-icon class="mat-18">system_update</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="delete">
+      <th mat-header-cell *matHeaderCellDef> Delete </th>
+      <td mat-cell *matCellDef="let autres">
+        <button mat-icon-button color="warn" (click)="redirectToDelete(autres.id)">
+          <mat-icon class="mat-18">delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">Pas de donnée "{{input.value}}"</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[1, 2, 4]" showFirstLastButtons></mat-paginator>
+</div>

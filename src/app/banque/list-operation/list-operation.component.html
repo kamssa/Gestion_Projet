@@ -1,0 +1,43 @@
+<div class="mat-elevation-z8">
+  <button mat-raised-button (click)="openDialog()">Effectué une opération</button>
+  <div class="example-full-width">
+    <mat-form-field>
+    <input matInput type="text" (keyup)="doFilter($event)" placeholder="Recherche" #input>
+  </mat-form-field>
+</div>
+<table mat-table [dataSource]="dataSource">
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef > Date </th>
+    <td mat-cell *matCellDef="let operation"> {{operation.date | date:'dd-MM-yyyy'}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="libelle">
+    <th mat-header-cell *matHeaderCellDef> Libelle </th>
+    <td mat-cell *matCellDef="let operation"> {{operation.libelle}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="montant">
+    <th mat-header-cell *matHeaderCellDef> Montant </th>
+    <td mat-cell *matCellDef="let operation"> {{operation.montant}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="motif" >
+    <th mat-header-cell *matHeaderCellDef> Motif </th>
+    <td mat-cell *matCellDef="let operation"> {{operation.motif}} </td>
+  </ng-container>
+  <ng-container matColumnDef="banque">
+    <th mat-header-cell *matHeaderCellDef > Banque </th>
+    <td mat-cell *matCellDef="let operation"> {{operation.banque.nom}} </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="4">Pas de donnée "{{input.value}}"</td>
+  </tr>
+</table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>

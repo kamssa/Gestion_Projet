@@ -1,0 +1,39 @@
+<mat-card>
+  <mat-card-header></mat-card-header>
+  <form class="example-form" [formGroup]="operationForm" (ngSubmit)="createOperation(operationForm.value)">
+    <mat-form-field class="example-full-width">
+      <input matInput [matDatepicker]="picker" placeholder="Choisir la date debut" formControlName="dateDebut" id="date"
+             readonly (click)="picker.open()">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput [matDatepicker]="pickers"  placeholder="Choisir la date fin" formControlName="dateFin" id="datefin"
+             readonly (click)="pickers.open()">
+      <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+      <mat-datepicker #pickers></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" formGroupName="banque">
+      <mat-label>Selection une banque</mat-label>
+      <mat-select formControlName="nom">
+        <mat-option *ngFor="let b of banques" [value]="b">
+          {{b}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Selectinner opération</mat-label>
+      <mat-select formControlName="libelle">
+        <mat-option *ngFor="let lib of libelles" [value]="lib">
+          {{lib}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button type="submit" class="btn btn-primary">Lancer la recherche</button>
+  </form>
+</mat-card>
+
+
+
+
+

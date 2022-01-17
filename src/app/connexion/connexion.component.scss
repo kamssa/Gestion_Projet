@@ -1,0 +1,82 @@
+
+.container{
+  margin:0 auto;
+  position:relative;
+  min-height:300px;
+  height:auto !important;
+  height:300px;
+  margin-top:60px;
+}
+
+.card{
+  height: 370px;
+  width: 400px;
+  background-color: rgba(0,0,0,0.5) !important;
+  background-image: url('/assets/img/logo.png');
+}
+
+.social_icon span{
+  font-size: 60px;
+  margin-left: 10px;
+  color:#d97c4f;
+}
+
+.social_icon span:hover{
+  color: black;
+  cursor: pointer;
+}
+
+.card-header h3{
+  color: white;
+}
+
+.social_icon{
+  position: absolute;
+  right: 20px;
+  top: -45px;
+}
+
+.input-group-prepend span{
+  width: 60px;
+  background-color: #d97c4f;
+  color: black;
+  border:0 !important;
+}
+
+input:focus{
+  outline: 0 0 0 0  !important;
+  box-shadow: 0 0 0 0 !important;
+
+}
+
+.remember{
+  color: black;
+}
+
+.remember input
+{
+  width: 20px;
+  height: 20px;
+  margin-left: 15px;
+  margin-right: 5px;
+}
+
+.login_btn{
+  color: black;
+  background-color: #d97c4f;
+  width: 150px;
+}
+
+.login_btn:hover{
+  color: black;
+  background-color: white;
+}
+
+.links{
+  color: white;
+}
+
+.links a{
+  margin-left: 4px;
+}
+

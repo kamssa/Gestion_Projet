@@ -1,0 +1,43 @@
+<div *ngIf="travaux">
+  <mat-accordion>
+    <mat-expansion-panel (opened)="panelOpenState = true"
+                         (closed)="panelOpenState = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <p>Les informations sur le chantier</p>
+        </mat-panel-title>
+        <mat-panel-description>
+          {{panelOpenState ? 'Fermer' : 'Ouvrir'}}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <h3 class="site">Site : {{travaux.site.nomChantier}}</h3>
+      <h3 class="site">Numero du bon  : {{travaux.numeroBon}}</h3>
+      <h3 class="site">Budget : {{travaux.budget | number}} CFA</h3>
+      <h3 class="site">Acompte : {{travaux.accompte | number}} CFFA</h3>
+      <h3 class="site"> Solde : {{travaux.reste | number}} CFA</h3>
+      <h3 class="site">Dépense : {{travaux.total | number}} CFA</h3>
+      <h3 class="site">Debut des travaux : {{travaux.date | date: 'dd/MM/yyyy'}}</h3>
+      <h3 class="site">Date de livraison : {{travaux.dateLivraison | date: 'dd/MM/yyyy'}}</h3>
+    </mat-expansion-panel>
+  </mat-accordion>
+
+  <div style="text-align:center; margin-top: 100px; ">
+  <mat-card>
+    <mat-card-content>
+      <ul>
+        <li *ngFor="let file of files">
+          <mat-progress-bar [value]="file.progress"></mat-progress-bar>
+          <span id="file-label"></span>
+        </li>
+      </ul>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button color="warn" (click)="onClick()">
+        <mat-icon>file_upload</mat-icon>
+        Ajouter des photos
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  <input type="file" #fileUpload id="fileUpload" name="fileUpload" multiple="multiple" accept="image/*"
+         style="display:none;"/>
+</div>

@@ -1,0 +1,42 @@
+<mat-card>
+  <mat-card-header>Enregistrer une opération</mat-card-header>
+  <form class="example-form" [formGroup]="banqueForm" (ngSubmit)="onSubmit(banqueForm.value)">
+
+    <mat-form-field class="example-full-width">
+      <input matInput [matDatepicker]="picker" placeholder="Choisir la date opération" formControlName="date" id="date"
+             readonly (click)="picker.open()">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill" formGroupName="banque">
+      <mat-label>Selection une banque</mat-label>
+      <mat-select formControlName="nom">
+        <mat-option *ngFor="let b of banques" [value]="b">
+          {{b.nom}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Selectinner opération</mat-label>
+      <mat-select formControlName="libelle">
+        <mat-option *ngFor="let lib of libelles" [value]="lib">
+          {{lib}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Montant</mat-label>
+      <input matInput placeholder="" value="" formControlName="montant">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <mat-label>Motif</mat-label>
+      <input matInput placeholder="" value="" formControlName="motif">
+    </mat-form-field>
+    <button type="submit" class="btn btn-primary">Valider</button>
+  </form>
+</mat-card>
+
+
+
+
+

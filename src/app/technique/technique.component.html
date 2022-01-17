@@ -1,0 +1,92 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Gestion technique </h4>
+
+          </div>
+          <div class="card-body">
+            <div>
+              <div>
+                <div class="listes">
+                  <div class="item">
+                    <mat-sidenav-container class="contsidnav">
+                      <div>
+                        <div class="card">
+                          <mat-card class="mat-card" matTooltip="Selectioner un site pour les details">
+                            <div>
+                              <mat-form-field style="width: 100%">
+                                <input  matInput placeholder="Rechercher un site" #searchbox (keyup)="search(searchbox.value)">
+                              </mat-form-field>
+                            </div>
+                            <div>
+                              <div *ngFor="let tr of oTravaux | async" class="list-group">
+                                <a class="list-group-item  clearfix"
+                                   [routerLink]="[tr.id]" routerLinkActive="active"
+                                   (click)="onSelect(tr)">
+                                  <div class="pull-left">
+                                    <p >{{tr.site.nomChantier}}</p>
+                                    <p> {{tr.budget}}</p>
+                                  </div>
+                                </a>
+
+                                <div fxLayout="row" fxLayoutAlign="space-around center">
+                                  <button  mat-button color="primary" (click)="onImages(tr.id)">Voir les images</button>
+                                </div>
+                                <mat-divider></mat-divider>
+                                <br>
+                              </div>
+                            </div>
+                          </mat-card>
+                        </div>
+                      </div>
+                      <div>
+                      </div>
+                    </mat-sidenav-container>
+                  </div>
+                  <div class="item">
+                    <div class="action">
+                      <div class="action-1">
+                        <a mat-mini-fab matTooltip="Accueil appli" routerLink="/accueil" matTooltipPosition="before">
+                          <mat-icon>home</mat-icon>
+                        </a>
+                      </div>
+
+                      <div class="action-2">
+                        <div>
+                          <a mat-mini-fab color="primary" matTooltip="Accueil des chantiers" routerLink="/finance"
+                             matTooltipPosition="after">
+                            <mat-icon>face</mat-icon>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="action-3">
+                        <div class="" matTooltip="créer un nouvau chantier" matTooltipPosition="right">
+                          <a mat-mini-fab routerLink="creer" color="warn">
+                            <mat-icon>group</mat-icon>
+                          </a>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="item">
+                    <div class="editer">
+                      <div class="edit-1">
+                        <router-outlet></router-outlet>
+                      </div>
+                      <div class="edit-2"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
