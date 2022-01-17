@@ -69,7 +69,7 @@ export class EmployeService {
     console.log('methode du service qui ajoute un client', employe);
     return this.http.post<Resultat<Employe>>
     (`${environment.apiUrl}/api/employe`,
-      client).pipe(
+      employe).pipe(
       tap(res => {
         this.log(`Client crée =${res.body}`);
         this.employeCreer(res);
@@ -81,7 +81,7 @@ export class EmployeService {
     console.log('methode du service qui modifie un client', employe);
     return this.http.put<Resultat<Employe>>
     (`${environment.apiUrl}/api/employe`,
-      client).pipe(
+      employe).pipe(
       tap(res => {
         this.log(`Client modifié =${res.body}`);
         this.employeModif(res);
