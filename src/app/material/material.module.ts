@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -21,6 +20,9 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSortModule} from '@angular/material/sort';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 const  materialComponents = [
   MatToolbarModule,
@@ -48,7 +50,10 @@ const  materialComponents = [
   MatDatepickerModule,
   MatNativeDateModule,
   MatDialogModule,
-  MatSortModule
+  MatSortModule,
+  MatGridListModule,
+  MatStepperModule,
+  MatCheckboxModule
 
 ];
 

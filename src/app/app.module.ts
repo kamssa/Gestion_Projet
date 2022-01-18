@@ -25,6 +25,9 @@ import { AddEmployeComponent } from './employe/add-employe/add-employe.component
 import { ListEmployeComponent } from './employe/list-employe/list-employe.component';
 import { ListDepComponent } from './dep/list-dep/list-dep.component';
 import { AddDepComponent } from './dep/add-dep/add-dep.component';
+import {NgxIntlTelInputModule} from 'ngx-intl-tel-input';
+import {MatConfirmDialogComponent} from './service/shared/mat-confirm-dialog/mat-confirm-dialog.component';
+import {Ng2TelInputModule} from 'ng2-tel-input';
 registerLocaleData(localeFr);
 
 
@@ -37,6 +40,7 @@ registerLocaleData(localeFr);
     ListEmployeComponent,
     ListDepComponent,
     AddDepComponent,
+    MatConfirmDialogComponent
 
   ],
   imports: [
@@ -53,9 +57,11 @@ registerLocaleData(localeFr);
     HttpClientModule,
     TechniqueModule,
     BanqueModule,
-    SalaireModule
+    SalaireModule,
+    NgxIntlTelInputModule,
+    Ng2TelInputModule
   ],
-  providers: [ 
+  providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     JwtHelperService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -1,8 +1,12 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
 <div class="search-div">
   <button mat-raised-button  (click)="onCreate()">
-    <mat-icon>add</mat-icon>Client
+    <mat-icon>add</mat-icon>Employé
   </button>
-  <span style="color: blue">{{array?.length}} client(s)</span>
+  <span style="color: blue">{{array?.length}} employé(s)</span>
   <mat-form-field class="search-form-field" floatLabel="never">
     <input matInput [(ngModel)]="searchKey" placeholder="Recherche..." autocomplete="off" (keyup)="applyFilter()">
     <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey"  (click)="onSearchClear()">
@@ -47,4 +51,8 @@
     <mat-footer-row *matFooterRowDef="['noData']" [ngClass]="{'hide':!(listData!=null && listData.data.length==0)}"></mat-footer-row>
   </mat-table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+</div>
+      </div>
+    </div>
+  </div>
 </div>

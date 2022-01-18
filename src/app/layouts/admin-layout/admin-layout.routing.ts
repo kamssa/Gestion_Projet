@@ -16,12 +16,15 @@ import {AddImageComponent} from '../../technique/add-image/add-image.component';
 import {BanqueComponent} from '../../banque/banque.component';
 import {SalaireGesComponent} from '../../salaire/salaire-ges/salaire-ges.component';
 import {RetraitComponent} from '../../banque/retrait/retrait.component';
+import {ListEmployeComponent} from '../../employe/list-employe/list-employe.component';
+import {ListDepComponent} from '../../dep/list-dep/list-dep.component';
 
 
 export const AdminLayoutRoutes: Routes = [
 
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'user-profile',   component: UserProfileComponent },
+  { path: 'user-profile',   component: ListEmployeComponent },
+  {path: 'dep' , component: ListDepComponent},
   {  path : 'finance',
     children: [
       {

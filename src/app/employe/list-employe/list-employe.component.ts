@@ -1,4 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
+import {Employe} from '../../model/Employe';
+import {MatSnackBar, MatSnackBarHorizontalPosition} from '@angular/material/snack-bar';
+import {MatSort} from '@angular/material/sort';
+import {MatPaginator} from '@angular/material/paginator';
+import {EmployeService} from '../../service/employe.service';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {Router} from '@angular/router';
+import {DialogConfirmService} from '../../helper/dialog-confirm.service';
+import {NotificationService} from '../../helper/notification.service';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {AddEmployeComponent} from '../add-employe/add-employe.component';
 
 @Component({
   selector: 'app-list-employe',
@@ -8,29 +20,25 @@ import { Component, OnInit } from '@angular/core';
 export class ListEmployeComponent implements OnInit {
   displayedColumns: string[] = ['nomComplet', 'email', 'telephone', 'actions'];
   listData: MatTableDataSource<any>;
-  clients: Client[];
-  client: Client;
+  employes: Employe[];
+  employe: Employe;
   receptacle: any = [];
-  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
-  admin: Admin;
-  roles: [];
   array: any;
-  ROLE_ADMIN: any;
-  ROLE_NAME: string;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   searchKey: any;
-  constructor(private clientService: ClientService,
+  constructor(private employeService: EmployeService,
               public dialog: MatDialog,
               private router: Router,
               private  dialogService: DialogConfirmService,
               private notificationService: NotificationService,
               private _snackBar: MatSnackBar,
-              private adminService: AdminService,
               private helper: JwtHelperService) {
   }
   ngOnInit(): void {
-    this.clientService.getAllClient().subscribe(list => {
+    this.employeService.getAllEmploye().subscribe(list => {
       if(list.status === 0){
         this.array = list.body.map(item => {
           return {
@@ -52,7 +60,7 @@ export class ListEmployeComponent implements OnInit {
       };
 
     });
-    if(localStorage.getItem('currentUser')) {
+    /*if(localStorage.getItem('currentUser')) {
       let token = localStorage.getItem('currentUser');
       const decoded = this.helper.decodeToken(token);
       this.adminService.getAdminById(decoded.sub).subscribe(res => {
@@ -64,7 +72,7 @@ export class ListEmployeComponent implements OnInit {
         });
       });
 
-    }
+    }*/
   }
 
   onSearchClear() {
@@ -76,15 +84,15 @@ export class ListEmployeComponent implements OnInit {
     this.listData.filter = this.searchKey.trim().toLowerCase();
   }
   onCreate() {
-    this.clientService.initializeFormGroup();
+    this.employeService.initializeFormGroup();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "60%";
-    const dialogRef = this.dialog.open(AddClientComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AddEmployeComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {
       console.log('verifier retour dialog open');
-      this.clientService.clientCreer$
+      this.employeService.employeCreer$
         .subscribe(result => {
           console.log(result.body);
           this.array.unshift(result.body);
@@ -99,16 +107,16 @@ export class ListEmployeComponent implements OnInit {
   }
 
   onEdit(row){
-    this.clientService.populateForm(row);
+    this.employeService.populateForm(row);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "60%";
-    const dialogRef = this.dialog.open(AddClientComponent, dialogConfig);
+    const dialogRef = this.dialog.open(AddEmployeComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('verifier retour dialog update');
-      this.clientService.clientModif$
+      this.employeService.employeModif$
         .subscribe(result => {
           const index: number = this.array.indexOf(row);
           if (index !== -1) {
@@ -124,7 +132,7 @@ export class ListEmployeComponent implements OnInit {
 
   onDelete(row){
     if(confirm('Voulez-vous vraiment supprimer le client ?')){
-      this.clientService.deleteClientById(row.id).subscribe(result => {
+      this.employeService.deleteEmployeById(row.id).subscribe(result => {
         console.log(result);
       });
       this.notificationService.warn('Suppression avec succès');

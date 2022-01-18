@@ -11,10 +11,12 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
   { path: '/dashboard', title: 'Tableau de bord',  icon: 'dashboard', class: '' },
-  { path: '/user-profile', title: 'Profile',  icon:'person', class: '' },
+
   { path: '/finance', title: 'Gestion Financière',  icon:'content_paste', class: '' },
   { path: '/technique', title: 'Gestion Technique',  icon:'library_books', class: '' },
   { path: '/banque', title: 'Gestion Banque',  icon:'bubble_chart', class: '' },
+  { path: '/user-profile', title: 'Profile',  icon:'person', class: '' },
+  { path: '/dep', title: 'Departement',  icon: 'domain', class: '' },
   { path: '/salaire', title: 'Salaire',  icon:'bubble_chart', class: '' },
   { path: '/Mis à jour', title: 'Kamssa Group pro',  icon:'unarchive', class: 'active-pro' },
 ];

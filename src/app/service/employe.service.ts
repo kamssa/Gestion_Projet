@@ -29,8 +29,6 @@ export class EmployeService {
   form: FormGroup = new FormGroup({
     id: new FormControl(null),
     version: new FormControl(null),
-    name: new FormControl('', [Validators.required]),
-    username: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required]),
     telephone: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
@@ -43,8 +41,6 @@ export class EmployeService {
     this.form.setValue({
       id: null,
       version: null,
-      name: '',
-      username: '',
       nom: '',
       prenom: '',
       email: '',
@@ -58,15 +54,15 @@ export class EmployeService {
   populateForm(id) {
     this.form.patchValue(id);
   }
-  getAllClient(): Observable<Resultat<Employe[]>> {
-    return this.http.get<Resultat<Employe[]>>(`${environment.apiUrl}/api/auth/client`);
+  getAllEmploye(): Observable<Resultat<Employe[]>> {
+    return this.http.get<Resultat<Employe[]>>(`${environment.apiUrl}/api/employe`);
   }
-  registraction(personne: Employe): Observable<Resultat<Employe>> {
-    console.log('methode du service qui ajoute un client', personne);
-    return this.http.post<Resultat<Employe>>(`${environment.apiUrl}/api/auth/signuc/`, personne);
+  registraction(employe: Employe): Observable<Resultat<Employe>> {
+    console.log('methode du service qui ajoute un employe', employe);
+    return this.http.post<Resultat<Employe>>(`${environment.apiUrl}/api/auth/signuc/`, employe);
   }
-  ajoutClient(employe: Employe): Observable<Resultat<Employe>> {
-    console.log('methode du service qui ajoute un client', employe);
+  ajoutEmploye(employe: Employe): Observable<Resultat<Employe>> {
+    console.log('methode du service qui ajoute un employe', employe);
     return this.http.post<Resultat<Employe>>
     (`${environment.apiUrl}/api/employe`,
       employe).pipe(
@@ -77,7 +73,7 @@ export class EmployeService {
       catchError(this.handleError<Resultat<Employe>>('ajoutClient'))
     );
   }
-  modifClient(employe: Employe): Observable<Resultat<Employe>> {
+  modifEmploye(employe: Employe): Observable<Resultat<Employe>> {
     console.log('methode du service qui modifie un client', employe);
     return this.http.put<Resultat<Employe>>
     (`${environment.apiUrl}/api/employe`,
@@ -92,18 +88,18 @@ export class EmployeService {
   getClientById(id: number): Observable<Resultat<Employe>> {
     return this.http.get<Resultat<Employe>>(`${environment.apiUrl}/api/employe/${id}`);
   }
-  deleteClientById(id: number): Observable<Resultat<Employe>> {
-    return this.http.delete<Resultat<Employe>>(`${environment.apiUrl}/api/auth/client/${id}`);
+  deleteEmployeById(id: number): Observable<Resultat<Employe>> {
+    return this.http.delete<Resultat<Employe>>(`${environment.apiUrl}/api/auth/employe/${id}`);
   }
   getClientByEmail(email: string): Observable<Resultat<Employe>> {
-    return this.http.get<Resultat<Employe>>(`${environment.apiUrl}/api/auth/getClient/${email}`);
+    return this.http.get<Resultat<Employe>>(`${environment.apiUrl}/api/auth/getEmploye/${email}`);
   }
-  rechercheClientParMc(mc: string): Observable<Array<Employe>> {
-    return this.http.get<Resultat<Array<Employe>>>(`${environment.apiUrl}/api/auth/clientbyMc/${mc}`)
+  rechercheEmployeParMc(mc: string): Observable<Array<Employe>> {
+    return this.http.get<Resultat<Array<Employe>>>(`${environment.apiUrl}/api/auth/employebyMc/${mc}`)
       .pipe(map(res => res.body,
         tap(res =>
           this.log(`client trouve =${res}`))),
-        catchError(this.handleError<Array<Employe>>('rechercheClientParMc'))
+        catchError(this.handleError<Array<Employe>>('rechercheEmployeParMc'))
       );
 
   }
@@ -120,7 +116,7 @@ export class EmployeService {
     this.employeFiltreSource.next(text);
   }
   private log(message: string) {
-    this.messageService.add('clientService: ' + message);
+    this.messageService.add('employeService: ' + message);
 
   }
   ///////////////////////////////////////////

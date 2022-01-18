@@ -1,13 +1,13 @@
 <mat-toolbar>
-  <span>{{clientService.form.controls['id'].value?"Modifier le client":"Nouveau client"}}</span>
+  <span>{{employeService.form.controls['id'].value?"Modifier l' employé":"Nouvel employé"}}</span>
   <span class="fill-remaining-space"></span>
   <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
 </mat-toolbar>
-<form [formGroup]="clientService.form" (submit)="onSubmit()">
+<form [formGroup]="employeService.form" (submit)="onSubmit()">
 
-  <mat-stepper [linear]="isLinear" #stepper>
+  <mat-horizontal-stepper [linear]="isLinear" #stepper>
     <mat-step>
-      <ng-template matStepLabel>INFORMATIONS SUR LE CLIENT</ng-template>
+      <ng-template matStepLabel>INFORMATIONS SUR L'EMPLOYE</ng-template>
       <input type="hidden" formControlName="id">
       <mat-form-field appearance="fill">
         <mat-label>Nom</mat-label>
@@ -39,27 +39,19 @@
         </mat-form-field>
       </div>
       <mat-form-field appearance="fill">
-        <mat-label>Numéro CNI</mat-label>
-        <input matInput formControlName="numCni" placeholder="numéro Cni"
-               required>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Numéro Passport</mat-label>
-        <input matInput formControlName="numPassport" placeholder="numéro passport">
+        <mat-label>Post occupé</mat-label>
+        <input matInput placeholder="Post occupé" formControlName="fonction" required>
       </mat-form-field>
       <section class="example-section">
-        <mat-checkbox class="example-margin" formControlName='actived'>Activer</mat-checkbox>
+        <mat-checkbox class="example-margin" formControlName='activated'>Activer</mat-checkbox>
       </section>
       <section class="example-section">
-        <mat-checkbox class="example-margin" [disabled]="!clientService.form.controls['id'].value"
-                      formControlName='desactiver'>
-          Interdiction
-        </mat-checkbox>
+
       </section>
       <div>
         <button mat-button matStepperPrevious type="button">Retour</button>
-        <button mat-button type="submit" [disabled]="clientService.form.invalid">Valider</button>
+        <button mat-button type="submit" [disabled]="employeService.form.invalid">Valider</button>
       </div>
     </mat-step>
-  </mat-stepper>
+  </mat-horizontal-stepper>
 </form>

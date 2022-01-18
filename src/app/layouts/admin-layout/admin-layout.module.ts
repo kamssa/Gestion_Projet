@@ -36,6 +36,7 @@ import {UserProfileComponent} from '../../user-profile/user-profile.component';
     MatSelectModule,
     MatTooltipModule,
     ComponentsModule,
+
   ]
 })
 export class AdminLayoutModule { }
