@@ -3,6 +3,10 @@ import {Router} from "@angular/router";
 import {ROUTES} from "../sidebar/sidebar.component";
 import {Location} from "@angular/common";
 import {AuthService} from '../../service/auth.service';
+import {Employe} from '../../model/Employe';
+import {Manager} from '../../model/Manager';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {ManagerService} from '../../service/manager.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,9 +19,14 @@ export class NavbarComponent implements OnInit {
   mobile_menu_visible: any = 0;
   private toggleButton: any;
   private sidebarVisible: boolean;
-
+  personne: any;
+  manager: Manager;
+  employe: Employe;
+  res: any;
+  nav: boolean;
+  type: string;
   constructor(location: Location,  private element: ElementRef, private router: Router,
-              private authService: AuthService) {
+              private authService: AuthService,  private managerService: ManagerService) {
     this.location = location;
     this.sidebarVisible = false;
   }
@@ -33,6 +42,21 @@ export class NavbarComponent implements OnInit {
         $layer.remove();
         this.mobile_menu_visible = 0;
       }
+    });
+    const currentUser = this.authService.currentUserValue;
+    console.log('localstorage dans la nav bar', currentUser.body.body.accessToken);
+    const helper = new JwtHelperService();
+    const decoded = helper.decodeToken(currentUser.body.body.accessToken);
+    console.log('voir id dans nav bar', decoded.sub);
+    this.managerService.getPersonneById(decoded.sub).subscribe(result => {
+      this.personne = result.body;
+      this.type = this.personne.type;
+      if (this.type === 'MANAGER'){
+        this.nav = true;
+      }else if (this.type === 'EMPLOYE'){
+        this.nav = false;
+      }
+      console.log('personne dans nav bar', this.personne);
     });
   }
 

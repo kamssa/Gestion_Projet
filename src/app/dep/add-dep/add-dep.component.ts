@@ -40,7 +40,11 @@ export class AddDepComponent implements OnInit {
 
   onSubmit(): void{
     if (!this.departementService.form.get('id').value){
-      this.departementService.ajoutDepartement(this.departementService.form.value).subscribe(res =>{
+      this.departement = {
+        libelle: this.departementService.form.value.nom,
+        description: this.departementService.form.value.description
+      };
+      this.departementService.ajoutDepartement(this.departement).subscribe(res =>{
         if(res.status === 0){
           this.notificationService.success('Departement ajouté avec succès');
         }

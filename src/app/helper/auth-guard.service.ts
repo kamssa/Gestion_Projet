@@ -15,11 +15,11 @@ export class AuthGuardService implements  CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     const currentUser = this.authService.currentUserValue;
-    const isExpireToken = this.helper.isTokenExpired(currentUser);
-    if (currentUser && !isExpireToken) {
+   // const isExpireToken = this.helper.isTokenExpired(currentUser);
+    if (currentUser) {
       // logged in so return true
        // console.log('guard', currentUser);
-      // this.router.navigate(['/accueil']);
+      // this.router.navigate(['/dashboard']);
       return true;
     }
 

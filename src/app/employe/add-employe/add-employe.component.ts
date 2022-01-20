@@ -49,7 +49,6 @@ export class AddEmployeComponent implements OnInit {
         nom: this.employeService.form.value.nom,
         prenom: this.employeService.form.value.prenom,
         email: this.employeService.form.value.email,
-        telephone: this.employeService.form.value.telephone,
         password: this.employeService.form.value.password,
         activated: this.employeService.form.value.activated,
         type:'EMPLOYE'
@@ -67,7 +66,6 @@ export class AddEmployeComponent implements OnInit {
           id:  this.employeService.form.value.id,
           version:  this.employeService.form.value.version,
           email: this.employeService.form.value.email,
-          telephone: this.employeService.form.value.telephone,
           password: this.employeService.form.value.password,
           nom: this.employeService.form.value.nom,
           prenom: this.employeService.form.value.prenom,
@@ -83,7 +81,6 @@ export class AddEmployeComponent implements OnInit {
           nom: this.employeService.form.value.nom,
           prenom: this.employeService.form.value.prenom,
           email: this.employeService.form.value.email,
-          telephone: this.employeService.form.value.telephone,
           password: this.employeService.form.value.password,
           activated: this.employeService.form.value.activated,
           type:'EMPLOYE'

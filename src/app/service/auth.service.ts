@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {BehaviorSubject, Observable} from 'rxjs';
-import {User} from '../model/User';
 import {map} from 'rxjs/operators';
 import {environment} from '../../environments/environment';
 import {Resultat} from '../model/resultat';
 import * as jwt_decode from 'jwt-decode';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import {Employe} from '../model/Employe';
+import {Manager} from '../model/Manager';
+import {Admin} from '../model/Admin';
 
 
 @Injectable({
@@ -24,8 +26,33 @@ export class AuthService {
   public get currentUserValue(): any {
     return this.currentUserSubject.value;
   }
-  login(user: User) {
-    return this.http.post<Resultat<any>>(`${environment.apiUrl}/api/auth/signin`, user)
+  login(admin: Admin) {
+    return this.http.post<Resultat<any>>(`${environment.apiUrl}/api/auth/signin`, admin)
+      .pipe(map(user => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+        return user;
+      }));
+  }
+  loginManager(manager: Manager) {
+    return this.http.post<Resultat<any>>(`${environment.apiUrl}/api/auth/signin`, manager)
+      .pipe(map(res => {
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        localStorage.setItem('currentUser', JSON.stringify(res.body.body.accessToken));
+        this.currentUserSubject.next(res.body.body.accessToken);
+
+        const decoded = jwt_decode(res.body.body.accessToken);
+        const exp = this.helper.isTokenExpired(res.body.body.accessToken);
+        console.log(exp);
+        console.log(decoded.exp);
+        console.log(res);
+        this.isUserLoggedIn.next(true);
+        return res;
+      }));
+  }
+  loginEmploye(employe: Employe) {
+    return this.http.post<Resultat<any>>(`${environment.apiUrl}/api/auth/signin`, employe)
       .pipe(map(res => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('currentUser', JSON.stringify(res.body.body.accessToken));
@@ -47,7 +74,5 @@ export class AuthService {
     this.currentUserSubject.next(null);
     this.isUserLoggedIn.next(false);
   }
-
-
 
 }

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {ConnexionComponent} from '../../connexion/connexion.component';
 import {AuthService} from '../../service/auth.service';
 import {Router} from '@angular/router';
 declare const $: any;
@@ -11,7 +10,6 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
   { path: '/dashboard', title: 'Tableau de bord',  icon: 'dashboard', class: '' },
-
   { path: '/finance', title: 'Gestion Financière',  icon:'content_paste', class: '' },
   { path: '/technique', title: 'Gestion Technique',  icon:'library_books', class: '' },
   { path: '/banque', title: 'Gestion Banque',  icon:'bubble_chart', class: '' },

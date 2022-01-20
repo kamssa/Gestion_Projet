@@ -42,14 +42,13 @@ export class ListDepComponent implements OnInit {
               private helper: JwtHelperService) {
   }
   ngOnInit(): void {
-    this.departementService.getAllDepartement().subscribe(list => {
+   /* this.departementService.getAllDepartement().subscribe(list => {
       let array = list.body.map(item => {
         return {
           id: item.id,
           ...item
         };
       });
-      console.log(array);
       this.listData = new MatTableDataSource(array);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
@@ -59,7 +58,7 @@ export class ListDepComponent implements OnInit {
         });
       };
 
-    });
+    });*/
    /* if(localStorage.getItem('currentUser')) {
       let token = localStorage.getItem('currentUser');
       const decoded = this.helper.decodeToken(token);

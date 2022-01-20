@@ -2,6 +2,15 @@
   <div class="container-fluid">
     <div class="navbar-wrapper">
       <a class="navbar-brand" href="javascript:void(0)">{{getTitle()}}</a>
+
+    </div>
+    <div>
+    <span *ngIf="nav">
+        <p *ngIf="personne">{{personne?.entreprise?.nom}}. {{personne?.fonction}}. Bienvenue {{personne?.nomComplet}}.</p>
+      </span>
+    <span *ngIf="!nav">
+        <p *ngIf="personne">{{personne?.departement?.entreprise?.nom}}, {{personne?.departement?.libelle}}. Bienvenue {{personne?.nomComplet}}.</p>
+      </span>
     </div>
     <button mat-raised-button class="navbar-toggler" type="button" (click)="sidebarToggle()">
       <span class="sr-only">Toggle navigation</span>
@@ -9,6 +18,7 @@
       <span class="navbar-toggler-icon icon-bar"></span>
       <span class="navbar-toggler-icon icon-bar"></span>
     </button>
+
     <div class="collapse navbar-collapse justify-content-end" id="navigation">
       <form class="navbar-form">
         <div class="input-group no-border">

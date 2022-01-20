@@ -1,6 +1,5 @@
 import {Routes} from '@angular/router';
 import {DashboardComponent} from '../../dashboard/dashboard.component';
-import {UserProfileComponent} from '../../user-profile/user-profile.component';
 import {FinanceComponent} from '../../finance/finance.component';
 import {ListeSiteTravauxOperationComponent} from '../../finance/siteTravaux/liste-site-travaux-operation/liste-site-travaux-operation.component';
 import {EditAchatComponent} from '../../finance/operationsTravaux/achat/edit-achat/edit-achat.component';
