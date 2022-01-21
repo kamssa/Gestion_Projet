@@ -24,6 +24,7 @@ export class ConnexionComponent implements OnInit {
   result: any;
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   employe: Employe;
+  test: Date = new Date();
 
   constructor(
     private fb: FormBuilder,
