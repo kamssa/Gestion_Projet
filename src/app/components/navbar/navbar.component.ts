@@ -43,7 +43,7 @@ export class NavbarComponent implements OnInit {
         this.mobile_menu_visible = 0;
       }
     });
-    const currentUser = this.authService.currentUserValue;
+    /*const currentUser = this.authService.currentUserValue;
     console.log('localstorage dans la nav bar', currentUser.body.body.accessToken);
     const helper = new JwtHelperService();
     const decoded = helper.decodeToken(currentUser.body.body.accessToken);
@@ -57,7 +57,7 @@ export class NavbarComponent implements OnInit {
         this.nav = false;
       }
       console.log('personne dans nav bar', this.personne);
-    });
+    });*/
   }
 
   sidebarOpen() {
