@@ -36,6 +36,7 @@ export class AddEmployeComponent implements OnInit {
 
 
   ngOnInit(): void {
+
   }
 
 
