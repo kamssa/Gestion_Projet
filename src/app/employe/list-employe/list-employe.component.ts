@@ -11,6 +11,12 @@ import {DialogConfirmService} from '../../helper/dialog-confirm.service';
 import {NotificationService} from '../../helper/notification.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {AddEmployeComponent} from '../add-employe/add-employe.component';
+import {ManagerService} from '../../service/manager.service';
+import {AuthService} from '../../service/auth.service';
+import {UpdatEmployeComponent} from '../updat-employe/updat-employe.component';
+import {AddDepComponent} from '../../dep/add-dep/add-dep.component';
+import {Departement} from '../../model/Departement';
+import {Personne} from '../../model/personnes';
 
 @Component({
   selector: 'app-list-employe',
@@ -18,38 +24,37 @@ import {AddEmployeComponent} from '../add-employe/add-employe.component';
   styleUrls: ['./list-employe.component.scss']
 })
 export class ListEmployeComponent implements OnInit {
-  displayedColumns: string[] = ['nomComplet', 'email', 'telephone', 'actions'];
+  displayedColumns: string[] = ['nomComplet', 'service', 'actions'];
   listData: MatTableDataSource<any>;
-  employes: Employe[];
-  employe: Employe;
+  departements: Departement[];
+  departement: Departement;
   receptacle: any = [];
-  array: any;
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   searchKey: any;
+  employes: Employe[];
+  personne: Personne;
+  array: any;
+  roles: any;
+  ROLE_ADMIN: any;
+  ROLE_NAME: any;
   constructor(private employeService: EmployeService,
-              public dialog: MatDialog,
-              private router: Router,
+              public dialog: MatDialog, private authService: AuthService,
+              private managerService: ManagerService,
               private  dialogService: DialogConfirmService,
-              private notificationService: NotificationService,
-              private _snackBar: MatSnackBar,
-              private helper: JwtHelperService) {
+              private _snackBar: MatSnackBar, private router: Router) {
   }
   ngOnInit(): void {
     this.employeService.getAllEmploye().subscribe(list => {
-      if(list.status === 0){
-        this.array = list.body.map(item => {
-          return {
-            id: item.id,
-            ...item
-          };
-        });
-      }else{
-        console.log('aucune donnée');
-      }
-
+      console.log(list);
+      this.array = list.body.map(item => {
+        return {
+          id: item.id,
+          ...item
+        };
+      });
       this.listData = new MatTableDataSource(this.array);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
@@ -60,19 +65,20 @@ export class ListEmployeComponent implements OnInit {
       };
 
     });
-    /*if(localStorage.getItem('currentUser')) {
-      let token = localStorage.getItem('currentUser');
-      const decoded = this.helper.decodeToken(token);
-      this.adminService.getAdminById(decoded.sub).subscribe(res => {
-        this.admin = res.body;
-        this.roles = res.body.roles;
-        this.roles.forEach(val => {
-          this.ROLE_ADMIN = val;
-          this.ROLE_NAME = this.ROLE_ADMIN.name;
-        });
-      });
+    /* if(localStorage.getItem('currentUser')) {
+       const token = localStorage.getItem('currentUser');
+       const decoded = this.helper.decodeToken(token);
+       this.adminService.getAdminById(decoded.sub).subscribe(res => {
+         this.personne = res.body;
+         console.log(this.personne);
+         this.roles = res.body.roles;
+         this.roles.forEach(val => {
+           this.ROLE_ADMIN = val;
+           this.ROLE_NAME = this.ROLE_ADMIN.name;
+         });
+       });
 
-    }*/
+     }*/
   }
 
   onSearchClear() {
@@ -89,21 +95,7 @@ export class ListEmployeComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "60%";
-    const dialogRef = this.dialog.open(AddEmployeComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('verifier retour dialog open');
-      this.employeService.employeCreer$
-        .subscribe(result => {
-          console.log(result.body);
-          this.array.unshift(result.body);
-          this.array = this.array;
-          this.listData = new MatTableDataSource(this.array);
-          this.listData.sort = this.sort;
-          this.listData.paginator = this.paginator;
-
-
-        });
-    });
+    this.dialog.open(AddEmployeComponent, dialogConfig);
   }
 
   onEdit(row){
@@ -112,41 +104,26 @@ export class ListEmployeComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "60%";
-    const dialogRef = this.dialog.open(AddEmployeComponent, dialogConfig);
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('verifier retour dialog update');
-      this.employeService.employeModif$
-        .subscribe(result => {
-          const index: number = this.array.indexOf(row);
-          if (index !== -1) {
-            this.array[index] = result.body;
-            this.listData = new MatTableDataSource(this.array);
-            this.listData.sort = this.sort;
-            this.listData.paginator = this.paginator;
-
-          }
-        });
-    });
+    this.dialog.open(AddEmployeComponent, dialogConfig);
   }
 
-  onDelete(row){
-    if(confirm('Voulez-vous vraiment supprimer le client ?')){
-      this.employeService.deleteEmployeById(row.id).subscribe(result => {
-        console.log(result);
-      });
-      this.notificationService.warn('Suppression avec succès');
+  onDelete(id){
+    /* this.employeService.getEmployeByIdDepartement(id)
+       .subscribe(data => {
+         this.employes = data.body;
+         console.log('taille de employe', this.employes.length);
+         if(this.employes.length===0){
+           if(confirm('Voulez-vous vraiment supprimer le departement ?')){
+             this.departementService.supprimerDepartement(id).subscribe(result => {
+               console.log(result);
+             });
+             this.notificationService.warn('Suppression avec succès');
+           }
+         }else{
+           this.notificationService.warn('Supprimer d\'abord les employés');
+         }
 
-    }
-    const index: number = this.array.indexOf(row);
-    if (index !== -1) {
-      this.array.splice(index, 1);
-      this.listData = new MatTableDataSource(this.array);
-      this.listData.sort = this.sort;
-      this.listData.paginator = this.paginator;
-      console.log('Affiche Voici mon tableau', index)
-
-    }
+       })
+ */
   }
-
 }

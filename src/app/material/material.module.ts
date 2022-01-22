@@ -53,7 +53,7 @@ const  materialComponents = [
   MatSortModule,
   MatGridListModule,
   MatStepperModule,
-  MatCheckboxModule
+  MatCheckboxModule,
 
 ];
 

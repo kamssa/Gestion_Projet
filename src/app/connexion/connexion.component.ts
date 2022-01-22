@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatSnackBar, MatSnackBarHorizontalPosition} from '@angular/material/snack-bar';
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../service/auth.service';
 import {Manager} from '../model/Manager';
 import {ManagerService} from '../service/manager.service';
 import {Employe} from '../model/Employe';
 import {Personne} from '../model/personnes';
+import {EmployeService} from '../service/employe.service';
 declare const $: any;
 @Component({
   selector: 'app-connexion',
@@ -16,13 +17,19 @@ declare const $: any;
 export class ConnexionComponent implements OnInit {
   managerForm: FormGroup;
   employeForm: FormGroup;
+  public loginInvalid: boolean;
+  private formSubmitAttempt: boolean;
   private returnUrl: string;
   personne: Personne;
   submitted = false;
   loading = false;
   error = '';
   result: any;
+  durationInSeconds = 5;
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  isuAth: boolean;
+  manager: Manager;
   employe: Employe;
   test: Date = new Date();
 
@@ -33,6 +40,7 @@ export class ConnexionComponent implements OnInit {
     private authService: AuthService,
     private snackBar: MatSnackBar,
     private managerService: ManagerService,
+    private employeService: EmployeService
   ) {
     // redirect to home if already logged in
     if (this.authService.currentUserValue) {
@@ -66,7 +74,7 @@ export class ConnexionComponent implements OnInit {
   }
 
   onSubmit() {
-    if ( navigator.onLine) {
+    if ( navigator.onLine){
       this.submitted = true;
       const mail = this.managerForm.value.email;
       this.managerService.getPersonneByEmail(mail).subscribe(data => {
@@ -74,17 +82,17 @@ export class ConnexionComponent implements OnInit {
           const email = data.body.email;
           const password = this.managerForm.value.password;
           // this.loading = true;
-         // this.personne = data.body;
+          this.personne = data.body;
           this.loading = true;
           if (data.body.type === 'MANAGER'){
-            console.log('verifier');
+            console.log('le type est:', data.body.type);
             let  manager : Manager = {
               email: email,
               password: password,
-              type: 'MANAGER'
+              type:'MANAGER'
             };
             this.authService.login(manager).subscribe(res => {
-                console.log('resultat manager', res.body);
+
                 if (res){
                   this.router.navigate([this.returnUrl]);
 
@@ -124,4 +132,5 @@ export class ConnexionComponent implements OnInit {
     }
 
   }
+
 }

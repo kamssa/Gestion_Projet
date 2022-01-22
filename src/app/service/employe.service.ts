@@ -55,7 +55,7 @@ export class EmployeService {
     this.form.patchValue(id);
   }
   getAllEmploye(): Observable<Resultat<Employe[]>> {
-    return this.http.get<Resultat<Employe[]>>(`${environment.apiUrl}/api/employe`);
+    return this.http.get<Resultat<Employe[]>>(`${environment.apiUrl}/api/auth/employe`);
   }
   registraction(employe: Employe): Observable<Resultat<Employe>> {
     console.log('methode du service qui ajoute un employe', employe);
@@ -64,7 +64,7 @@ export class EmployeService {
   ajoutEmploye(employe: Employe): Observable<Resultat<Employe>> {
     console.log('methode du service qui ajoute un employe', employe);
     return this.http.post<Resultat<Employe>>
-    (`${environment.apiUrl}/api/employe`,
+    (`${environment.apiUrl}/api/auth/employe`,
       employe).pipe(
       tap(res => {
         this.log(`Client crée =${res.body}`);
@@ -76,7 +76,7 @@ export class EmployeService {
   modifEmploye(employe: Employe): Observable<Resultat<Employe>> {
     console.log('methode du service qui modifie un client', employe);
     return this.http.put<Resultat<Employe>>
-    (`${environment.apiUrl}/api/employe`,
+    (`${environment.apiUrl}/api/auth/employe`,
       employe).pipe(
       tap(res => {
         this.log(`Client modifié =${res.body}`);
@@ -85,8 +85,8 @@ export class EmployeService {
       catchError(this.handleError<Resultat<Employe>>('modifClient'))
     );
   }
-  getClientById(id: number): Observable<Resultat<Employe>> {
-    return this.http.get<Resultat<Employe>>(`${environment.apiUrl}/api/employe/${id}`);
+  getEmployeById(id: number): Observable<Resultat<Employe>> {
+    return this.http.get<Resultat<Employe>>(`${environment.apiUrl}/api/auth/employe/${id}`);
   }
   deleteEmployeById(id: number): Observable<Resultat<Employe>> {
     return this.http.delete<Resultat<Employe>>(`${environment.apiUrl}/api/auth/employe/${id}`);

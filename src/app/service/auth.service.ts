@@ -9,6 +9,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import {Employe} from '../model/Employe';
 import {Manager} from '../model/Manager';
 import {Admin} from '../model/Admin';
+import {Personne} from '../model/personnes';
 
 
 @Injectable({
@@ -26,8 +27,8 @@ export class AuthService {
   public get currentUserValue(): any {
     return this.currentUserSubject.value;
   }
-  login(admin: Admin) {
-    return this.http.post<Resultat<any>>(`${environment.apiUrl}/api/auth/signin`, admin)
+  login(personne: Personne) {
+    return this.http.post<Resultat<any>>(`${environment.apiUrl}/api/auth/signin`, personne)
       .pipe(map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('currentUser', JSON.stringify(user));

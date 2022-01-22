@@ -1,12 +1,14 @@
 import {Component, ElementRef, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
-import {ROUTES} from "../sidebar/sidebar.component";
-import {Location} from "@angular/common";
+import {Router} from '@angular/router';
+import {ROUTES} from '../sidebar/sidebar.component';
+import {Location} from '@angular/common';
 import {AuthService} from '../../service/auth.service';
 import {Employe} from '../../model/Employe';
 import {Manager} from '../../model/Manager';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {AdminService} from '../../service/admin.service';
 import {ManagerService} from '../../service/manager.service';
+import {EmployeService} from '../../service/employe.service';
 
 @Component({
   selector: 'app-navbar',
@@ -25,8 +27,10 @@ export class NavbarComponent implements OnInit {
   res: any;
   nav: boolean;
   type: string;
+   currentUser: any;
   constructor(location: Location,  private element: ElementRef, private router: Router,
-              private authService: AuthService,  private managerService: ManagerService) {
+              private authService: AuthService,  private adminService: AdminService,
+              private managerService: ManagerService, private employeService: EmployeService) {
     this.location = location;
     this.sidebarVisible = false;
   }
@@ -37,27 +41,41 @@ export class NavbarComponent implements OnInit {
     this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
     this.router.events.subscribe((event) => {
       this.sidebarClose();
-      var $layer: any = document.getElementsByClassName('close-layer')[0];
+      const $layer: any = document.getElementsByClassName('close-layer')[0];
       if ($layer) {
         $layer.remove();
         this.mobile_menu_visible = 0;
       }
     });
-    /*const currentUser = this.authService.currentUserValue;
-    console.log('localstorage dans la nav bar', currentUser.body.body.accessToken);
+   /* this.currentUser = this.authService.currentUserValue;
+
     const helper = new JwtHelperService();
-    const decoded = helper.decodeToken(currentUser.body.body.accessToken);
-    console.log('voir id dans nav bar', decoded.sub);
-    this.managerService.getPersonneById(decoded.sub).subscribe(result => {
-      this.personne = result.body;
-      this.type = this.personne.type;
-      if (this.type === 'MANAGER'){
-        this.nav = true;
-      }else if (this.type === 'EMPLOYE'){
-        this.nav = false;
-      }
-      console.log('personne dans nav bar', this.personne);
-    });*/
+
+    const decoded = helper.decodeToken(this.currentUser.body.body.accessToken);
+
+    this.adminService.getAdminById(decoded.sub).subscribe(result => {
+
+         this.personne = result.body;
+         this.type = this.personne.type;
+         if (this.type === 'MANAGER'){
+         this.managerService.getManagerById(result.body.id).subscribe( res => {
+           this.personne = res.body;
+           this.nav = true;
+
+         });
+         }else if (this.type === 'EMPLOYE'){
+           this.employeService.getEmployeById(result.body.id).subscribe(
+             res => {
+               this.personne = res.body;
+               this.nav = false;
+             }
+           );
+
+         }
+
+
+      });
+*/
   }
 
   sidebarOpen() {
@@ -70,13 +88,13 @@ export class NavbarComponent implements OnInit {
     body.classList.add('nav-open');
 
     this.sidebarVisible = true;
-  };
+  }
   sidebarClose() {
     const body = document.getElementsByTagName('body')[0];
     this.toggleButton.classList.remove('toggled');
     this.sidebarVisible = false;
     body.classList.remove('nav-open');
-  };
+  }
   sidebarToggle() {
     // const toggleButton = this.toggleButton;
     // const body = document.getElementsByTagName('body')[0];
@@ -133,16 +151,16 @@ export class NavbarComponent implements OnInit {
       this.mobile_menu_visible = 1;
 
     }
-  };
+  }
 
   getTitle(){
-    var titlee = this.location.prepareExternalUrl(this.location.path());
-    if(titlee.charAt(0) === '#'){
+    let titlee = this.location.prepareExternalUrl(this.location.path());
+    if (titlee.charAt(0) === '#'){
       titlee = titlee.slice( 1 );
     }
 
-    for(var item = 0; item < this.listTitles.length; item++){
-      if(this.listTitles[item].path === titlee){
+    for (let item = 0; item < this.listTitles.length; item++){
+      if (this.listTitles[item].path === titlee){
         return this.listTitles[item].title;
       }
     }
