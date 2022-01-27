@@ -81,7 +81,8 @@ export class ConnexionComponent implements OnInit {
     if (navigator.onLine) {
       this.submitted = true;
       const mail = this.managerForm.value.emailOrTelephone;
-      this.managerService.getPersonneByEmailOrTelephone(mail, mail).subscribe(data => {
+
+      this.managerService.getPersonneByEmail(mail).subscribe(data => {
         if (data.status === 0) {
           this.loading = true;
           if (data.body.type === 'MANAGER') {
