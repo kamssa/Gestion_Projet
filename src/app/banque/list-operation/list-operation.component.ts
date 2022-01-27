@@ -12,7 +12,7 @@ import {MatPaginator} from '@angular/material/paginator';
   templateUrl: './list-operation.component.html',
   styleUrls: ['./list-operation.component.scss']
 })
-export class ListOperationComponent implements OnInit, AfterViewInit {
+export class ListOperationComponent implements OnInit {
   dataSource: MatTableDataSource<Operation>;
   displayedColumns: string[] = ['date', 'libelle', 'montant', 'motif', 'banque'];
   receptacle: any = [];
@@ -26,7 +26,6 @@ export class ListOperationComponent implements OnInit, AfterViewInit {
   }
   ngOnInit(): void {
 this.operationService.getAllOperations().subscribe(result => {
-  console.log('voir retour', result.body);
   this.operations = result.body;
 
   this.operations.forEach(value => {
@@ -40,9 +39,7 @@ this.operationService.getAllOperations().subscribe(result => {
   this.dataSource.sort = this.sort;
 });
   }
-  ngAfterViewInit(): void {
 
-  }
   openDialog(): void {
     const dialogRef = this.dialog.open(EditOperationComponent, {
       width: '450px',

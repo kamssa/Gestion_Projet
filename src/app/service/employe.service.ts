@@ -64,7 +64,7 @@ export class EmployeService {
   ajoutEmploye(employe: Employe): Observable<Resultat<Employe>> {
     console.log('methode du service qui ajoute un employe', employe);
     return this.http.post<Resultat<Employe>>
-    (`${environment.apiUrl}/api/auth/employe`,
+    (`${environment.apiUrl}/api/auth/signupEmpl`,
       employe).pipe(
       tap(res => {
         this.log(`Client crée =${res.body}`);

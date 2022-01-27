@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import {Observable, of, Subject} from 'rxjs';
 import {Resultat} from '../model/resultat';
 import {Manager} from '../model/Manager';
-import {Personne} from '../model/personnes';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {MessageService} from './message.service';
+import {Personne} from '../model/Personne';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,11 @@ export class ManagerService {
   constructor(private  http: HttpClient, private messageService: MessageService) {
   }
   getPersonneByEmail(email: string): Observable<Resultat<Personne>> {
-    return this.http.get<Resultat<Manager>>(`${environment.apiUrl}/api/auth/personne/${email}`);
+    return this.http.get<Resultat<Personne>>(`${environment.apiUrl}/api/auth/personne/${email}`);
+  }
+  getPersonneByEmailOrTelephone(email: string, telephone: string): Observable<Resultat<Personne>> {
+    return this.http.get<Resultat<Personne>>(`${environment.apiUrl}/` +
+  'api/auth/getPersonneByEmailOrTelephone?' + 'email=' + email + '&telephone=' + telephone);
   }
   getManagerById(id: number): Observable<Resultat<Manager>> {
     return this.http.get<Resultat<Manager>>(`${environment.apiUrl}/api/auth/manager/${id}`);

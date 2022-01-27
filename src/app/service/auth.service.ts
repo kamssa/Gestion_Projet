@@ -8,8 +8,7 @@ import * as jwt_decode from 'jwt-decode';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import {Employe} from '../model/Employe';
 import {Manager} from '../model/Manager';
-import {Admin} from '../model/Admin';
-import {Personne} from '../model/personnes';
+import {Personne} from '../model/Personne';
 
 
 @Injectable({

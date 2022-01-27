@@ -30,9 +30,12 @@ export class NavbarComponent implements OnInit {
    currentUser: any;
   constructor(location: Location,  private element: ElementRef, private router: Router,
               private authService: AuthService,  private adminService: AdminService,
-              private managerService: ManagerService, private employeService: EmployeService) {
+              private managerService: ManagerService,
+              private employeService: EmployeService,  private helper: JwtHelperService) {
     this.location = location;
     this.sidebarVisible = false;
+
+
   }
 
   ngOnInit(){
@@ -47,35 +50,31 @@ export class NavbarComponent implements OnInit {
         this.mobile_menu_visible = 0;
       }
     });
-   /* this.currentUser = this.authService.currentUserValue;
+    if(localStorage.getItem('currentUser')) {
+      const token = localStorage.getItem('currentUser');
+      const decoded = this.helper.decodeToken(token);
+      this.managerService.getPersonneById(decoded.sub).subscribe(resultat => {
+        this.personne = resultat.body;
+        this.type = this.personne.type;
+        if (this.type === 'MANAGER'){
+          this.managerService.getManagerById(this.personne.id).subscribe( result => {
+            this.personne = result.body;
+            this.nav = true;
 
-    const helper = new JwtHelperService();
+          });
+        }else if (this.type === 'EMPLOYE'){
+          this.employeService.getEmployeById(this.personne.id).subscribe(
+            rest => {
+              this.personne = rest.body;
+              this.nav = false;
+            }
+          );
 
-    const decoded = helper.decodeToken(this.currentUser.body.body.accessToken);
-
-    this.adminService.getAdminById(decoded.sub).subscribe(result => {
-
-         this.personne = result.body;
-         this.type = this.personne.type;
-         if (this.type === 'MANAGER'){
-         this.managerService.getManagerById(result.body.id).subscribe( res => {
-           this.personne = res.body;
-           this.nav = true;
-
-         });
-         }else if (this.type === 'EMPLOYE'){
-           this.employeService.getEmployeById(result.body.id).subscribe(
-             res => {
-               this.personne = res.body;
-               this.nav = false;
-             }
-           );
-
-         }
-
+        }
 
       });
-*/
+
+    }
   }
 
   sidebarOpen() {

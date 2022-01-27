@@ -4,7 +4,7 @@ import {Resultat} from '../model/resultat';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {MessageService} from './message.service';
-import {Personne} from '../model/personnes';
+import {Personne} from '../model/Personne';
 
 @Injectable({
   providedIn: 'root'

@@ -8,6 +8,9 @@ import {MatDialog} from '@angular/material/dialog';
 import {SuccessDialogComponent} from '../../../service/shared/dialogs/success-dialog/success-dialog.component';
 import {DateAdapter, MAT_DATE_FORMATS} from '@angular/material/core';
 import {APP_DATE_FORMATS, AppDateAdapter} from '../../../helper/format-datepicker';
+import {EmployeService} from '../../../service/employe.service';
+import {ManagerService} from '../../../service/manager.service';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-edit-site-travaux',
@@ -30,35 +33,87 @@ export class EditSiteTravauxComponent implements OnInit {
   edit: number;
   travauxId: number;
   private dialogConfig;
+  personne: any;
+  nav: boolean;
   constructor(
     private  router: Router, private  fb: FormBuilder,
     private  siteTravauxService: SteTravauxService,
     private location: Location,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private  employeService: EmployeService,
+    private managerService: ManagerService,
+    private helper: JwtHelperService) { }
 
   ngOnInit(): void {
-    this.initForm();
+
     this.dialogConfig = {
       height: '200px',
       width: '400px',
       disableClose: true,
       data: { }
+    };
+    if(localStorage.getItem('currentUser')) {
+      const token = localStorage.getItem('currentUser');
+      const decoded = this.helper.decodeToken(token);
+      this.managerService.getPersonneById(decoded.sub).subscribe(resultat => {
+        this.personne = resultat.body;
+
+        if (this.personne.type === 'MANAGER'){
+          this.managerService.getManagerById(this.personne.id).subscribe( result => {
+            this.personne = result.body;
+            this.nav = true;
+
+          });
+          this.initForm();
+        }else if (this.personne.type === 'EMPLOYE'){
+          this.employeService.getEmployeById(this.personne.id).subscribe(
+            rest => {
+              this.personne = rest.body;
+              this.nav = false;
+            }
+          );
+          this.initForm();
+        }
+
+      });
+
     }
   }
   initForm(): void {
-    this.createSiteForm = this.fb.group({
-      numeroBon: new FormControl('', [Validators.required]),
-      accompte: new FormControl(''),
-      budget: new FormControl('', [Validators.required]),
-      date: new FormControl('' ),
-      dateLivraison: new FormControl('' ),
-      site: this.fb.group({
-        nomChantier: ['', Validators.required]
-      }),
-      ville: this.fb.group({
-        nom: ['', Validators.required]
-      })
-    });
+    if(this.personne.type === 'MANAGER'){
+      this.createSiteForm = this.fb.group({
+        numeroBon: new FormControl('', [Validators.required]),
+        accompte: new FormControl(''),
+        budget: new FormControl('', [Validators.required]),
+        date: new FormControl('' ),
+        dateLivraison: new FormControl('' ),
+        site: this.fb.group({
+          nomChantier: ['', Validators.required],
+          entreprise: this.personne.entreprise
+        }),
+        ville: this.fb.group({
+          nom: ['', Validators.required],
+
+        })
+      });
+    }else if (this.personne.type === 'EMPLOYE'){
+      this.createSiteForm = this.fb.group({
+        numeroBon: new FormControl('', [Validators.required]),
+        accompte: new FormControl(''),
+        budget: new FormControl('', [Validators.required]),
+        date: new FormControl('' ),
+        dateLivraison: new FormControl('' ),
+        site: this.fb.group({
+          nomChantier: ['', Validators.required],
+          entreprise: this.personne.departement.entreprise
+        }),
+        ville: this.fb.group({
+          nom: ['', Validators.required],
+
+        })
+      });
+    }
+
   }
   public hasError = (controlName: string, errorName: string) => {
     //return this.createSiteForm.controls[controlName].hasError(errorName);
@@ -92,7 +147,7 @@ export class EditSiteTravauxComponent implements OnInit {
 
     }, error => {
       this.location.back();
-    }); 
+    });
 
 
   }

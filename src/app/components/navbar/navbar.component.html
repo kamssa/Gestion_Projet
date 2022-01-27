@@ -1,16 +1,15 @@
 <nav class="navbar navbar-expand-lg navbar-transparent  navbar-absolute fixed-top">
   <div class="container-fluid">
-    <div class="navbar-wrapper">
-      <a class="navbar-brand" href="javascript:void(0)">{{getTitle()}}</a>
-
-    </div>
     <div>
     <span *ngIf="nav">
         <p *ngIf="personne">{{personne?.entreprise?.nom}}. {{personne?.fonction}}. Bienvenue {{personne?.nomComplet}}.</p>
       </span>
-    <span *ngIf="!nav">
+      <span *ngIf="!nav">
         <p *ngIf="personne">{{personne?.departement?.entreprise?.nom}}, {{personne?.departement?.libelle}}. Bienvenue {{personne?.nomComplet}}.</p>
       </span>
+    </div>
+    <div class="navbar-wrapper title">
+     <!-- <a class="navbar-brand" href="javascript:void(0)">{{getTitle()}}</a>-->
     </div>
     <button mat-raised-button class="navbar-toggler" type="button" (click)="sidebarToggle()">
       <span class="sr-only">Toggle navigation</span>

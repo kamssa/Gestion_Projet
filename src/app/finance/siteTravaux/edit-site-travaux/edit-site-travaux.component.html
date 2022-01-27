@@ -3,7 +3,7 @@
     <mat-card>Modifier Chantier</mat-card>
     <br>
     <div class="container">
-      <form [formGroup]="createSiteForm" (ngSubmit)="onSubmit(createSiteForm.value)">
+      <form [formGroup]="createSiteForm" (ngSubmit)="onSubmit(createSiteForm.value)" *ngIf="createSiteForm">
         <ul class="flex-outer">
           <li formGroupName="ville">
             <label for="nom" class="lelabel">Le nom de ville</label>
@@ -35,7 +35,7 @@
     <div class="well">
       <div class="container">
         <form class="example-form" [formGroup]="createSiteForm" autocomplete="off" novalidate (ngSubmit)="createSiteChantier(createSiteForm.value)" fxLayout="column wrap"
-              fxLayoutAlign="center center" fxLayoutGap="10px">
+              fxLayoutAlign="center center" fxLayoutGap="10px" *ngIf="createSiteForm">
           <mat-card-title>NOUVEAU CHANTIER</mat-card-title>
           <mat-card-content>
             <div>
@@ -50,7 +50,7 @@
               <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
               <mat-error *ngIf="hasError('nomChantier', 'required')">Champ obligatoire</mat-error>
             </mat-form-field>
-           
+
             <mat-form-field class="example-full-width">
               <input matInput type="text" placeholder="Numero du bon" formControlName="numeroBon" id="numeroBon">
               <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
@@ -92,6 +92,8 @@
 
     </div>
   </ng-template>
+
+
 </div>
 
 

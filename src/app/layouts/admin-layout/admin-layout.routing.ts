@@ -17,6 +17,7 @@ import {SalaireGesComponent} from '../../salaire/salaire-ges/salaire-ges.compone
 import {RetraitComponent} from '../../banque/retrait/retrait.component';
 import {ListEmployeComponent} from '../../employe/list-employe/list-employe.component';
 import {ListDepComponent} from '../../dep/list-dep/list-dep.component';
+import {AuthGuardService} from '../../helper/auth-guard.service';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -25,14 +26,15 @@ export const AdminLayoutRoutes: Routes = [
   { path: 'user-profile',   component: ListEmployeComponent },
   {path: 'dep' , component: ListDepComponent},
   {  path : 'finance',
+    canActivate: [AuthGuardService],
     children: [
       {
         path: '',
-        // canActivateChild: [AuthGuardService],
         component: FinanceComponent,
         children: [
           {
             path: 'detail/:id',
+
             component: ListeSiteTravauxOperationComponent
 
           },
@@ -91,8 +93,8 @@ export const AdminLayoutRoutes: Routes = [
         ]},
 
     ]},
-  { path: 'banque',
-   // canActivate: [AuthGuardService],
+  /*{ path: 'banque',
+    canActivate: [AuthGuardService],
     children: [{
       path: '',
       component: BanqueComponent,
@@ -102,8 +104,8 @@ export const AdminLayoutRoutes: Routes = [
     }
     ]
 
-  },
-  { path: 'salaire',
+  },*/
+ /* { path: 'salaire',
     //canActivate: [AuthGuardService],
     children: [{
       path: '',
@@ -111,5 +113,5 @@ export const AdminLayoutRoutes: Routes = [
     }
     ]
 
-  },
+  },*/
 ];

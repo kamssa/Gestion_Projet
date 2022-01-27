@@ -9,6 +9,15 @@
     <mat-step>
       <ng-template matStepLabel>INFORMATIONS SUR L'EMPLOYE</ng-template>
       <input type="hidden" formControlName="id">
+      <mat-form-field style="position: relative; margin-top:20px;" class="example-full-width" appearance="fill">
+          <mat-label >Selection un service</mat-label>
+          <mat-select (selectionChange)="greetDep($event)">
+            <mat-option *ngFor="let d of departements" [value]="d.id">
+              {{d.libelle}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
       <mat-form-field appearance="fill">
         <mat-label>Nom</mat-label>
         <input matInput placeholder="nom" formControlName="nom" required>

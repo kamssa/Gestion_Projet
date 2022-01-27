@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -6,9 +6,12 @@ import {AuthService} from '../service/auth.service';
 import {Manager} from '../model/Manager';
 import {ManagerService} from '../service/manager.service';
 import {Employe} from '../model/Employe';
-import {Personne} from '../model/personnes';
 import {EmployeService} from '../service/employe.service';
+import {Personne} from '../model/Personne';
+import {LoginRequest} from '../model/LoginRequest';
+
 declare const $: any;
+
 @Component({
   selector: 'app-connexion',
   templateUrl: './connexion.component.html',
@@ -20,7 +23,7 @@ export class ConnexionComponent implements OnInit {
   public loginInvalid: boolean;
   private formSubmitAttempt: boolean;
   private returnUrl: string;
-  personne: Personne;
+  loginRequest: LoginRequest;
   submitted = false;
   loading = false;
   error = '';
@@ -29,8 +32,6 @@ export class ConnexionComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   isuAth: boolean;
-  manager: Manager;
-  employe: Employe;
   test: Date = new Date();
 
   constructor(
@@ -54,81 +55,77 @@ export class ConnexionComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
 
   }
+
 // convenience getter for easy access to form fields
   get f() {
     return this.managerForm.controls;
   }
+
   initForm() {
     this.managerForm = this.fb.group({
-      email: ['', Validators.required],
+      emailOrTelephone: ['', Validators.required],
       password: ['', Validators.required]
     });
 
   }
+
   initFormempl() {
     this.employeForm = this.fb.group({
-      email: ['', Validators.required],
+      emailOrTelephone: ['', Validators.required],
       password: ['', Validators.required]
     });
 
   }
 
   onSubmit() {
-    if ( navigator.onLine){
+    if (navigator.onLine) {
       this.submitted = true;
-      const mail = this.managerForm.value.email;
-      this.managerService.getPersonneByEmail(mail).subscribe(data => {
-        if (data.status === 0){
-          const email = data.body.email;
-          const password = this.managerForm.value.password;
-          // this.loading = true;
-          this.personne = data.body;
+      const mail = this.managerForm.value.emailOrTelephone;
+      this.managerService.getPersonneByEmailOrTelephone(mail, mail).subscribe(data => {
+        if (data.status === 0) {
           this.loading = true;
-          if (data.body.type === 'MANAGER'){
-            console.log('le type est:', data.body.type);
-            let  manager : Manager = {
-              email: email,
-              password: password,
-              type:'MANAGER'
+          if (data.body.type === 'MANAGER') {
+            let request: LoginRequest = {
+              emailOrTelephone: this.managerForm.value.emailOrTelephone,
+              password: this.managerForm.value.password,
+              type: 'MANAGER'
             };
-            this.authService.login(manager).subscribe(res => {
-
-                if (res){
+            this.authService.login(request).subscribe(res => {
+                console.log(res);
+                if (res) {
                   this.router.navigate([this.returnUrl]);
 
                 }
 
               },
               error => {
-                this.error = "email ou mot de passe oublié";
+                this.error = 'email ou mot de passe oublié';
                 this.loading = false;
               });
-          }
-          else if (data.body.type === 'EMPLOYE'){
-            console.log('le type est employe');
-            let  employe : Employe = {
-              email: email,
-              password: password,
-              type:'EMPLOYE'
+          } else if (data.body.type === 'EMPLOYE') {
+            let request: LoginRequest = {
+              emailOrTelephone: this.managerForm.value.emailOrTelephone,
+              password: this.managerForm.value.password,
+              type: 'EMPLOYE'
             };
-            this.authService.login(employe).subscribe(res => {
+            this.authService.login(request).subscribe(res => {
 
-                if (res){
+                if (res) {
                   this.router.navigate([this.returnUrl]);
                 }
               },
               error => {
-                this.error = "email ou mot de passe oublié";
+                this.error = 'email ou mot de passe oublié';
                 this.loading = false;
               });
           }
-        }else {
-          this.error = "Compte non valide !";
+        } else {
+          this.error = 'Compte non valide !';
         }
-      } );
+      });
       this.router.navigate(['dashboard']);
-    }else {
-      this.error = "Pas de connexion internet !";
+    } else {
+      this.error = 'Pas de connexion internet !';
     }
 
   }

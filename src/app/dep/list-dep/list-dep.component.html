@@ -1,4 +1,4 @@
-<div class="main-content">
+<div class="main-content" >
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-8">
@@ -13,7 +13,7 @@
     </button>
   </mat-form-field>
 </div>
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z8" *ngIf="ROLE_MANAGER">
   <mat-table [dataSource]="listData"  matSort>
     <ng-container matColumnDef="libelle">
       <mat-header-cell *matHeaderCellDef  mat-sort-header>Libelle</mat-header-cell>
@@ -27,7 +27,7 @@
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let row">
         <button mat-icon-button (click)="onEdit(row)"><mat-icon>launch</mat-icon></button>
-        <button mat-icon-button color="warn" (click)="onDelete(row.id)"><mat-icon>delete_outline</mat-icon></button>
+        <button mat-icon-button color="warn" (click)="onDelete(row)"><mat-icon>delete_outline</mat-icon></button>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="loading">
@@ -47,7 +47,9 @@
   </mat-table>
   <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="5" showFirstLastButtons></mat-paginator>
 </div>
-</div>
+        <div *ngIf="error" class="btn login_btn">{{error}}</div>
+
+      </div>
 </div>
 </div>
 </div>

@@ -28,7 +28,6 @@ import { AddDepComponent } from './dep/add-dep/add-dep.component';
 import {NgxIntlTelInputModule} from 'ngx-intl-tel-input';
 import {MatConfirmDialogComponent} from './service/shared/mat-confirm-dialog/mat-confirm-dialog.component';
 import {Ng2TelInputModule} from 'ng2-tel-input';
-import { UpdatEmployeComponent } from './employe/updat-employe/updat-employe.component';
 registerLocaleData(localeFr);
 
 
@@ -41,8 +40,7 @@ registerLocaleData(localeFr);
     ListEmployeComponent,
     ListDepComponent,
     AddDepComponent,
-    MatConfirmDialogComponent,
-    UpdatEmployeComponent
+    MatConfirmDialogComponent
 
   ],
   imports: [

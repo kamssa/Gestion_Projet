@@ -8,6 +8,8 @@ import {MatDialog} from "@angular/material/dialog";
 import {DatailAchatDialogComponent} from "../dialogue/datail-achat-dialog/datail-achat-dialog.component";
 import {EditAchatTravauxComponent} from "../edit-achat-travaux/edit-achat-travaux.component";
 import {Router} from '@angular/router';
+import {ManagerService} from '../../../../service/manager.service';
+import {JwtHelperService} from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-list-achat',
@@ -21,11 +23,19 @@ export class ListAchatComponent implements OnInit, AfterViewInit{
   receptacle: any = [];
   @ViewChild(MatSort) sort: MatSort;
   array: any;
+  roles: any;
+  ROLE_ADMIN: any;
+  ROLE_NAME: any;
+  error = '';
+  ROLE_MANAGER: any;
+  personne: any;
   @Input() travauxId: number;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
    constructor(private serviceAchat: AchatTravauxService,
                public dialog: MatDialog,
-               private router: Router) {
+               private router: Router,
+               private managerService: ManagerService,
+               private helper: JwtHelperService) {
    }
   ngAfterViewInit(): void {
 
@@ -49,53 +59,61 @@ export class ListAchatComponent implements OnInit, AfterViewInit{
 
 
     });
-     /* console.log(this.travauxId);
-      this.serviceAchat.getAchatTravauxByTravaux(this.travauxId)
-        .subscribe( data => {
-          this.achats = data;
-          console.log(data);
 
-          console.log(this.achats);
-        this.achats.forEach(value => {
-          console.log(value);
-          let opp : AchatTravaux = value;
-
-          this.receptacle.push(opp);
+    if(localStorage.getItem('currentUser')) {
+      const token = localStorage.getItem('currentUser');
+      const decoded = this.helper.decodeToken(token);
+      this.managerService.getPersonneById(decoded.sub).subscribe(res => {
+        this.personne = res.body;
+        this.roles = res.body.roles;
+        this.roles.forEach(val => {
+          console.log(val.name);
+          this.ROLE_NAME = val.name;
+          if (this.ROLE_NAME === 'ROLE_MANAGER'){
+            this.ROLE_MANAGER = this.ROLE_NAME;
+          }
         });
-          this.dataSource = this.receptacle;
-          this.dataSource = new MatTableDataSource<AchatTravaux>(this.receptacle);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
       });
-*/
+
+    }
    }
   redirectToDetails(id: number){
     console.log(id);
   }
 
   redirectToUpdate(id: number) {
-    console.log(id);
-    this.dialog.open(EditAchatTravauxComponent,{
-      data: {
-        achatTravaux: id
-      }
-    });
+    if (this.ROLE_NAME === "ROLE_MANAGER"){
+      console.log(id);
+      this.dialog.open(EditAchatTravauxComponent,{
+        data: {
+          achatTravaux: id
+        }
+      });
+    }else {
+      this.error = 'vous n\'êtes pas autorisé !';
+    }
+
   }
 
   redirectToDelete(row) {
-    if (confirm("Voulez vous vraiment supprimer l'achat ")) {
-      this.serviceAchat.supprimerUnAchat(row.id).subscribe(data => {
-        this.router.navigate(['finance/achat', this.travauxId]);
-    });
-    }
-    const index: number = this.array.indexOf(row);
-    if (index !== -1) {
-      this.array.splice(index, 1);
-      this.listData = new MatTableDataSource(this.array);
-      this.listData.sort = this.sort;
-      this.listData.paginator = this.paginator;
+    if (this.ROLE_NAME === "ROLE_MANAGER"){
+      if (confirm("Voulez vous vraiment supprimer l'achat ")) {
+        this.serviceAchat.supprimerUnAchat(row.id).subscribe(data => {
+          this.router.navigate(['finance/achat', this.travauxId]);
+        });
+      }
+      const index: number = this.array.indexOf(row);
+      if (index !== -1) {
+        this.array.splice(index, 1);
+        this.listData = new MatTableDataSource(this.array);
+        this.listData.sort = this.sort;
+        this.listData.paginator = this.paginator;
 
+      }
+    }else {
+      this.error = 'vous n\'êtes pas autorisé !';
     }
+
   }
 
   public doFilter(event: Event){
