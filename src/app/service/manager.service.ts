@@ -26,7 +26,7 @@ export class ManagerService {
   constructor(private  http: HttpClient, private messageService: MessageService) {
   }
   getPersonneByEmail(email: string): Observable<Resultat<Personne>> {
-    return this.http.get<Resultat<Personne>>(`${environment.apiUrl}/api/auth/personne/${email}`);
+    return this.http.get<Resultat<Personne>>(`${environment.apiUrl}/api/auth/personneByEmail/${email}`);
   }
   getPersonneByEmailOrTelephone(email: string, telephone: string): Observable<Resultat<Personne>> {
     return this.http.get<Resultat<Personne>>(`${environment.apiUrl}/` +

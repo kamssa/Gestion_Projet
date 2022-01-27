@@ -38,7 +38,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="fas fa-user"></i></span>
               </div>
-              <input type="text" class="form-control" placeholder="Login" formControlName="emailOrTelephone"
+              <input type="text" class="form-control" placeholder="Login" formControlName="email"
                      [ngClass]="{ 'is-invalid': submitted && f.emailOrTelephone.errors }" >
               <div *ngIf="submitted && f.emailOrTelephone.errors" class="invalid-feedback">
                 <div *ngIf="f.emailOrTelephone.errors.required">l'adresse mail est obligatoire</div>

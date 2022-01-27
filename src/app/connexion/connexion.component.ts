@@ -3,12 +3,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../service/auth.service';
-import {Manager} from '../model/Manager';
 import {ManagerService} from '../service/manager.service';
-import {Employe} from '../model/Employe';
 import {EmployeService} from '../service/employe.service';
 import {Personne} from '../model/Personne';
-import {LoginRequest} from '../model/LoginRequest';
 
 declare const $: any;
 
@@ -23,7 +20,7 @@ export class ConnexionComponent implements OnInit {
   public loginInvalid: boolean;
   private formSubmitAttempt: boolean;
   private returnUrl: string;
-  loginRequest: LoginRequest;
+  personnne: Personne;
   submitted = false;
   loading = false;
   error = '';
@@ -63,7 +60,7 @@ export class ConnexionComponent implements OnInit {
 
   initForm() {
     this.managerForm = this.fb.group({
-      emailOrTelephone: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
 
@@ -71,7 +68,7 @@ export class ConnexionComponent implements OnInit {
 
   initFormempl() {
     this.employeForm = this.fb.group({
-      emailOrTelephone: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
 
@@ -80,14 +77,14 @@ export class ConnexionComponent implements OnInit {
   onSubmit() {
     if (navigator.onLine) {
       this.submitted = true;
-      const mail = this.managerForm.value.emailOrTelephone;
+      const mail = this.managerForm.value.email;
 
       this.managerService.getPersonneByEmail(mail).subscribe(data => {
         if (data.status === 0) {
           this.loading = true;
           if (data.body.type === 'MANAGER') {
-            let request: LoginRequest = {
-              emailOrTelephone: this.managerForm.value.emailOrTelephone,
+            let request: Personne = {
+              email: this.managerForm.value.email,
               password: this.managerForm.value.password,
               type: 'MANAGER'
             };
@@ -104,8 +101,8 @@ export class ConnexionComponent implements OnInit {
                 this.loading = false;
               });
           } else if (data.body.type === 'EMPLOYE') {
-            let request: LoginRequest = {
-              emailOrTelephone: this.managerForm.value.emailOrTelephone,
+            let request: Personne = {
+              email: this.managerForm.value.email,
               password: this.managerForm.value.password,
               type: 'EMPLOYE'
             };
