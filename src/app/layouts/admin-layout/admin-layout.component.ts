@@ -216,4 +216,12 @@ export class AdminLayoutComponent implements OnInit {
       this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }
   }
+
+  stock() {
+    if (this.ROLE_MANAGER){
+      this.notificationService.warn('vous êtes autorisé !') ;
+    }else {
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
+    }
+  }
 }
