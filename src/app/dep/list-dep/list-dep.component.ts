@@ -12,6 +12,9 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import {AddDepComponent} from '../add-dep/add-dep.component';
 import {DialogConfirmService} from '../../helper/dialog-confirm.service';
 import {ManagerService} from '../../service/manager.service';
+import {Manager} from '../../model/Manager';
+import {Employe} from '../../model/Employe';
+import {EmployeService} from '../../service/employe.service';
 
 @Component({
   selector: 'app-list-dep',
@@ -32,6 +35,10 @@ export class ListDepComponent implements OnInit {
   personne: any;
   array: any;
   roles: any;
+  manager: Manager;
+  employe: Employe;
+  res: any;
+  nav: boolean;
   ROLE_ADMIN: any;
   ROLE_NAME: any;
   error = '';
@@ -43,29 +50,79 @@ export class ListDepComponent implements OnInit {
               private  dialogService: DialogConfirmService,
               private notificationService: NotificationService,
               private _snackBar: MatSnackBar,
-              private helper: JwtHelperService)
+              private helper: JwtHelperService,
+              private employeService: EmployeService)
   {
 
   }
   ngOnInit(): void {
-    this.departementService.getAllDepartement().subscribe(list => {
-      this.array = list.body.map(item => {
-        return {
-          id: item.id,
-          ...item
-        };
-      });
-      this.listData = new MatTableDataSource(this.array);
-      this.listData.sort = this.sort;
-      this.listData.paginator = this.paginator;
-      this.listData.filterPredicate = (data, filter) => {
-        return this.displayedColumns.some(ele => {
-          return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
+    if(localStorage.getItem('currentUser')) {
+      const token = localStorage.getItem('currentUser');
+      const decoded = this.helper.decodeToken(token);
+      this.managerService.getPersonneById(decoded.sub).subscribe(resultat => {
+        this.personne = resultat.body;
+        this.roles = resultat.body.roles;
+        this.roles.forEach(val => {
+          console.log(val.name);
+          this.ROLE_NAME = val.name;
+          if (this.ROLE_NAME === 'ROLE_MANAGER'){
+            this.ROLE_MANAGER = this.ROLE_NAME;
+          }
         });
-      };
+        this.personne = resultat.body;
 
-    });
-    if (localStorage.getItem('currentUser')) {
+        if (this.personne.type === 'MANAGER'){
+          this.managerService.getManagerById(this.personne.id).subscribe( result => {
+            this.personne = result.body;
+            this.nav = true;
+            this.departementService.getDepByIdEntreprise(this.personne.entreprise.id).subscribe(list => {
+              this.array = list.body.map(item => {
+                return {
+                  id: item.id,
+                  ...item
+                };
+              });
+              this.listData = new MatTableDataSource(this.array);
+              this.listData.sort = this.sort;
+              this.listData.paginator = this.paginator;
+              this.listData.filterPredicate = (data, filter) => {
+                return this.displayedColumns.some(ele => {
+                  return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
+                });
+              };
+
+            });
+          });
+        }else if (this.personne.type === 'EMPLOYE'){
+          this.employeService.getEmployeById(this.personne.id).subscribe(
+            rest => {
+              this.personne = rest.body;
+              this.nav = false;
+              this.departementService.getDepByIdEntreprise(this.personne.departement.entreprise.id).subscribe(list => {
+                this.array = list.body.map(item => {
+                  return {
+                    id: item.id,
+                    ...item
+                  };
+                });
+                this.listData = new MatTableDataSource(this.array);
+                this.listData.sort = this.sort;
+                this.listData.paginator = this.paginator;
+                this.listData.filterPredicate = (data, filter) => {
+                  return this.displayedColumns.some(ele => {
+                    return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
+                  });
+                };
+
+              });
+            });
+
+        }
+
+      });
+
+    }
+   /* if (localStorage.getItem('currentUser')) {
       const token = localStorage.getItem('currentUser');
       const decoded = this.helper.decodeToken(token);
 
@@ -81,7 +138,9 @@ export class ListDepComponent implements OnInit {
         });
       });
 
-    }
+    }*/
+
+
   }
 
   onSearchClear() {
