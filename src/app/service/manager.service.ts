@@ -36,7 +36,7 @@ export class ManagerService {
     return this.http.get<Resultat<Manager>>(`${environment.apiUrl}/api/auth/manager/${id}`);
   }
   getPersonneById(id: number): Observable<Resultat<Personne>> {
-    return this.http.get<Resultat<Personne>>(`${environment}/api/auth/getPersonneById/${id}`);
+    return this.http.get<Resultat<Personne>>(`${environment.apiUrl}/api/auth/getPersonneById/${id}`);
   }
 
   personneCreer(res: Resultat<Manager>) {

@@ -54,7 +54,6 @@ export class ListDepComponent implements OnInit {
   }
   ngOnInit(): void {
     this.departementService.getAllDepartement().subscribe(list => {
-      console.log(list);
       this.array = list.body.map(item => {
         return {
           id: item.id,
@@ -74,6 +73,7 @@ export class ListDepComponent implements OnInit {
     if (localStorage.getItem('currentUser')) {
       const token = localStorage.getItem('currentUser');
       const decoded = this.helper.decodeToken(token);
+
       this.managerService.getPersonneById(decoded.sub).subscribe(res => {
         this.personne = res.body;
         this.roles = res.body.roles;
