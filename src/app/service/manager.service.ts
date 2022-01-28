@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import {Observable, of, Subject} from 'rxjs';
 import {Resultat} from '../model/resultat';
 import {Manager} from '../model/Manager';
-import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {MessageService} from './message.service';
 import {Personne} from '../model/Personne';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +36,7 @@ export class ManagerService {
     return this.http.get<Resultat<Manager>>(`${environment.apiUrl}/api/auth/manager/${id}`);
   }
   getPersonneById(id: number): Observable<Resultat<Personne>> {
-    return this.http.get<Resultat<Personne>>(`${environment.apiUrl}/api/auth/getPersonneById/${id}`);
+    return this.http.get<Resultat<Personne>>(`${environment}/api/auth/getPersonneById/${id}`);
   }
 
   personneCreer(res: Resultat<Manager>) {

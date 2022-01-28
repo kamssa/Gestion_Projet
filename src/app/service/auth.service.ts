@@ -26,6 +26,7 @@ export class AuthService {
   public get currentUserValue(): any {
     return this.currentUserSubject.value;
   }
+  // tslint:disable-next-line:typedef
   login(personne: Personne) {
     return this.http.post<Resultat<any>>(`${environment.apiUrl}/api/auth/signin`, personne)
       .pipe(map(user => {
