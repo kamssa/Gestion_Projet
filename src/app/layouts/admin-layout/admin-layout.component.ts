@@ -5,6 +5,9 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import * as $ from 'jquery';
 import {Location, PopStateEvent} from '@angular/common';
 import {filter} from 'rxjs/operators';
+import {ManagerService} from '../../service/manager.service';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {NotificationService} from '../../helper/notification.service';
 
 @Component({
   selector: 'app-admin-layout',
@@ -16,11 +19,36 @@ export class AdminLayoutComponent implements OnInit {
   private _router: Subscription;
   private lastPoppedUrl: string;
   private yScrollStack: number[] = [];
-
-  constructor(public location: Location, private router: Router) {
+  roles: any;
+  ROLE_ADMIN: any;
+  ROLE_NAME: any;
+  error = '';
+  ROLE_MANAGER: any;
+  personne: any;
+  constructor(public location: Location, private router: Router,
+              private managerService: ManagerService,
+              private notificationService: NotificationService,
+              private helper: JwtHelperService) {
   }
 
   ngOnInit(): void {
+    if (localStorage.getItem('currentUser')) {
+      const token = localStorage.getItem('currentUser');
+      const decoded = this.helper.decodeToken(token);
+
+      this.managerService.getPersonneById(decoded.sub).subscribe(res => {
+        this.personne = res.body;
+        this.roles = res.body.roles;
+        this.roles.forEach(val => {
+          console.log(val.name);
+          this.ROLE_NAME = val.name;
+          if (this.ROLE_NAME === 'ROLE_MANAGER'){
+            this.ROLE_MANAGER = this.ROLE_NAME;
+          }
+        });
+      });
+
+    }
     const isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
 
     if (isWindows && !document.getElementsByTagName('body')[0].classList.contains('sidebar-mini')) {
@@ -165,4 +193,27 @@ export class AdminLayoutComponent implements OnInit {
   }
 
 
+  config() {
+ if (this.ROLE_MANAGER){
+   this.notificationService.warn('vous êtes autorisé !') ;
+ }else {
+   this.notificationService.warn('vous n\'êtes pas autorisé !') ;
+ }
+  }
+
+  document() {
+    if (this.ROLE_MANAGER){
+      this.notificationService.warn('vous êtes autorisé !') ;
+    }else {
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
+    }
+  }
+
+  maj() {
+    if (this.ROLE_MANAGER){
+      this.notificationService.warn('vous êtes autorisé !') ;
+    }else {
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
+    }
+  }
 }
