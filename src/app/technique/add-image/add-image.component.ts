@@ -7,7 +7,7 @@ import {Site} from "../../model/site";
 import {HttpErrorResponse, HttpEventType} from "@angular/common/http";
 import {of} from 'rxjs';
 
-@Component({         
+@Component({
   selector: 'app-add-image',
   templateUrl: './add-image.component.html',
   styleUrls: ['./add-image.component.scss']
@@ -41,32 +41,11 @@ export class AddImageComponent implements OnInit {
     });
   }
 
-  /* onFileSelected(event) {
-     this.selectedFile = event.target.files[0];
-   }*/
 
-  /*onUpload() {
-    this.siteService.addImage(this.urls).subscribe( result => {
-    console.log('reussi');
-    });
-  }*/
-
-  /*selectFiles(event) {
-    if (event.target.files) {
-      for (let i = 0; i < File.length; i++) {
-        let reader = new FileReader();
-        reader.readAsDataURL(event.target.files[i]);
-        reader.onload = (event: any) => {
-          this.urls.push(event.target.result);
-        //  console.log('Voir les fichiers recuperés', this.urls);
-        }
-      }
-    }
-  }*/
   uploadFile(file) {
     console.log('Voir les fichiers', file);
     const formData = new FormData();
-    formData.append('image_photo', file.data);
+    formData.append('multipartFile', file.data);
     file.inProgress = true;
     this.uploadService.upload(formData, this.travauxId).pipe(
       map(event => {

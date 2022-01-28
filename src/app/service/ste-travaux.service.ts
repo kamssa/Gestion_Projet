@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Observable, of, Subject} from "rxjs";
 import {Resultat} from "../model/resultat";
 import {Travaux} from "../model/travaux";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpEvent, HttpRequest} from '@angular/common/http';
 import {catchError, map, tap} from "rxjs/operators";
 import {environment} from "../../environments/environment";
 import {MessageService} from "./message.service";
@@ -59,18 +59,20 @@ export class SteTravauxService {
     return this.http.delete<Resultat<boolean>> (`${environment.apiUrl}/api/travaux/${id}`);
   }
   getPhotoByIdTravaux(id: number): Observable<Resultat<Photo[]>> {
-    return this.http.get<Resultat<Photo[]>>(`${environment.apiUrl}/api/photo/${id}`);
+    return this.http.get<Resultat<Photo[]>>(`${environment.apiUrl}/api/getPhoto/${id}`);
   }
 
-  public upload(formData, id) {
-    console.log('dans le service', formData);
-    return this.http.post<any>(`${environment.apiUrl}/api/travauxPhoto/?id=${id}`, formData,   {
+  upload(formData, id): Observable<HttpEvent<any>> {
+    const req = new HttpRequest('POST', `${environment.apiUrl}/api/upload/?id=${id}`, formData, {
       reportProgress: true,
-      observe: 'events'
+      responseType: 'json'
     });
+
+    return this.http.request(req);
   }
 
-   travauxCreer(res: Resultat<Travaux>) {
+
+  travauxCreer(res: Resultat<Travaux>) {
     console.log('Travail a ete  creer correctement essaie source');
     this.travauxCreerSource.next(res);
   }

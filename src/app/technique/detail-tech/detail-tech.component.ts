@@ -33,8 +33,8 @@ export class DetailTechComponent implements OnInit {
       console.log(this.photos);
       this.photos.forEach(value => {
         this.photo = value;
-        this.path = value.path;
-        let lien : string = value.path;
+        this.path = value.imageUrl;
+        let lien : string = value.imageUrl;
         this.liens.push(lien);
         console.log('Voir les path de for', this.path);
         console.log('Voir les liens', this.liens);
