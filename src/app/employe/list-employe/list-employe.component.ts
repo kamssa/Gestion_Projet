@@ -115,7 +115,7 @@ export class ListEmployeComponent implements OnInit {
           });
       });
     }else {
-      this.error = 'vous n\'êtes pas autorisé !';
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }
 
   }
@@ -143,14 +143,14 @@ export class ListEmployeComponent implements OnInit {
           });
       });
     }else {
-      this.error = 'vous n\'êtes pas autorisé !';
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }
 
   }
 
   onDelete(row){
     if(this.ROLE_NAME === "ROLE_MANAGER"){
-      if(confirm('Voulez-vous vraiment supprimer le departement ?')){
+      if(confirm('Voulez-vous vraiment supprimer l\'employé ?')){
         this.employeService.deleteEmployeById(row.id).subscribe(result => {
           console.log(result);
         });
@@ -167,7 +167,7 @@ export class ListEmployeComponent implements OnInit {
 
       }
     }else {
-      this.error = 'vous n\'êtes pas autorisé !';
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }
 
   }

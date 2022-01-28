@@ -10,6 +10,7 @@ import {EditAchatTravauxComponent} from "../edit-achat-travaux/edit-achat-travau
 import {Router} from '@angular/router';
 import {ManagerService} from '../../../../service/manager.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {NotificationService} from '../../../../helper/notification.service';
 
 @Component({
   selector: 'app-list-achat',
@@ -35,7 +36,8 @@ export class ListAchatComponent implements OnInit, AfterViewInit{
                public dialog: MatDialog,
                private router: Router,
                private managerService: ManagerService,
-               private helper: JwtHelperService) {
+               private helper: JwtHelperService,
+               private notificationService: NotificationService) {
    }
   ngAfterViewInit(): void {
 
@@ -90,7 +92,7 @@ export class ListAchatComponent implements OnInit, AfterViewInit{
         }
       });
     }else {
-      this.error = 'vous n\'êtes pas autorisé !';
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }
 
   }
@@ -111,7 +113,7 @@ export class ListAchatComponent implements OnInit, AfterViewInit{
 
       }
     }else {
-      this.error = 'vous n\'êtes pas autorisé !';
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }
 
   }

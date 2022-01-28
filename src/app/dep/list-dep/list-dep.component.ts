@@ -4,7 +4,6 @@ import {Departement} from '../../model/Departement';
 import {MatSnackBar, MatSnackBarHorizontalPosition} from '@angular/material/snack-bar';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
-import {Employe} from '../../model/Employe';
 import {DepService} from '../../service/dep.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {Router} from '@angular/router';
@@ -12,10 +11,7 @@ import {NotificationService} from '../../helper/notification.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {AddDepComponent} from '../add-dep/add-dep.component';
 import {DialogConfirmService} from '../../helper/dialog-confirm.service';
-import {AdminService} from '../../service/admin.service';
-import {Personne} from '../../model/Personne';
 import {ManagerService} from '../../service/manager.service';
-import {Manager} from '../../model/Manager';
 
 @Component({
   selector: 'app-list-dep',
@@ -25,7 +21,6 @@ import {Manager} from '../../model/Manager';
 export class ListDepComponent implements OnInit {
   displayedColumns: string[] = ['libelle', 'description', 'actions'];
   listData: MatTableDataSource<any>;
-  departements: Departement[];
   departement: Departement;
   receptacle: any = [];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -120,7 +115,7 @@ export class ListDepComponent implements OnInit {
           });
       });
     }else if (this.ROLE_NAME === 'ROLE_EMPLOYE'){
-      this.error = 'vous n\'êtes pas autorisé !';
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }
 
   }
@@ -148,7 +143,7 @@ export class ListDepComponent implements OnInit {
           });
       });
     }else if (this.ROLE_NAME === 'ROLE_EMPLOYE') {
-      this.error = 'vous n\'êtes pas autorisé !';
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }
 
   }
@@ -172,7 +167,7 @@ export class ListDepComponent implements OnInit {
 
       }
     }else {
-      this.error = 'vous n\'êtes pas autorisé !';
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }
 
   }
