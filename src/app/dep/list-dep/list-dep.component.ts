@@ -71,7 +71,7 @@ export class ListDepComponent implements OnInit {
       };
 
     });
-    if(localStorage.getItem('currentUser')) {
+    if (localStorage.getItem('currentUser')) {
       const token = localStorage.getItem('currentUser');
       const decoded = this.helper.decodeToken(token);
       this.managerService.getPersonneById(decoded.sub).subscribe(res => {
@@ -90,7 +90,7 @@ export class ListDepComponent implements OnInit {
   }
 
   onSearchClear() {
-    this.searchKey = "";
+    this.searchKey = '';
     this.applyFilter();
   }
 
@@ -98,14 +98,14 @@ export class ListDepComponent implements OnInit {
     this.listData.filter = this.searchKey.trim().toLowerCase();
   }
   onCreate() {
-    if (this.ROLE_NAME === "ROLE_MANAGER"){
+    if (this.ROLE_NAME === 'ROLE_MANAGER'){
       this.departementService.initializeFormGroup();
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = "60%";
+      dialogConfig.width = '60%';
       const dialogRef = this.dialog.open(AddDepComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(resul=> {
+      dialogRef.afterClosed().subscribe(resul => {
         console.log('verifier retour dialog open');
         this.departementService.depCreer$
           .subscribe(result => {
@@ -119,19 +119,19 @@ export class ListDepComponent implements OnInit {
 
           });
       });
-    }else if (this.ROLE_NAME === "ROLE_EMPLOYE"){
+    }else if (this.ROLE_NAME === 'ROLE_EMPLOYE'){
       this.error = 'vous n\'êtes pas autorisé !';
     }
 
   }
 
   onEdit(row){
-    if (this.ROLE_NAME === "ROLE_MANAGER"){
+    if (this.ROLE_NAME === 'ROLE_MANAGER'){
       this.departementService.populateForm(row);
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = "60%";
+      dialogConfig.width = '60%';
       const dialogRef = this.dialog.open(AddDepComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(resul => {
         console.log('verifier retour dialog update');
@@ -147,15 +147,15 @@ export class ListDepComponent implements OnInit {
             }
           });
       });
-    }else if (this.ROLE_NAME === "ROLE_EMPLOYE") {
+    }else if (this.ROLE_NAME === 'ROLE_EMPLOYE') {
       this.error = 'vous n\'êtes pas autorisé !';
     }
 
   }
 
   onDelete(row){
-    if (this.ROLE_NAME === "ROLE_MANAGER") {
-      if(confirm('Voulez-vous vraiment supprimer le departement ?')){
+    if (this.ROLE_NAME === 'ROLE_MANAGER') {
+      if (confirm('Voulez-vous vraiment supprimer le departement ?')){
         this.departementService.supprimerDepartement(row.id).subscribe(result => {
           console.log(result);
         });
