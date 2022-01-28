@@ -219,6 +219,15 @@ export class AdminLayoutComponent implements OnInit {
 
   stock() {
     if (this.ROLE_MANAGER){
+      this.router.navigate(['/stock']);
+      this.notificationService.warn('vous êtes autorisé !') ;
+    }else {
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
+    }
+  }
+
+  compta() {
+    if (this.ROLE_MANAGER){
       this.notificationService.warn('vous êtes autorisé !') ;
     }else {
       this.notificationService.warn('vous n\'êtes pas autorisé !') ;

@@ -18,6 +18,7 @@ import {RetraitComponent} from '../../banque/retrait/retrait.component';
 import {ListEmployeComponent} from '../../employe/list-employe/list-employe.component';
 import {ListDepComponent} from '../../dep/list-dep/list-dep.component';
 import {AuthGuardService} from '../../helper/auth-guard.service';
+import {ListStockComponent} from '../../stock/list-stock/list-stock.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -93,6 +94,9 @@ export const AdminLayoutRoutes: Routes = [
         ]},
 
     ]},
+  {
+    path: 'stock', component: ListStockComponent
+  },
   /*{ path: 'banque',
     canActivate: [AuthGuardService],
     children: [{
