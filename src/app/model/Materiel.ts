@@ -6,6 +6,7 @@ export class Materiel {
               public  libelle?: string,
               public  description?: string,
               public unite?: string,
+              public prixUnitaire?: number,
               public categorie?: Categorie
              ) {
   }

@@ -54,7 +54,7 @@ export class NavbarComponent implements OnInit {
       const token = localStorage.getItem('currentUser');
       const decoded = this.helper.decodeToken(token);
       this.managerService.getPersonneById(decoded.sub).subscribe(resultat => {
-        console.log(resultat);
+
         this.personne = resultat.body;
         this.type = this.personne.type;
         if (this.type === 'MANAGER'){
