@@ -1,0 +1,32 @@
+<mat-toolbar>
+  <span>{{categorieService.form.controls['id'].value?"Modifier le categorie":"Nouveau categorie"}}</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+<form [formGroup]="categorieService.form" class="normal-form" (submit)="onSubmit()">
+  <mat-grid-list cols="1" rowHeight="100px">
+    <mat-grid-tile>
+      <div class="controles-container">
+        <input type="hidden" formControlName="id">
+        <mat-form-field>
+          <input  matInput formControlName="libelle"  placeholder="Nom">
+          <mat-error>Ce champ est obligatoire.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="description"  placeholder="Description">
+        </mat-form-field>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <div class="controles-container">
+        <div class="button-row">
+          <button mat-raised-button color="primary" type="submit" [disabled]="categorieService.form.invalid">Valider</button>
+          <button mat-raised-button color="warn" (click)="onClear()">Effacer</button>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>
+
+
+

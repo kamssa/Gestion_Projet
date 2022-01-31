@@ -30,6 +30,10 @@ import {MatConfirmDialogComponent} from './service/shared/mat-confirm-dialog/mat
 import {Ng2TelInputModule} from 'ng2-tel-input';
 import { AddStockComponent } from './stock/add-stock/add-stock.component';
 import { ListStockComponent } from './stock/list-stock/list-stock.component';
+import { AddMaterielComponent } from './materiel/add-materiel/add-materiel.component';
+import { ListMaterielComponent } from './materiel/list-materiel/list-materiel.component';
+import { AddCategorieComponent } from './categorie/add-categorie/add-categorie.component';
+import { ListCategorieComponent } from './categorie/list-categorie/list-categorie.component';
 registerLocaleData(localeFr);
 
 
@@ -44,7 +48,11 @@ registerLocaleData(localeFr);
     AddDepComponent,
     MatConfirmDialogComponent,
     AddStockComponent,
-    ListStockComponent
+    ListStockComponent,
+    AddMaterielComponent,
+    ListMaterielComponent,
+    AddCategorieComponent,
+    ListCategorieComponent
 
   ],
   imports: [

@@ -18,6 +18,7 @@ export const ROUTES: RouteInfo[] = [
   { path: '/banque', title: 'Gestion Banque',  icon:'bubble_chart', class: '' },
   { path: '/user-profile', title: 'Profile',  icon:'person', class: ''  },
   { path: '/dep', title: 'Departement',  icon: 'domain', class: '' },
+  { path: '/categorie', title: 'Categories',  icon: 'domain', class: '' },
   { path: '/salaire', title: 'Salaire',  icon:'bubble_chart', class: '' },
   { path: '/Mis à jour', title: 'Kamssa Group pro',  icon:'unarchive', class: 'active-pro' },
 ];

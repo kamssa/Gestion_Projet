@@ -6,6 +6,8 @@ import {HttpClient} from '@angular/common/http';
 import {MessageService} from './message.service';
 import {environment} from '../../environments/environment';
 import {catchError, map, tap} from 'rxjs/operators';
+import {Departement} from '../model/Departement';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,23 @@ export class CategorieService {
 
   constructor(private  http: HttpClient, private messageService: MessageService) {
   }
-
+  form: FormGroup = new FormGroup({
+    id: new FormControl(null),
+    version: new FormControl(null),
+    libelle: new FormControl('',[Validators.required] ),
+    description: new FormControl(''),
+  });
+  initializeFormGroup() {
+    this.form.setValue({
+      id: null,
+      version: null,
+      libelle: '',
+      description: ''
+    });
+  }
+  populateForm(id) {
+    this.form.patchValue(id);
+  }
   getAllTravaux(): Observable<Resultat<Categorie[]>> {
     return this.http.get<Resultat<Categorie[]>>(`${environment.apiUrl}/api/categorie`);
   }
@@ -51,14 +69,16 @@ export class CategorieService {
   getCategorieById(id: Categorie): Observable<Resultat<Categorie>> {
     return this.http.get<Resultat<Categorie>>(`${environment.apiUrl}/api/categorie/${id}`);
   }
+  getCatByIdEntreprise(id: number): Observable<Resultat<Categorie[]>> {
+    return this.http.get<Resultat<Categorie[]>>(`${environment.apiUrl}/api/getCategorieByidEntreprise/${id}`);
+  }
 
-
-  supprimerUnAchat(id: number): Observable<any> {
+  supprimerCategorie(id: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/api/categorie/${id}`)
       .pipe(map(res => res,
         tap(res =>
           this.log(`categorie supp =${res}`))),
-        catchError(this.handleError<Resultat<Categorie[]>>('supprimerUnAchat'))
+        catchError(this.handleError<Resultat<Categorie[]>>('supprimerCategorie'))
       );
 
   }
@@ -67,7 +87,7 @@ export class CategorieService {
 
   }
   categorieCreer(res: Resultat<Categorie>) {
-    console.log('Travail a ete  creer correctement essaie source');
+    console.log('Categorie a ete  creer correctement essaie source');
     this.categorieCreerSource.next(res);
   }
 
