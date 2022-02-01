@@ -15,6 +15,8 @@ import {NotificationService} from '../../helper/notification.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {EmployeService} from '../../service/employe.service';
 import {AddDepComponent} from '../../dep/add-dep/add-dep.component';
+import {StockService} from '../../service/stock.service';
+import {AddStockComponent} from '../add-stock/add-stock.component';
 
 @Component({
   selector: 'app-list-stock',
@@ -22,7 +24,7 @@ import {AddDepComponent} from '../../dep/add-dep/add-dep.component';
   styleUrls: ['./list-stock.component.scss']
 })
 export class ListStockComponent implements OnInit {
-  displayedColumns: string[] = ['libelle', 'description', 'actions'];
+  displayedColumns: string[] = ['libelle', 'quantite', 'prixUnitaire', 'total' , 'actions'];
   listData: MatTableDataSource<any>;
   departement: Departement;
   receptacle: any = [];
@@ -43,7 +45,7 @@ export class ListStockComponent implements OnInit {
   ROLE_NAME: any;
   error = '';
   ROLE_MANAGER: any;
-  constructor(private departementService: DepService,
+  constructor(private stockService: StockService,
               private managerService: ManagerService,
               public dialog: MatDialog,
               private router: Router,
@@ -75,8 +77,9 @@ export class ListStockComponent implements OnInit {
           this.managerService.getManagerById(this.personne.id).subscribe( result => {
             this.personne = result.body;
             this.nav = true;
-            this.departementService.getDepByIdEntreprise(this.personne.entreprise.id).subscribe(list => {
-              this.array = list.body.map(item => {
+            this.stockService.getStockByIdEntreprise(this.personne.entreprise.id).subscribe(list => {
+             console.log(list.body);
+             this.array = list.body.map(item => {
                 return {
                   id: item.id,
                   ...item
@@ -98,7 +101,7 @@ export class ListStockComponent implements OnInit {
             rest => {
               this.personne = rest.body;
               this.nav = false;
-              this.departementService.getDepByIdEntreprise(this.personne.departement.entreprise.id).subscribe(list => {
+              this.stockService.getStockByIdEntreprise(this.personne.departement.entreprise.id).subscribe(list => {
                 this.array = list.body.map(item => {
                   return {
                     id: item.id,
@@ -153,15 +156,15 @@ export class ListStockComponent implements OnInit {
   }
   onCreate() {
     if (this.ROLE_NAME === 'ROLE_MANAGER'){
-      this.departementService.initializeFormGroup();
+      this.stockService.initializeFormGroup();
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
-      const dialogRef = this.dialog.open(AddDepComponent, dialogConfig);
+      const dialogRef = this.dialog.open(AddStockComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(resul => {
         console.log('verifier retour dialog open');
-        this.departementService.depCreer$
+        this.stockService.stockCreer$
           .subscribe(result => {
             console.log(result.body);
             this.array.unshift(result.body);
@@ -181,15 +184,15 @@ export class ListStockComponent implements OnInit {
 
   onEdit(row){
     if (this.ROLE_NAME === 'ROLE_MANAGER'){
-      this.departementService.populateForm(row);
+      this.stockService.populateForm(row);
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
-      const dialogRef = this.dialog.open(AddDepComponent, dialogConfig);
+      const dialogRef = this.dialog.open(AddStockComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(resul => {
         console.log('verifier retour dialog update');
-        this.departementService.depModif$
+        this.stockService.stockModif$
           .subscribe(result => {
             const index: number = this.array.indexOf(row);
             if (index !== -1) {
@@ -209,8 +212,8 @@ export class ListStockComponent implements OnInit {
 
   onDelete(row){
     if (this.ROLE_NAME === 'ROLE_MANAGER') {
-      if (confirm('Voulez-vous vraiment supprimer le departement ?')){
-        this.departementService.supprimerDepartement(row.id).subscribe(result => {
+      if (confirm('Voulez-vous vraiment supprimer le stock ?')){
+        this.stockService.supprimerStock(row.id).subscribe(result => {
           console.log(result);
         });
         this.notificationService.warn('Suppression avec succès');

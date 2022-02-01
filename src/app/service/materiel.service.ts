@@ -34,6 +34,7 @@ export class MaterielService {
     libelle: new FormControl('',[Validators.required] ),
     description: new FormControl(''),
     unite: new FormControl(''),
+    prixUnitaire: new FormControl(''),
   });
   initializeFormGroup() {
     this.form.setValue({
@@ -41,7 +42,8 @@ export class MaterielService {
       version: null,
       libelle: '',
       description: '',
-      unite: ''
+      unite: '',
+      prixUnitaire: ''
     });
   }
   populateForm(id) {

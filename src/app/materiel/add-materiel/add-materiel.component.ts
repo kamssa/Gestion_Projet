@@ -66,7 +66,7 @@ export class AddMaterielComponent implements OnInit {
         libelle: this.materielService.form.value.libelle,
         description: this.materielService.form.value.description,
         unite: this.materielService.form.value.unite,
-        prixUnitaire: this.materielService.form.value.prix_unitaire,
+        prixUnitaire: this.materielService.form.value.prixUnitaire,
         categorie: this.categorie
       };
       console.log(this.materiel);
@@ -82,7 +82,7 @@ export class AddMaterielComponent implements OnInit {
         libelle: this.materielService.form.value.libelle,
         description: this.materielService.form.value.description,
         unite: this.materielService.form.value.unite,
-        prixUnitaire: this.materielService.form.value.prix_unitaire,
+        prixUnitaire: this.materielService.form.value.prixUnitaire,
         categorie: this.categorie
       };
       this.materielService.modifMateriel(this.materiel).subscribe(result => {

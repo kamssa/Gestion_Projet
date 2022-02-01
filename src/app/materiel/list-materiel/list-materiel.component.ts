@@ -25,7 +25,7 @@ import {switchMap} from 'rxjs/operators';
   styleUrls: ['./list-materiel.component.scss']
 })
 export class ListMaterielComponent implements OnInit {
-  displayedColumns: string[] = ['libelle', 'unite', 'actions'];
+  displayedColumns: string[] = ['libelle', 'prixUnitaire', 'unite', 'actions'];
   listData: MatTableDataSource<any>;
   departement: Departement;
   receptacle: any = [];
