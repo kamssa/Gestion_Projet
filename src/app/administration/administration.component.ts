@@ -12,4 +12,15 @@ export class AdministrationComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  retrait() {
+
+  }
+
+  banque() {
+
+  }
+
+  openDialog() {
+
+  }
 }
