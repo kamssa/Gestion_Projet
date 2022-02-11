@@ -18,6 +18,9 @@ import {AddDepComponent} from '../../dep/add-dep/add-dep.component';
 import {StockService} from '../../service/stock.service';
 import {AddStockComponent} from '../add-stock/add-stock.component';
 import {Stock} from '../../model/Stock';
+import {CategorieService} from '../../service/categorie.service';
+import {AddCategorieComponent} from '../../categorie/add-categorie/add-categorie.component';
+import {DetailStockService} from '../../service/detail-stock.service';
 
 @Component({
   selector: 'app-list-stock',
@@ -25,8 +28,8 @@ import {Stock} from '../../model/Stock';
   styleUrls: ['./list-stock.component.scss']
 })
 export class ListStockComponent implements OnInit {
-  displayedColumns: string[] = ['libelle', 'quantite', 'prixUnitaire', 'total', 'actions'];
-
+  displayedColumns: string[] = ['libelle', 'quantite',  'total', 'actions'];
+  listData: MatTableDataSource<any>;
   departement: Departement;
   receptacle: any = [];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -47,7 +50,7 @@ export class ListStockComponent implements OnInit {
   error = '';
   ROLE_MANAGER: any;
 
-  constructor(private stockService: StockService,
+  constructor(private detailStockService: DetailStockService,
               private managerService: ManagerService,
               public dialog: MatDialog,
               private router: Router,
@@ -55,12 +58,95 @@ export class ListStockComponent implements OnInit {
               private notificationService: NotificationService,
               private _snackBar: MatSnackBar,
               private helper: JwtHelperService,
-              private employeService: EmployeService,
-              @Inject(MAT_DIALOG_DATA) public data: Stock) {
+              private employeService: EmployeService)
+  {
 
   }
-
   ngOnInit(): void {
+    if(localStorage.getItem('currentUser')) {
+      const token = localStorage.getItem('currentUser');
+      const decoded = this.helper.decodeToken(token);
+      this.managerService.getPersonneById(decoded.sub).subscribe(resultat => {
+        this.personne = resultat.body;
+        this.roles = resultat.body.roles;
+        this.roles.forEach(val => {
+          console.log(val.name);
+          this.ROLE_NAME = val.name;
+          if (this.ROLE_NAME === 'ROLE_MANAGER'){
+            this.ROLE_MANAGER = this.ROLE_NAME;
+          }
+        });
+        this.personne = resultat.body;
+
+        if (this.personne.type === 'MANAGER'){
+          this.managerService.getManagerById(this.personne.id).subscribe( result => {
+            this.personne = result.body;
+            this.nav = true;
+            this.detailStockService.getAllDetailStock().subscribe(list => {
+              this.array = list.body.map(item => {
+                return {
+                  id: item.id,
+                  ...item
+                };
+              });
+              this.listData = new MatTableDataSource(this.array);
+              this.listData.sort = this.sort;
+              this.listData.paginator = this.paginator;
+              this.listData.filterPredicate = (data, filter) => {
+                return this.displayedColumns.some(ele => {
+                  return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
+                });
+              };
+
+            });
+          });
+        }else if (this.personne.type === 'EMPLOYE'){
+          this.employeService.getEmployeById(this.personne.id).subscribe(
+            rest => {
+              this.personne = rest.body;
+              this.nav = false;
+              this.detailStockService.getAllDetailStock().subscribe(list => {
+                this.array = list.body.map(item => {
+                  return {
+                    id: item.id,
+                    ...item
+                  };
+                });
+                this.listData = new MatTableDataSource(this.array);
+                this.listData.sort = this.sort;
+                this.listData.paginator = this.paginator;
+                this.listData.filterPredicate = (data, filter) => {
+                  return this.displayedColumns.some(ele => {
+                    return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
+                  });
+                };
+
+              });
+            });
+
+        }
+
+      });
+
+    }
+    if (localStorage.getItem('currentUser')) {
+      const token = localStorage.getItem('currentUser');
+      const decoded = this.helper.decodeToken(token);
+
+      this.managerService.getPersonneById(decoded.sub).subscribe(res => {
+        this.personne = res.body;
+        this.roles = res.body.roles;
+        this.roles.forEach(val => {
+          console.log(val.name);
+          this.ROLE_NAME = val.name;
+          if (this.ROLE_NAME === 'ROLE_MANAGER'){
+            this.ROLE_MANAGER = this.ROLE_NAME;
+          }
+        });
+      });
+
+    }
+
 
   }
 
@@ -70,17 +156,47 @@ export class ListStockComponent implements OnInit {
   }
 
   applyFilter() {
+    this.listData.filter = this.searchKey.trim().toLowerCase();
   }
-
   onCreate() {
+    if (this.ROLE_NAME === 'ROLE_MANAGER'){
+      this.router.navigate(['/detailStock']);
+    }else if (this.ROLE_NAME === 'ROLE_EMPLOYE'){
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
+    }
 
   }
 
-  onEdit(row) {
+  onEdit(row){
 
   }
 
-  onDelete(row) {
+  onDelete(row){
+    if (this.ROLE_NAME === 'ROLE_MANAGER') {
+      if (confirm('Voulez-vous vraiment supprimer la catégorie ?')){
+        this.detailStockService.supprimerCategorie(row.id).subscribe(result => {
+          console.log(result);
+        });
+        this.notificationService.warn('Suppression avec succès');
 
+      }
+      const index: number = this.array.indexOf(row);
+      if (index !== -1) {
+        this.array.splice(index, 1);
+        this.listData = new MatTableDataSource(this.array);
+        this.listData.sort = this.sort;
+        this.listData.paginator = this.paginator;
+        console.log('Affiche Voici mon tableau', index);
+
+      }
+    }else {
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
+    }
+
+  }
+
+  onArticle(row: any) {
+    console.log(row.id);
+    this.router.navigate(['/materiel', row.id]);
   }
 }

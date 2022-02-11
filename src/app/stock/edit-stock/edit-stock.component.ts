@@ -214,7 +214,7 @@ export class EditStockComponent implements OnInit {
          if (data.status === 0){
            this.stock = data.body;
            this.notificationService.warn('Enregistrement effectué avec succès');
-           this.router.navigate(['/stock']);
+           this.router.navigate(['/listDetailStock']);
          }
        });
     }

@@ -19,6 +19,8 @@ import {EmployeService} from '../service/employe.service';
 import {AddStockComponent} from './add-stock/add-stock.component';
 import {EditStockComponent} from './edit-stock/edit-stock.component';
 import {Stock} from '../model/Stock';
+import {MontantStock} from '../model/MontantStock';
+import {MontantStockService} from '../service/montant-stock.service';
 
 @Component({
   selector: 'app-stock',
@@ -26,12 +28,12 @@ import {Stock} from '../model/Stock';
   styleUrls: ['./stock.component.scss']
 })
 export class StockComponent implements OnInit {
-  displayedColumns: string[] = ['categorie', 'total', 'actions'];
+  displayedColumns: string[] = ['stock', 'total', 'actions'];
   listData: MatTableDataSource<any>;
   departement: Departement;
   receptacle: any = [];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
- montant: number;
+ montantStock: MontantStock;
   personne: any;
   array: any;
   roles: any;
@@ -50,6 +52,7 @@ export class StockComponent implements OnInit {
   searchKey: any;
   constructor(private router: Router,
               private categorieService: CategorieService,
+              private montantStockService: MontantStockService,
               private stockService: StockService,
               private managerService: ManagerService,
               public dialog: MatDialog,
@@ -79,47 +82,33 @@ export class StockComponent implements OnInit {
           this.managerService.getManagerById(this.personne.id).subscribe( result => {
             this.personne = result.body;
             this.nav = true;
-            this.stockService.getStockByIdEntreprise(this.personne.entreprise.id).subscribe(list => {
+            this.stockService.getStockByIdEntreprise(this.personne.entreprise.id)
+              .subscribe(res => {
+                if (res.status === 0){
+                  this.montantStockService.getMontantStockByIdEntreprise(this.personne.entreprise.id).subscribe(list => {
+                    if (list.status === 0){
 
-              this.array = list.body.map(item => {
-                return {
-                  id: item.id,
-                  montant: item.montant,
-                  ...item
-                };
+                      this.montantStock = list.body;
+                      console.log('MontantStock', this.montantStock);
+                    }else {
+                      console.log('erreur');
+                    }
+
+
+                  });
+                }
               });
-              this.listData = new MatTableDataSource(this.array);
-              this.listData.sort = this.sort;
-              this.listData.paginator = this.paginator;
-              this.listData.filterPredicate = (data, filter) => {
-                return this.displayedColumns.some(ele => {
-                  return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
-                });
-              };
 
-            });
           });
         }else if (this.personne.type === 'EMPLOYE'){
           this.employeService.getEmployeById(this.personne.id).subscribe(
             rest => {
               this.personne = rest.body;
               this.nav = false;
-              this.stockService.getStockByIdEntreprise(this.personne.departement.entreprise.id).subscribe(list => {
+              this.montantStockService.getMontantStockByIdEntreprise(this.personne.departement.entreprise.id).subscribe(list => {
 
-                this.array = list.body.map(item => {
-                  return {
-                    id: item.id,
-                    ...item
-                  };
-                });
-                this.listData = new MatTableDataSource(this.array);
-                this.listData.sort = this.sort;
-                this.listData.paginator = this.paginator;
-                this.listData.filterPredicate = (data, filter) => {
-                  return this.displayedColumns.some(ele => {
-                    return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
-                  });
-                };
+
+
 
               });
             });
@@ -161,5 +150,9 @@ export class StockComponent implements OnInit {
 
   onDetaiStock(row: any) {
     console.log(row);
+  }
+
+  onCategorie() {
+ this.router.navigate(['/listDetailStock']);
   }
 }

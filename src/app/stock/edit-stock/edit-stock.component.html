@@ -76,10 +76,10 @@
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
-                <mat-form-field *ngFor="let d of materiaux" [value]="d.unite" style="position: relative; margin-top:20px;" class="example-full-width" appearance="fill">
+                <mat-form-field style="position: relative; margin-top:20px;" class="example-full-width" appearance="fill">
                   <mat-label >Selection une unité</mat-label>
-                  <mat-select formControlName="unite">
-                    <mat-option >
+                  <mat-select  formControlName="unite">
+                    <mat-option  *ngFor="let d of materiaux" [value]="d.unite">
                       {{d.unite}}
                     </mat-option>
                   </mat-select>

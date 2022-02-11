@@ -107,7 +107,7 @@ export const AdminLayoutRoutes: Routes = [
     path: 'materiel/:id', component: ListMaterielComponent
   },
   {
-    path: 'detailStock/:id', component: ListStockComponent
+    path: 'listDetailStock', component: ListStockComponent
   },
   {
     path: 'detailStock', component: EditStockComponent

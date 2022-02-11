@@ -14,22 +14,19 @@
           </mat-form-field>
         </div>
         <div class="mat-elevation-z8" *ngIf="ROLE_MANAGER">
-          <mat-table  matSort>
+          <mat-table [dataSource]="listData"  matSort>
             <ng-container matColumnDef="libelle">
               <mat-header-cell *matHeaderCellDef  mat-sort-header>Libelle</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{element.materiel.libelle}}</mat-cell>
+              <mat-cell *matCellDef="let element">{{element?.libelleMateriaux}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="quantite">
               <mat-header-cell *matHeaderCellDef  mat-sort-header>Quantite</mat-header-cell>
               <mat-cell *matCellDef="let element">{{element.quantite}}</mat-cell>
             </ng-container>
-            <ng-container matColumnDef="prixUnitaire">
-              <mat-header-cell *matHeaderCellDef  mat-sort-header>Prix unitaire</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{element.materiel.prixUnitaire}}</mat-cell>
-            </ng-container>
+
             <ng-container matColumnDef="total">
               <mat-header-cell *matHeaderCellDef  mat-sort-header>Total</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{element.prix}}</mat-cell>
+              <mat-cell *matCellDef="let element">{{element?.montant}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="actions">
               <mat-header-cell *matHeaderCellDef></mat-header-cell>
