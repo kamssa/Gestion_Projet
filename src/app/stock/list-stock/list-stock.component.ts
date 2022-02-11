@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {Departement} from '../../model/Departement';
 import {MatSnackBar, MatSnackBarHorizontalPosition} from '@angular/material/snack-bar';
@@ -8,7 +8,7 @@ import {Manager} from '../../model/Manager';
 import {Employe} from '../../model/Employe';
 import {DepService} from '../../service/dep.service';
 import {ManagerService} from '../../service/manager.service';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {DialogConfirmService} from '../../helper/dialog-confirm.service';
 import {NotificationService} from '../../helper/notification.service';
@@ -17,6 +17,7 @@ import {EmployeService} from '../../service/employe.service';
 import {AddDepComponent} from '../../dep/add-dep/add-dep.component';
 import {StockService} from '../../service/stock.service';
 import {AddStockComponent} from '../add-stock/add-stock.component';
+import {Stock} from '../../model/Stock';
 
 @Component({
   selector: 'app-list-stock',
@@ -24,8 +25,8 @@ import {AddStockComponent} from '../add-stock/add-stock.component';
   styleUrls: ['./list-stock.component.scss']
 })
 export class ListStockComponent implements OnInit {
-  displayedColumns: string[] = ['libelle', 'quantite', 'prixUnitaire', 'total' , 'actions'];
-  listData: MatTableDataSource<any>;
+  displayedColumns: string[] = ['libelle', 'quantite', 'prixUnitaire', 'total', 'actions'];
+
   departement: Departement;
   receptacle: any = [];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -45,6 +46,7 @@ export class ListStockComponent implements OnInit {
   ROLE_NAME: any;
   error = '';
   ROLE_MANAGER: any;
+
   constructor(private stockService: StockService,
               private managerService: ManagerService,
               public dialog: MatDialog,
@@ -53,96 +55,12 @@ export class ListStockComponent implements OnInit {
               private notificationService: NotificationService,
               private _snackBar: MatSnackBar,
               private helper: JwtHelperService,
-              private employeService: EmployeService)
-  {
+              private employeService: EmployeService,
+              @Inject(MAT_DIALOG_DATA) public data: Stock) {
 
   }
+
   ngOnInit(): void {
-    if(localStorage.getItem('currentUser')) {
-      const token = localStorage.getItem('currentUser');
-      const decoded = this.helper.decodeToken(token);
-      this.managerService.getPersonneById(decoded.sub).subscribe(resultat => {
-        this.personne = resultat.body;
-        this.roles = resultat.body.roles;
-        this.roles.forEach(val => {
-          console.log(val.name);
-          this.ROLE_NAME = val.name;
-          if (this.ROLE_NAME === 'ROLE_MANAGER'){
-            this.ROLE_MANAGER = this.ROLE_NAME;
-          }
-        });
-        this.personne = resultat.body;
-
-        if (this.personne.type === 'MANAGER'){
-          this.managerService.getManagerById(this.personne.id).subscribe( result => {
-            this.personne = result.body;
-            this.nav = true;
-            this.stockService.getStockByIdEntreprise(this.personne.entreprise.id).subscribe(list => {
-             console.log(list.body);
-             this.array = list.body.map(item => {
-                return {
-                  id: item.id,
-                  ...item
-                };
-              });
-              this.listData = new MatTableDataSource(this.array);
-              this.listData.sort = this.sort;
-              this.listData.paginator = this.paginator;
-              this.listData.filterPredicate = (data, filter) => {
-                return this.displayedColumns.some(ele => {
-                  return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
-                });
-              };
-
-            });
-          });
-        }else if (this.personne.type === 'EMPLOYE'){
-          this.employeService.getEmployeById(this.personne.id).subscribe(
-            rest => {
-              this.personne = rest.body;
-              this.nav = false;
-              this.stockService.getStockByIdEntreprise(this.personne.departement.entreprise.id).subscribe(list => {
-                this.array = list.body.map(item => {
-                  return {
-                    id: item.id,
-                    ...item
-                  };
-                });
-                this.listData = new MatTableDataSource(this.array);
-                this.listData.sort = this.sort;
-                this.listData.paginator = this.paginator;
-                this.listData.filterPredicate = (data, filter) => {
-                  return this.displayedColumns.some(ele => {
-                    return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
-                  });
-                };
-
-              });
-            });
-
-        }
-
-      });
-
-    }
-    /* if (localStorage.getItem('currentUser')) {
-       const token = localStorage.getItem('currentUser');
-       const decoded = this.helper.decodeToken(token);
-
-       this.managerService.getPersonneById(decoded.sub).subscribe(res => {
-         this.personne = res.body;
-         this.roles = res.body.roles;
-         this.roles.forEach(val => {
-           console.log(val.name);
-           this.ROLE_NAME = val.name;
-           if (this.ROLE_NAME === 'ROLE_MANAGER'){
-             this.ROLE_MANAGER = this.ROLE_NAME;
-           }
-         });
-       });
-
-     }*/
-
 
   }
 
@@ -152,85 +70,17 @@ export class ListStockComponent implements OnInit {
   }
 
   applyFilter() {
-    this.listData.filter = this.searchKey.trim().toLowerCase();
   }
+
   onCreate() {
-    if (this.ROLE_NAME === 'ROLE_MANAGER'){
-      this.stockService.initializeFormGroup();
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      const dialogRef = this.dialog.open(AddStockComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(resul => {
-        console.log('verifier retour dialog open');
-        this.stockService.stockCreer$
-          .subscribe(result => {
-            console.log(result.body);
-            this.array.unshift(result.body);
-            this.array = this.array;
-            this.listData = new MatTableDataSource(this.array);
-            this.listData.sort = this.sort;
-            this.listData.paginator = this.paginator;
-
-
-          });
-      });
-    }else if (this.ROLE_NAME === 'ROLE_EMPLOYE'){
-      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
-    }
 
   }
 
-  onEdit(row){
-    if (this.ROLE_NAME === 'ROLE_MANAGER'){
-      this.stockService.populateForm(row);
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      const dialogRef = this.dialog.open(AddStockComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(resul => {
-        console.log('verifier retour dialog update');
-        this.stockService.stockModif$
-          .subscribe(result => {
-            const index: number = this.array.indexOf(row);
-            if (index !== -1) {
-              this.array[index] = result.body;
-              this.listData = new MatTableDataSource(this.array);
-              this.listData.sort = this.sort;
-              this.listData.paginator = this.paginator;
-
-            }
-          });
-      });
-    }else if (this.ROLE_NAME === 'ROLE_EMPLOYE') {
-      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
-    }
+  onEdit(row) {
 
   }
 
-  onDelete(row){
-    if (this.ROLE_NAME === 'ROLE_MANAGER') {
-      if (confirm('Voulez-vous vraiment supprimer le stock ?')){
-        this.stockService.supprimerStock(row.id).subscribe(result => {
-          console.log(result);
-        });
-        this.notificationService.warn('Suppression avec succès');
-
-      }
-      const index: number = this.array.indexOf(row);
-      if (index !== -1) {
-        this.array.splice(index, 1);
-        this.listData = new MatTableDataSource(this.array);
-        this.listData.sort = this.sort;
-        this.listData.paginator = this.paginator;
-        console.log('Affiche Voici mon tableau', index);
-
-      }
-    }else {
-      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
-    }
+  onDelete(row) {
 
   }
 }

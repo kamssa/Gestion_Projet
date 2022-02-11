@@ -45,12 +45,11 @@ export class CategorieService {
   populateForm(id) {
     this.form.patchValue(id);
   }
-  getAllTravaux(): Observable<Resultat<Categorie[]>> {
+  getAllCategorie(): Observable<Resultat<Categorie[]>> {
     return this.http.get<Resultat<Categorie[]>>(`${environment.apiUrl}/api/categorie`);
   }
 
   ajoutCategorie(cat: Categorie): Observable<Resultat<Categorie>> {
-    console.log('methode du service qui ajoute un achat', cat);
     return this.http.post<Resultat<Categorie>>
     (`${environment.apiUrl}/api/categorie`, cat)
       .pipe(

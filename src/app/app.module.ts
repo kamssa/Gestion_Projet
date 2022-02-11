@@ -34,6 +34,18 @@ import { AddMaterielComponent } from './materiel/add-materiel/add-materiel.compo
 import { ListMaterielComponent } from './materiel/list-materiel/list-materiel.component';
 import { AddCategorieComponent } from './categorie/add-categorie/add-categorie.component';
 import { ListCategorieComponent } from './categorie/list-categorie/list-categorie.component';
+import { ListCaisseComponent } from './caisse/list-caisse/list-caisse.component';
+import { AddCaisseComponent } from './caisse/add-caisse/add-caisse.component';
+import { CaisseComponent } from './caisse/caisse.component';
+import { RetraitCaisseComponent } from './caisse/retrait-caisse/retrait-caisse.component';
+import { VersementCaisseComponent } from './caisse/versement-caisse/versement-caisse.component';
+import { OperationCaisseComponent } from './caisse/operation-caisse/operation-caisse.component';
+import { EditOperationCaisseComponent } from './caisse/edit-operation-caisse/edit-operation-caisse.component';
+import {MatTableModule} from '@angular/material/table';
+import { AdministrationComponent } from './administration/administration.component';
+import {ChartistModule} from 'ng-chartist';
+import { StockComponent } from './stock/stock.component';
+import { EditStockComponent } from './stock/edit-stock/edit-stock.component';
 registerLocaleData(localeFr);
 
 
@@ -52,7 +64,17 @@ registerLocaleData(localeFr);
     AddMaterielComponent,
     ListMaterielComponent,
     AddCategorieComponent,
-    ListCategorieComponent
+    ListCategorieComponent,
+    ListCaisseComponent,
+    AddCaisseComponent,
+    CaisseComponent,
+    RetraitCaisseComponent,
+    VersementCaisseComponent,
+    OperationCaisseComponent,
+    EditOperationCaisseComponent,
+    AdministrationComponent,
+    StockComponent,
+    EditStockComponent
 
   ],
   imports: [
@@ -71,7 +93,9 @@ registerLocaleData(localeFr);
     BanqueModule,
     SalaireModule,
     NgxIntlTelInputModule,
-    Ng2TelInputModule
+    Ng2TelInputModule,
+    MatTableModule,
+    ChartistModule
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },

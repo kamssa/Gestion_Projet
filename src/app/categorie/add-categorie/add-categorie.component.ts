@@ -1,8 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Departement} from '../../model/Departement';
 import {MatSnackBar, MatSnackBarHorizontalPosition} from '@angular/material/snack-bar';
-import {DepService} from '../../service/dep.service';
 import {Location} from '@angular/common';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {NotificationService} from '../../helper/notification.service';
@@ -71,10 +69,11 @@ export class AddCategorieComponent implements OnInit {
         description: this.categorieService.form.value.description,
         idEntreprise: this.personne.entreprise.id
       };
-      console.log(this.categorie);
       this.categorieService.ajoutCategorie(this.categorie).subscribe(res =>{
         if(res.status === 0){
           this.notificationService.success('Categorie ajouté avec succès');
+        }else {
+          this.notificationService.success('cette categorie est déjà enregistrée');
         }
       });
 

@@ -1,0 +1,28 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Gestion Caisse</h4>
+          </div>
+          <div class="card-body">
+            <div class="example-button-row">
+              <button mat-button color="accent" (click)="openChantier()">Chantier</button>
+              <button mat-button color="accent" (click)="openDialog()">Effectué une autre opération</button>
+            </div>
+
+            <mat-divider></mat-divider>
+            <br>
+            <div>
+              <app-finance *ngIf="edit==0"></app-finance>
+              <app-list-caisse *ngIf="edit==1"></app-list-caisse>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+

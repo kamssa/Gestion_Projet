@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DetailLoyerComponent } from './detail-loyer.component';
 
@@ -6,7 +6,7 @@ describe('DetailLoyerComponent', () => {
   let component: DetailLoyerComponent;
   let fixture: ComponentFixture<DetailLoyerComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DetailLoyerComponent ]
     })

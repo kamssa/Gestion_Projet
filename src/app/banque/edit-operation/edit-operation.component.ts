@@ -49,9 +49,8 @@ export class EditOperationComponent implements OnInit {
     });
   }
   onSubmit(banqueFormValue){
-    console.log('voir la date envoye', this.picker._datepickerInput);
-    console.log(this.banqueForm.value);
-    let  operation: Operation = {
+
+    const  operation: Operation = {
       date: banqueFormValue.date,
       libelle: banqueFormValue.libelle,
       montant: banqueFormValue.montant,

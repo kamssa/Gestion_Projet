@@ -54,6 +54,7 @@ export class CustomHammerConfig extends HammerGestureConfig {
     DetailTechComponent
       ],
   providers: [
-    {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig}]
+    {provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig}
+    ]
 })
 export class TechniqueModule { }

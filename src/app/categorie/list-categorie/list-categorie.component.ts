@@ -162,17 +162,18 @@ export class ListCategorieComponent implements OnInit {
       dialogConfig.width = '60%';
       const dialogRef = this.dialog.open(AddCategorieComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(resul => {
-        console.log('verifier retour dialog open');
         this.categorieService.categorieCreer$
           .subscribe(result => {
-            console.log(result.body);
-            this.array.unshift(result.body);
-            this.array = this.array;
-            this.listData = new MatTableDataSource(this.array);
-            this.listData.sort = this.sort;
-            this.listData.paginator = this.paginator;
+           if(result.status === 0){
+             console.log(result);
+             this.array.unshift(result.body);
 
 
+           }else {
+             this.listData = new MatTableDataSource(this.array);
+             this.listData.sort = this.sort;
+             this.listData.paginator = this.paginator;
+           }
           });
       });
     }else if (this.ROLE_NAME === 'ROLE_EMPLOYE'){

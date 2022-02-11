@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from '../../service/auth.service';
 import {Router} from '@angular/router';
-import {Manager} from '../../model/Manager';
 import {ManagerService} from '../../service/manager.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 declare const $: any;
@@ -13,14 +12,14 @@ declare interface RouteInfo {
 }
 export const ROUTES: RouteInfo[] = [
   { path: '/dashboard', title: 'Tableau de bord',  icon: 'dashboard', class: '' },
-  { path: '/finance', title: 'Gestion Financière',  icon:'content_paste', class: '' },
-  { path: '/technique', title: 'Gestion Technique',  icon:'library_books', class: '' },
-  { path: '/banque', title: 'Gestion Banque',  icon:'bubble_chart', class: '' },
-  { path: '/user-profile', title: 'Profile',  icon:'person', class: ''  },
+  { path: '/administration', title: 'Etats',  icon: 'dashboard', class: '' },
+  { path: '/finance', title: 'Gestion Financière',  icon: 'content_paste', class: '' },
+  { path: '/technique', title: 'Gestion Technique',  icon: 'library_books', class: '' },
+  { path: '/caisse', title: 'Gestion Caisse',  icon: 'bubble_chart', class: '' },
+  { path: '/banque', title: 'Gestion Banque',  icon: 'bubble_chart', class: '' },
+  { path: '/user-profile', title: 'Profile',  icon: 'person', class: ''  },
   { path: '/dep', title: 'Departement',  icon: 'domain', class: '' },
   { path: '/categorie', title: 'Categories',  icon: 'domain', class: '' },
-  { path: '/salaire', title: 'Salaire',  icon:'bubble_chart', class: '' },
-  { path: '/Mis à jour', title: 'Kamssa Group pro',  icon:'unarchive', class: 'active-pro' },
 ];
 @Component({
   selector: 'app-sidebar',

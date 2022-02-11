@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DialogLocationComponent } from './dialog-location.component';
 
@@ -6,7 +6,7 @@ describe('DialogLocationComponent', () => {
   let component: DialogLocationComponent;
   let fixture: ComponentFixture<DialogLocationComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DialogLocationComponent ]
     })

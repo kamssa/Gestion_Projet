@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DialogTransportComponent } from './dialog-transport.component';
 
@@ -6,7 +6,7 @@ describe('DialogTransportComponent', () => {
   let component: DialogTransportComponent;
   let fixture: ComponentFixture<DialogTransportComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DialogTransportComponent ]
     })

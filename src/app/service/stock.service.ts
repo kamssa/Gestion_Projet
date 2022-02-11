@@ -45,6 +45,7 @@ export class StockService {
       quantite: '',
     });
   }
+
   ajoutStock(stock: Stock): Observable<Resultat<Stock>> {
     console.log('methode du service qui ajoute  stock', stock);
     return this.http.post<Resultat<Stock>>(`${environment.apiUrl}/api/stock`,
@@ -66,7 +67,7 @@ export class StockService {
           this.log(`stock modifié =${res.body}`);
           this.stockModif(res);
         }),
-        catchError(this.handleError<Resultat<Departement>>('modifStock'))
+        catchError(this.handleError<Resultat<Stock>>('modifStock'))
       );
   }
   getStockByIdEntreprise(id: number): Observable<Resultat<Stock[]>> {
@@ -75,7 +76,9 @@ export class StockService {
   getStockById(id: number): Observable<Resultat<Stock>> {
     return this.http.get<Resultat<Stock>>(`${environment.apiUrl}/api/stock/${id}`);
   }
-
+  getStockByLibelle(libelle: string): Observable<Resultat<Stock>> {
+    return this.http.get<Resultat<Stock>>(`${environment.apiUrl}/api/stock/${libelle}`);
+  }
 
   supprimerStock(id: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/api/stock/${id}`);

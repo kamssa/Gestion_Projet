@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DialogMainouvreComponent } from './dialog-mainouvre.component';
 
@@ -6,7 +6,7 @@ describe('DialogMainouvreComponent', () => {
   let component: DialogMainouvreComponent;
   let fixture: ComponentFixture<DialogMainouvreComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DialogMainouvreComponent ]
     })

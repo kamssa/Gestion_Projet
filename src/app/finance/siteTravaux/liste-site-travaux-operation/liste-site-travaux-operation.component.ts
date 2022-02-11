@@ -1,4 +1,4 @@
-import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {SteTravauxService} from '../../../service/ste-travaux.service';
 import {MediaChange, MediaObserver} from '@angular/flex-layout';

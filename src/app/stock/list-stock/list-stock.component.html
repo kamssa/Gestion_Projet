@@ -14,7 +14,7 @@
           </mat-form-field>
         </div>
         <div class="mat-elevation-z8" *ngIf="ROLE_MANAGER">
-          <mat-table [dataSource]="listData"  matSort>
+          <mat-table  matSort>
             <ng-container matColumnDef="libelle">
               <mat-header-cell *matHeaderCellDef  mat-sort-header>Libelle</mat-header-cell>
               <mat-cell *matCellDef="let element">{{element.materiel.libelle}}</mat-cell>

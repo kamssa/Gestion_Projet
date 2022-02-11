@@ -17,7 +17,6 @@ import {EmployeService} from '../../service/employe.service';
 import {AddCategorieComponent} from '../../categorie/add-categorie/add-categorie.component';
 import {MaterielService} from '../../service/materiel.service';
 import {AddMaterielComponent} from '../add-materiel/add-materiel.component';
-import {switchMap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-list-materiel',
@@ -25,7 +24,7 @@ import {switchMap} from 'rxjs/operators';
   styleUrls: ['./list-materiel.component.scss']
 })
 export class ListMaterielComponent implements OnInit {
-  displayedColumns: string[] = ['libelle', 'prixUnitaire', 'unite', 'actions'];
+  displayedColumns: string[] = ['libelle', 'unite', 'PrixUnitaire', 'actions'];
   listData: MatTableDataSource<any>;
   departement: Departement;
   receptacle: any = [];
@@ -115,15 +114,17 @@ export class ListMaterielComponent implements OnInit {
 
       });
       dialogRef.afterClosed().subscribe(resul => {
-        console.log('verifier retour dialog open');
         this.materielService.materielCreer$
           .subscribe(result => {
-            console.log(result.body);
-            this.array.unshift(result.body);
-            this.array = this.array;
-            this.listData = new MatTableDataSource(this.array);
-            this.listData.sort = this.sort;
-            this.listData.paginator = this.paginator;
+            if (result.status === 0){
+              this.array.unshift(result.body);
+
+            }else {
+              this.listData = new MatTableDataSource(this.array);
+              this.listData.sort = this.sort;
+              this.listData.paginator = this.paginator;
+            }
+
 
 
           });
@@ -139,19 +140,32 @@ export class ListMaterielComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
-      const dialogRef = this.dialog.open(AddMaterielComponent, dialogConfig);
+      const dialogRef = this.dialog.open(AddMaterielComponent, {
+      data: {
+        categorie: this.id
+      }
+
+    });
       dialogRef.afterClosed().subscribe(resul => {
-        console.log('verifier retour dialog update');
+
         this.materielService.materielModif$
           .subscribe(result => {
-            const index: number = this.array.indexOf(row);
-            if (index !== -1) {
-              this.array[index] = result.body;
+            if (result.status === 0){
+              const index: number = this.array.indexOf(row);
+              if (index !== -1) {
+                this.array[index] = result.body;
+                this.listData = new MatTableDataSource(this.array);
+                this.listData.sort = this.sort;
+                this.listData.paginator = this.paginator;
+
+              }
+            }else {
               this.listData = new MatTableDataSource(this.array);
               this.listData.sort = this.sort;
               this.listData.paginator = this.paginator;
 
             }
+
           });
       });
 

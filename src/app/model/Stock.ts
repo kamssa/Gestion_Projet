@@ -1,17 +1,15 @@
-import {Categorie} from './Categorie';
-import {Materiel} from './Materiel';
 import {Entreprise} from './Entreprise';
-import {MontantStock} from './MontantStock';
+
+import {DetailStock} from './DetailStock';
 
 export class Stock {
   constructor(public id?: number,
               public version?: number,
-              public  materiel?: Materiel,
-              public  quantite?: number,
-              public prix?: number,
-              public prixTotal?: number,
+              public libelle?: string,
+              public  date?: Date,
+              public  montant?: number,
               public entreprise?: Entreprise,
-              public montantStock?: MontantStock
+              public detailStock?: DetailStock[],
   ) {
   }
 }

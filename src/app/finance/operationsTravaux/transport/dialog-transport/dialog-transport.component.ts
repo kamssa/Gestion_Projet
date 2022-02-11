@@ -7,6 +7,7 @@ import {DetailTransport} from "../../../../model/DetailTransport";
 import {TransportService} from "../../../../service/transport.service";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
+import {Transport} from '../../../../model/Transport';
 
 
 @Component({

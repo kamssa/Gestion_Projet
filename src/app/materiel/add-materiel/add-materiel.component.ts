@@ -10,7 +10,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {Router} from '@angular/router';
 import {ManagerService} from '../../service/manager.service';
 import {MaterielService} from '../../service/materiel.service';
-import {Materiel} from '../../model/Materiel';
+import {Materiaux} from '../../model/Materiaux';
 
 @Component({
   selector: 'app-add-materiel',
@@ -19,7 +19,7 @@ import {Materiel} from '../../model/Materiel';
 })
 export class AddMaterielComponent implements OnInit {
   depForm: FormGroup;
-  materiel: Materiel;
+  materiel: Materiaux;
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   submitted = false;
   private dialogConfig;
@@ -66,23 +66,27 @@ export class AddMaterielComponent implements OnInit {
         libelle: this.materielService.form.value.libelle,
         description: this.materielService.form.value.description,
         unite: this.materielService.form.value.unite,
-        prixUnitaire: this.materielService.form.value.prixUnitaire,
+        prix: this.materielService.form.value.prix,
         categorie: this.categorie
       };
       console.log(this.materiel);
-      this.materielService.ajoutMateriel(this.materiel).subscribe(res =>{
+      this.materielService.ajoutMateriel(this.materiel).subscribe(res => {
         if(res.status === 0){
           this.notificationService.success('Article ajouté avec succès');
+        }else {
+          this.notificationService.success('Cet article est déjà enregistrée');
         }
       });
 
     }
     else{
       this.materiel = {
+        id: this.materielService.form.value.id,
+        version: this.materielService.form.value.version,
         libelle: this.materielService.form.value.libelle,
         description: this.materielService.form.value.description,
         unite: this.materielService.form.value.unite,
-        prixUnitaire: this.materielService.form.value.prixUnitaire,
+        prix: this.materielService.form.value.prix,
         categorie: this.categorie
       };
       this.materielService.modifMateriel(this.materiel).subscribe(result => {
@@ -90,6 +94,8 @@ export class AddMaterielComponent implements OnInit {
         if(result.status === 0){
           this.notificationService.success('Article modifié avec succès');
 
+        }else {
+          this.notificationService.success('Cet article est déjà modifié');
         }
       });
       this.materielService.form.reset();

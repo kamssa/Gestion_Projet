@@ -12,15 +12,16 @@ import {EditSiteTravauxComponent} from '../../finance/siteTravaux/edit-site-trav
 import {TechniqueComponent} from '../../technique/technique.component';
 import {EditTecniqueComponent} from '../../technique/edit-tecnique/edit-tecnique.component';
 import {AddImageComponent} from '../../technique/add-image/add-image.component';
-import {BanqueComponent} from '../../banque/banque.component';
-import {SalaireGesComponent} from '../../salaire/salaire-ges/salaire-ges.component';
-import {RetraitComponent} from '../../banque/retrait/retrait.component';
 import {ListEmployeComponent} from '../../employe/list-employe/list-employe.component';
 import {ListDepComponent} from '../../dep/list-dep/list-dep.component';
 import {AuthGuardService} from '../../helper/auth-guard.service';
 import {ListStockComponent} from '../../stock/list-stock/list-stock.component';
 import {ListCategorieComponent} from '../../categorie/list-categorie/list-categorie.component';
 import {ListMaterielComponent} from '../../materiel/list-materiel/list-materiel.component';
+import {CaisseComponent} from '../../caisse/caisse.component';
+import {AdministrationComponent} from '../../administration/administration.component';
+import {StockComponent} from '../../stock/stock.component';
+import {EditStockComponent} from '../../stock/edit-stock/edit-stock.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -97,13 +98,28 @@ export const AdminLayoutRoutes: Routes = [
 
     ]},
   {
-    path: 'stock', component: ListStockComponent
+    path: 'stock', component: StockComponent
   },
   {
     path: 'categorie', component: ListCategorieComponent
   },
   {
     path: 'materiel/:id', component: ListMaterielComponent
+  },
+  {
+    path: 'detailStock/:id', component: ListStockComponent
+  },
+  {
+    path: 'detailStock', component: EditStockComponent
+  },
+  {
+    path: 'caisse', component: CaisseComponent
+  },
+  {
+    path: 'caisse', component: CaisseComponent
+  },
+  {
+    path: 'administration', component: AdministrationComponent
   },
   /*{ path: 'banque',
     canActivate: [AuthGuardService],
