@@ -95,19 +95,15 @@
                 <mat-form-field style="position: relative; margin-top:20px;" class="example-full-width" appearance="fill">
                   <mat-label >Selection un prix</mat-label>
                   <mat-select formControlName="prixUnitaire">
-                    <mat-option *ngFor="let d of materiaux" [value]="d.prix">
+                    <mat-option *ngFor="let d of materiaux" [value]="d.prix" #value matInput>
                       {{d.prix}}
                     </mat-option>
                   </mat-select>
                 </mat-form-field>
                 <mat-form-field  class="example-full-width">
                   <input  #quantite type="number" matInput placeholder="quantite" formControlName="quantite">
+                  <mat-error>Ce champ est obligatoire.</mat-error>
                 </mat-form-field>
-
-                <mat-form-field>
-                  <input matInput  #montant  id="montant"   placeholder="montant">
-                </mat-form-field>
-
                 <mat-form-field  class="example-full-width" formGroupName="fournisseur">
                   <input matInput placeholder="fournisseur" formControlName="libelle">
                 </mat-form-field>

@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Inject, OnInit, Output, ViewChild} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
+import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Stock} from '../../model/Stock';
 import {Router} from '@angular/router';
 import {StockService} from '../../service/stock.service';
@@ -49,7 +49,6 @@ export class EditStockComponent implements OnInit {
   public errorMessage: string = '';
   @ViewChild("value", {static: false}) valueInput: ElementRef;
   @ViewChild("quantite", {static: false}) quantiteInput: ElementRef;
-  @ViewChild("frais", {static: false}) fraisInput: ElementRef;
   @ViewChild("montant", {static: false}) montantInput: ElementRef;
   @Output() change = new EventEmitter<number>();
   selectedItem: any;
@@ -152,14 +151,14 @@ export class EditStockComponent implements OnInit {
     }
   }
 
+  getCalcul() {
+    return  this.montantInput.nativeElement.value = this.valueInput.nativeElement.value * this.quantiteInput.nativeElement.value
 
-  /*getCalcul() {
-    return  this.montantInput.nativeElement.value = this.valueInput.nativeElement.value * this.quantiteInput.nativeElement.value +
-      parseInt(this.fraisInput.nativeElement.value);
     console.log(this.montantInput.nativeElement.value);
 
   }
-*/
+
+
   initItemRows() {
     return this.fb.group({
       id: [''],
@@ -167,7 +166,7 @@ export class EditStockComponent implements OnInit {
       libelleMateriaux: [''],
       prixUnitaire: [''],
       unite: [''],
-      quantite: [''],
+      quantite: ['', Validators.required],
       montant: [''],
       frais: [''],
       categorie: [''],
