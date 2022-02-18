@@ -6,7 +6,6 @@ import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {Manager} from '../../model/Manager';
 import {Employe} from '../../model/Employe';
-import {DepService} from '../../service/dep.service';
 import {ManagerService} from '../../service/manager.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {Router} from '@angular/router';
@@ -14,7 +13,6 @@ import {DialogConfirmService} from '../../helper/dialog-confirm.service';
 import {NotificationService} from '../../helper/notification.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {EmployeService} from '../../service/employe.service';
-import {AddDepComponent} from '../../dep/add-dep/add-dep.component';
 import {CategorieService} from '../../service/categorie.service';
 import {AddCategorieComponent} from '../add-categorie/add-categorie.component';
 
@@ -29,11 +27,6 @@ export class ListCategorieComponent implements OnInit {
   departement: Departement;
   receptacle: any = [];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
-
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  searchKey: any;
-
   personne: any;
   array: any;
   roles: any;
@@ -45,6 +38,9 @@ export class ListCategorieComponent implements OnInit {
   ROLE_NAME: any;
   error = '';
   ROLE_MANAGER: any;
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  searchKey: any;
   constructor(private categorieService: CategorieService,
               private managerService: ManagerService,
               public dialog: MatDialog,
@@ -78,6 +74,7 @@ export class ListCategorieComponent implements OnInit {
             this.personne = result.body;
             this.nav = true;
             this.categorieService.getCatByIdEntreprise(this.personne.entreprise.id).subscribe(list => {
+
               this.array = list.body.map(item => {
                 return {
                   id: item.id,
@@ -167,8 +164,9 @@ export class ListCategorieComponent implements OnInit {
            if(result.status === 0){
              console.log(result);
              this.array.unshift(result.body);
-
-
+             this.listData = new MatTableDataSource(this.array);
+             this.listData.sort = this.sort;
+             this.listData.paginator = this.paginator;
            }else {
              this.listData = new MatTableDataSource(this.array);
              this.listData.sort = this.sort;
@@ -214,20 +212,24 @@ export class ListCategorieComponent implements OnInit {
     if (this.ROLE_NAME === 'ROLE_MANAGER') {
       if (confirm('Voulez-vous vraiment supprimer la catégorie ?')){
         this.categorieService.supprimerCategorie(row.id).subscribe(result => {
-          console.log(result);
+          if(result.status === 0){
+            this.notificationService.warn('Suppression avec succès');
+            const index: number = this.array.indexOf(row);
+            if (index !== -1) {
+              this.array.splice(index, 1);
+              this.listData = new MatTableDataSource(this.array);
+              this.listData.sort = this.sort;
+              this.listData.paginator = this.paginator;
+
+            }
+          }else {
+            this.notificationService.warn('Vous devez d\'abord supprimer les articles');
+
+          }
         });
-        this.notificationService.warn('Suppression avec succès');
 
       }
-      const index: number = this.array.indexOf(row);
-      if (index !== -1) {
-        this.array.splice(index, 1);
-        this.listData = new MatTableDataSource(this.array);
-        this.listData.sort = this.sort;
-        this.listData.paginator = this.paginator;
-        console.log('Affiche Voici mon tableau', index);
 
-      }
     }else {
       this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }

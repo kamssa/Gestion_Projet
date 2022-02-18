@@ -79,7 +79,16 @@ export class AddCategorieComponent implements OnInit {
 
     }
     else{
-      this.categorieService.modifCategorie(this.categorieService.form.value).subscribe(result => {
+
+      this.categorie = {
+        id: this.categorieService.form.value.id,
+        version: this.categorieService.form.value.version,
+        libelle: this.categorieService.form.value.libelle,
+        description: this.categorieService.form.value.description,
+        idEntreprise: this.personne.entreprise.id
+      };
+      console.log(this.categorie);
+      this.categorieService.modifCategorie(this.categorie).subscribe(result => {
         console.log(result.status);
         if(result.status === 0){
           this.notificationService.success('Categorie modifié avec succès');

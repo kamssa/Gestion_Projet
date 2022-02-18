@@ -33,13 +33,15 @@ export class CategorieService {
     version: new FormControl(null),
     libelle: new FormControl('',[Validators.required] ),
     description: new FormControl(''),
+    idEntreprise: new FormControl('')
   });
   initializeFormGroup() {
     this.form.setValue({
       id: null,
       version: null,
       libelle: '',
-      description: ''
+      description: '',
+      idEntreprise: ''
     });
   }
   populateForm(id) {
@@ -58,11 +60,19 @@ export class CategorieService {
           this.categorieCreer(res);
         }),
         catchError(this.handleError<Resultat<Categorie>>('ajoutCategorie'))
-      );;
+      );
   }
-  modifCategorie(categorie: Categorie): Observable<Resultat<Categorie>> {
-    console.log('methode du service qui modifie un achat', categorie);
-    return this.http.put<Resultat<Categorie>>(`${environment.apiUrl}/api/categorie`, categorie);
+  modifCategorie(cat: Categorie): Observable<Resultat<Categorie>> {
+    console.log('methode du service qui modifie un achat', cat);
+    return this.http.put<Resultat<Categorie>>
+    (`${environment.apiUrl}/api/categorie`, cat)
+      .pipe(
+        tap(res => {
+          this.log(`categorie crée =${res.body}`);
+          this.categorieModif(res);
+        }),
+        catchError(this.handleError<Resultat<Categorie>>('modifCategorie'))
+      );
   }
 
   getCategorieById(id: Categorie): Observable<Resultat<Categorie>> {

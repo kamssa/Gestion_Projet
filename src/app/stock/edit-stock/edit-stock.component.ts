@@ -1,5 +1,5 @@
 import {Component, ElementRef, EventEmitter, Inject, OnInit, Output, ViewChild} from '@angular/core';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Stock} from '../../model/Stock';
 import {Router} from '@angular/router';
 import {StockService} from '../../service/stock.service';
@@ -19,6 +19,8 @@ import {MatTableDataSource} from '@angular/material/table';
 import {Categorie} from '../../model/Categorie';
 import {Fournisseur} from '../../model/Fournisseur';
 import {DetailStockService} from '../../service/detail-stock.service';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-stock',
@@ -49,10 +51,14 @@ export class EditStockComponent implements OnInit {
   public errorMessage: string = '';
   @ViewChild("value", {static: false}) valueInput: ElementRef;
   @ViewChild("quantite", {static: false}) quantiteInput: ElementRef;
+  @ViewChild("frais", {static: false}) fraisInput: ElementRef;
   @ViewChild("montant", {static: false}) montantInput: ElementRef;
+  @ViewChild("fournisseur", {static: false}) fournisseurInput: ElementRef;
   @Output() change = new EventEmitter<number>();
-  selectedItem: any;
+  selected: any;
+  filteredOptions: Observable<Materiaux[]>;
 
+  myControl = new FormControl();
   constructor(private  fb: FormBuilder,
               private stockService: StockService,
               private materielService: MaterielService,
@@ -93,12 +99,18 @@ export class EditStockComponent implements OnInit {
             this.materielService.getAllMateriel()
               .subscribe(data => {
                 this.materiaux = data.body;
+                this.filteredOptions = this.myControl.valueChanges.pipe(
+
+                  startWith(''),
+                   map(value => (typeof value === 'string' ? value : value.libelle)),
+                   map(libelle => (libelle ? this.filter(libelle) : this.materiaux.slice())),
+                );
               });
             if (this.data['stock']){
               this.editMode = true;
               this.stockService.getStockById(this.data['stock'])
                 .subscribe(result => {
-                  console.log('Voir la modif', result.body);
+
                   this.stock = result.body;
                   this.detailStockInit = new FormArray([]);
                   if (this.stock.detailStock.length !== 0) {
@@ -109,6 +121,7 @@ export class EditStockComponent implements OnInit {
                           version: detailStock.version,
                           libelleMateriaux: detailStock.libelleMateriaux,
                           unite: detailStock.unite,
+                          prixUnitaire: detailStock.prixUnitaire,
                           quantite: detailStock.quantite,
                           montant: detailStock.montant,
                           frais: detailStock.frais,
@@ -150,7 +163,18 @@ export class EditStockComponent implements OnInit {
 
     }
   }
+  private filter(libelleMateriaux: string): Materiaux[] {
+    const filterValue = libelleMateriaux.toLowerCase();
 
+    return this.materiaux.filter(option => option.libelle.toLowerCase().includes(filterValue));
+  }
+   displayFn(mat: Materiaux): string {
+    this.selected = mat && mat.libelle ? mat.libelle : '';
+    this.materiau = mat;
+    localStorage.setItem('materiau', JSON.stringify(mat));
+    console.log(this.materiau);
+    return mat && mat.libelle;
+  }
   getCalcul() {
     return  this.montantInput.nativeElement.value = this.valueInput.nativeElement.value * this.quantiteInput.nativeElement.value
 
@@ -193,13 +217,31 @@ export class EditStockComponent implements OnInit {
     return this.stockForm.get('detailStock') as FormArray;
   }
   onSubmit() {
+
     if (!this.editMode) {
       if (this.personne.type === 'MANAGER') {
+        this.materiau = JSON.parse(localStorage.getItem('materiau'));
+
         this.stock = {
-          libelle: this.stockForm.value.categorie,
+          libelle: this.materiau.categorie.libelle,
           entreprise: this.personne.entreprise,
-          detailStock: this.stockForm.value.detailStock
+          detailStock: [
+            {
+              libelleMateriaux: this.materiau.libelle,
+              unite: this.materiau.unite,
+              prixUnitaire: parseInt(this.valueInput.nativeElement.value),
+              quantite: parseInt(this.quantiteInput.nativeElement.value),
+              frais: parseInt(this.fraisInput.nativeElement.value),
+              categorie: this.materiau.categorie,
+              fournisseur: {
+                id: null,
+                version: null,
+                libelle: this.fournisseurInput.nativeElement.value
+              },
+            }
+          ]
         };
+        console.log('Voir stock retourne', this.stock);
 
       } else if (this.personne.type === 'EMPLOYE') {
         this.stock = {
@@ -207,10 +249,14 @@ export class EditStockComponent implements OnInit {
 
         };
       }
-      console.log(this.stock);
+
+
+      localStorage.removeItem('materiau');
+
       this.stockService.ajoutStock(this.stock)
        .subscribe(data => {
          if (data.status === 0){
+          localStorage.removeItem('materiau');
            this.stock = data.body;
            this.notificationService.warn('Enregistrement effectué avec succès');
            this.router.navigate(['/listDetailStock']);
@@ -226,5 +272,9 @@ export class EditStockComponent implements OnInit {
 
   addNewRows() {
 
+  }
+
+  archiver() {
+    localStorage.setItem('stock', JSON.stringify(this.stockForm.value));
   }
 }

@@ -54,7 +54,7 @@
       <div class="row">
         <div class="col-md-12">
     <form class="example-form" [formGroup]="stockForm" (ngSubmit)="onSubmit()"  *ngIf="stockForm">
-      <mat-card> Ajouter enregistrement</mat-card>
+      <mat-card> Ajouter enregistrement au stock</mat-card>
       <br>
       <div class="achat">
 
@@ -69,43 +69,29 @@
 
                 <mat-form-field style="position: relative; margin-top:20px;"
                                 class="example-full-width" appearance="fill">
-                  <mat-label >Selection un article</mat-label>
-                  <mat-select formControlName="libelleMateriaux">
-                    <mat-option *ngFor="let m of materiaux" [value]="m.libelle">
-                      {{m.libelle}}
+                  <mat-label >Selectionner un article</mat-label>
+                  <input type="text" matInput matInput [formControl]="myControl" [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                      {{option?.libelle}}
                     </mat-option>
-                  </mat-select>
+                  </mat-autocomplete>
                 </mat-form-field>
-                <mat-form-field style="position: relative; margin-top:20px;" class="example-full-width" appearance="fill">
-                  <mat-label >Selection une unité</mat-label>
-                  <mat-select  formControlName="unite">
-                    <mat-option  *ngFor="let d of materiaux" [value]="d.unite">
-                      {{d.unite}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <mat-form-field style="position: relative; margin-top:20px;" class="example-full-width" appearance="fill">
-                  <mat-label >Selection une catégorie</mat-label>
-                  <mat-select formControlName="categorie">
-                    <mat-option *ngFor="let d of materiaux" [value]="d.categorie">
-                      {{d.categorie.libelle}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-                <mat-form-field style="position: relative; margin-top:20px;" class="example-full-width" appearance="fill">
-                  <mat-label >Selection un prix</mat-label>
-                  <mat-select formControlName="prixUnitaire">
-                    <mat-option *ngFor="let d of materiaux" [value]="d.prix" #value matInput>
-                      {{d.prix}}
-                    </mat-option>
-                  </mat-select>
+
+                <mat-form-field  class="example-full-width">
+                  <input #value  type="number" matInput placeholder="Prix unitaire" formControlName="prixUnitaire">
+                  <mat-error>Ce champ est obligatoire.</mat-error>
                 </mat-form-field>
                 <mat-form-field  class="example-full-width">
-                  <input  #quantite type="number" matInput placeholder="quantite" formControlName="quantite">
+                  <input  #quantite  type="number" matInput placeholder="quantite" formControlName="quantite">
+                  <mat-error>Ce champ est obligatoire.</mat-error>
+                </mat-form-field>
+                <mat-form-field  class="example-full-width">
+                  <input   #frais type="number" matInput placeholder="Frais" formControlName="frais">
                   <mat-error>Ce champ est obligatoire.</mat-error>
                 </mat-form-field>
                 <mat-form-field  class="example-full-width" formGroupName="fournisseur">
-                  <input matInput placeholder="fournisseur" formControlName="libelle">
+                  <input matInput  #fournisseur placeholder="fournisseur" formControlName="libelle">
                 </mat-form-field>
               </div>
             </div>
@@ -116,6 +102,7 @@
           </mat-action-row>
           <hr>
           <div fxLayout="row" fxLayoutAlign="space-between">
+
             <button mat-raised-button class="boutonEnr" type="submit"> Enregistrer
             </button>
             <button mat-raised-button class="boutonAnn" type="button" type="reset">Annuler

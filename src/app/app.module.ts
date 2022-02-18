@@ -16,36 +16,14 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {JWT_OPTIONS, JwtHelperService} from '@auth0/angular-jwt';
 import {JwtInterceptor} from './helper/jwt.interceptor';
 import {ErrorInterceptor} from './helper/error.interceptor';
-
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
 import {APP_DATE_FORMATS, AppDateAdapter} from './helper/format-datepicker';
-import { AddEmployeComponent } from './employe/add-employe/add-employe.component';
-import { ListEmployeComponent } from './employe/list-employe/list-employe.component';
-import { ListDepComponent } from './dep/list-dep/list-dep.component';
-import { AddDepComponent } from './dep/add-dep/add-dep.component';
-import {NgxIntlTelInputModule} from 'ngx-intl-tel-input';
-import {MatConfirmDialogComponent} from './service/shared/mat-confirm-dialog/mat-confirm-dialog.component';
 import {Ng2TelInputModule} from 'ng2-tel-input';
-import { AddStockComponent } from './stock/add-stock/add-stock.component';
-import { ListStockComponent } from './stock/list-stock/list-stock.component';
-import { AddMaterielComponent } from './materiel/add-materiel/add-materiel.component';
-import { ListMaterielComponent } from './materiel/list-materiel/list-materiel.component';
-import { AddCategorieComponent } from './categorie/add-categorie/add-categorie.component';
-import { ListCategorieComponent } from './categorie/list-categorie/list-categorie.component';
-import { ListCaisseComponent } from './caisse/list-caisse/list-caisse.component';
-import { AddCaisseComponent } from './caisse/add-caisse/add-caisse.component';
-import { CaisseComponent } from './caisse/caisse.component';
-import { RetraitCaisseComponent } from './caisse/retrait-caisse/retrait-caisse.component';
-import { VersementCaisseComponent } from './caisse/versement-caisse/versement-caisse.component';
-import { OperationCaisseComponent } from './caisse/operation-caisse/operation-caisse.component';
-import { EditOperationCaisseComponent } from './caisse/edit-operation-caisse/edit-operation-caisse.component';
 import {MatTableModule} from '@angular/material/table';
-import { AdministrationComponent } from './administration/administration.component';
 import {ChartistModule} from 'ng-chartist';
-import { StockComponent } from './stock/stock.component';
-import { EditStockComponent } from './stock/edit-stock/edit-stock.component';
+
 registerLocaleData(localeFr);
 
 
@@ -54,27 +32,7 @@ registerLocaleData(localeFr);
 @NgModule({
   declarations: [
     AppComponent,
-    AddEmployeComponent,
-    ListEmployeComponent,
-    ListDepComponent,
-    AddDepComponent,
-    MatConfirmDialogComponent,
-    AddStockComponent,
-    ListStockComponent,
-    AddMaterielComponent,
-    ListMaterielComponent,
-    AddCategorieComponent,
-    ListCategorieComponent,
-    ListCaisseComponent,
-    AddCaisseComponent,
-    CaisseComponent,
-    RetraitCaisseComponent,
-    VersementCaisseComponent,
-    OperationCaisseComponent,
-    EditOperationCaisseComponent,
-    AdministrationComponent,
-    StockComponent,
-    EditStockComponent
+
 
   ],
   imports: [
@@ -92,8 +50,6 @@ registerLocaleData(localeFr);
     TechniqueModule,
     BanqueModule,
     SalaireModule,
-    NgxIntlTelInputModule,
-    Ng2TelInputModule,
     MatTableModule,
     ChartistModule
   ],

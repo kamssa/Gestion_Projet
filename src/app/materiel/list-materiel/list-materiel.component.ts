@@ -6,15 +6,13 @@ import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {Manager} from '../../model/Manager';
 import {Employe} from '../../model/Employe';
-import {CategorieService} from '../../service/categorie.service';
 import {ManagerService} from '../../service/manager.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import {ActivatedRoute,  Router} from '@angular/router';
 import {DialogConfirmService} from '../../helper/dialog-confirm.service';
 import {NotificationService} from '../../helper/notification.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {EmployeService} from '../../service/employe.service';
-import {AddCategorieComponent} from '../../categorie/add-categorie/add-categorie.component';
 import {MaterielService} from '../../service/materiel.service';
 import {AddMaterielComponent} from '../add-materiel/add-materiel.component';
 
@@ -24,7 +22,7 @@ import {AddMaterielComponent} from '../add-materiel/add-materiel.component';
   styleUrls: ['./list-materiel.component.scss']
 })
 export class ListMaterielComponent implements OnInit {
-  displayedColumns: string[] = ['libelle', 'unite', 'PrixUnitaire', 'actions'];
+  displayedColumns: string[] = ['libelle', 'unite', 'actions'];
   listData: MatTableDataSource<any>;
   departement: Departement;
   receptacle: any = [];
@@ -63,7 +61,7 @@ export class ListMaterielComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.id = +params['id'];
       this.materielService.getMatByIdCategorie(this.id).subscribe(list => {
-
+       console.log(list.body);
         if (list.body.length === 0){
           this.notificationService.warn('Pas d\'articles enregistrés !') ;
 
@@ -118,7 +116,9 @@ export class ListMaterielComponent implements OnInit {
           .subscribe(result => {
             if (result.status === 0){
               this.array.unshift(result.body);
-
+              this.listData = new MatTableDataSource(this.array);
+              this.listData.sort = this.sort;
+              this.listData.paginator = this.paginator;
             }else {
               this.listData = new MatTableDataSource(this.array);
               this.listData.sort = this.sort;
@@ -175,19 +175,24 @@ export class ListMaterielComponent implements OnInit {
 
       if (confirm('Voulez-vous vraiment supprimer l\' article ?')){
         this.materielService.supprimerMateriel(row.id).subscribe(result => {
-          console.log(result);
+          if(result.status === 0){
+            this.notificationService.warn('Suppression avec succès');
+            const index: number = this.array.indexOf(row);
+            if (index !== -1) {
+              this.array.splice(index, 1);
+              this.listData = new MatTableDataSource(this.array);
+              this.listData.sort = this.sort;
+              this.listData.paginator = this.paginator;
+
+            }
+          }else {
+            this.notificationService.warn('Impossible de supprimer');
+
+          }
         });
-        this.notificationService.warn('Suppression avec succès');
 
       }
-      const index: number = this.array.indexOf(row);
-      if (index !== -1) {
-        this.array.splice(index, 1);
-        this.listData = new MatTableDataSource(this.array);
-        this.listData.sort = this.sort;
-        this.listData.paginator = this.paginator;
 
-      }
 
   }
 

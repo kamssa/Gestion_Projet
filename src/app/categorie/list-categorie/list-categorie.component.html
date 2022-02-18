@@ -6,6 +6,7 @@
           <button mat-raised-button  (click)="onCreate()">
             <mat-icon>add</mat-icon>Categorie
           </button>
+          <span style="color: blue">{{array?.length}} Article(s)</span>
           <mat-form-field class="search-form-field" floatLabel="never">
             <input matInput [(ngModel)]="searchKey" placeholder="Recherche..." autocomplete="off" (keyup)="applyFilter()">
             <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey"  (click)="onSearchClear()">
@@ -13,16 +14,18 @@
             </button>
           </mat-form-field>
         </div>
-        <div class="mat-elevation-z8" *ngIf="ROLE_MANAGER">
+        <div class="mat-elevation-z8">
           <mat-table [dataSource]="listData"  matSort>
             <ng-container matColumnDef="libelle">
               <mat-header-cell *matHeaderCellDef  mat-sort-header>Libelle</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{element?.libelle}}</mat-cell>
+              <mat-cell *matCellDef="let element">{{element.libelle}}</mat-cell>
             </ng-container>
+
             <ng-container matColumnDef="description">
               <mat-header-cell *matHeaderCellDef  mat-sort-header>Description</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{element?.description}}</mat-cell>
+              <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
             </ng-container>
+
             <ng-container matColumnDef="actions">
               <mat-header-cell *matHeaderCellDef></mat-header-cell>
               <mat-cell *matCellDef="let row">
@@ -30,7 +33,7 @@
 
                         matTooltip="modifier"><mat-icon>launch</mat-icon></button>
                 <button mat-icon-button color="warn" (click)="onArticle(row)"
-                        matTooltip="voir détail"><mat-icon>reorder</mat-icon></button>
+                        matTooltip="Voir les articles"><mat-icon>reorder</mat-icon></button>
                 <button mat-icon-button color="warn" (click)="onDelete(row)"
                         matTooltip="supprimer"><mat-icon>delete_outline</mat-icon></button>
               </mat-cell>
