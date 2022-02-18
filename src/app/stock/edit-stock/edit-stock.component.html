@@ -54,7 +54,7 @@
       <div class="row">
         <div class="col-md-12">
     <form class="example-form" [formGroup]="stockForm" (ngSubmit)="onSubmit()"  *ngIf="stockForm">
-      <mat-card> Ajouter enregistrement au stock</mat-card>
+      <mat-card> Ajouter un enregistrement au stock</mat-card>
       <br>
       <div class="achat">
 
@@ -88,6 +88,10 @@
                 </mat-form-field>
                 <mat-form-field  class="example-full-width">
                   <input   #frais type="number" matInput placeholder="Frais" formControlName="frais">
+                  <mat-error>Ce champ est obligatoire.</mat-error>
+                </mat-form-field>
+                <mat-form-field  class="example-full-width">
+                  <input   #montant type="number" matInput placeholder="{{montant | number}}" (click)="getCalcul()">
                   <mat-error>Ce champ est obligatoire.</mat-error>
                 </mat-form-field>
                 <mat-form-field  class="example-full-width" formGroupName="fournisseur">

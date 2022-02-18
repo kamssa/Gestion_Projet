@@ -176,9 +176,8 @@ export class EditStockComponent implements OnInit {
     return mat && mat.libelle;
   }
   getCalcul() {
-    return  this.montantInput.nativeElement.value = this.valueInput.nativeElement.value * this.quantiteInput.nativeElement.value
-
-    console.log(this.montantInput.nativeElement.value);
+    return  this.montantInput.nativeElement.value = this.valueInput.nativeElement.value * this.quantiteInput.nativeElement.value +
+      parseInt(this.fraisInput.nativeElement.value);
 
   }
 
