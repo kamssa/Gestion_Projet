@@ -85,7 +85,8 @@ export class DashboardComponent implements OnInit {
       chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
     }
 
-    var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
+    var dailySalesChart = new Chartist.Line('#dailySalesChart',
+      dataDailySalesChart, optionsDailySalesChart);
 
     this.startAnimationForLineChart(dailySalesChart);
 

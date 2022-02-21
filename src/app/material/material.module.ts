@@ -24,6 +24,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 const  materialComponents = [
   MatToolbarModule,
@@ -55,7 +56,8 @@ const  materialComponents = [
   MatGridListModule,
   MatStepperModule,
   MatCheckboxModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatButtonToggleModule
 
 ];
 

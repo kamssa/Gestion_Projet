@@ -51,6 +51,7 @@ export class ListStockComponent implements OnInit {
   ROLE_MANAGER: any;
 
   constructor(private detailStockService: DetailStockService,
+              private stockService: StockService,
               private managerService: ManagerService,
               public dialog: MatDialog,
               private router: Router,
@@ -173,15 +174,13 @@ export class ListStockComponent implements OnInit {
 
   onDelete(row){
     if (this.ROLE_NAME === 'ROLE_MANAGER') {
-      if (confirm('Voulez-vous vraiment supprimer la catégorie ?')){
-        this.detailStockService.supprimerCategorie(row.id).subscribe(result => {
-          console.log(result);
-        });
-        this.notificationService.warn('Suppression avec succès');
 
-      }
-      const index: number = this.array.indexOf(row);
-      if (index !== -1) {
+      if (confirm('Voulez-vous vraiment supprimer un élément du stock ?')){
+        this.stockService.supprimerStock(row.id).subscribe(result => {
+          console.log(result);
+          this.notificationService.warn('Suppression avec succès');
+           const index: number = this.array.indexOf(row);
+          if (index !== -1) {
         this.array.splice(index, 1);
         this.listData = new MatTableDataSource(this.array);
         this.listData.sort = this.sort;
@@ -189,6 +188,11 @@ export class ListStockComponent implements OnInit {
         console.log('Affiche Voici mon tableau', index);
 
       }
+        });
+
+
+      }
+
     }else {
       this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }

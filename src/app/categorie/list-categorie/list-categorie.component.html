@@ -6,7 +6,7 @@
           <button mat-raised-button  (click)="onCreate()">
             <mat-icon>add</mat-icon>Categorie
           </button>
-          <span style="color: blue">{{array?.length}} Article(s)</span>
+          <span style="color: blue">{{array?.length}} Categorie(s)</span>
           <mat-form-field class="search-form-field" floatLabel="never">
             <input matInput [(ngModel)]="searchKey" placeholder="Recherche..." autocomplete="off" (keyup)="applyFilter()">
             <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey"  (click)="onSearchClear()">

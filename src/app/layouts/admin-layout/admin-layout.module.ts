@@ -38,6 +38,7 @@ import {EditStockComponent} from '../../stock/edit-stock/edit-stock.component';
 import {NgxIntlTelInputModule} from 'ngx-intl-tel-input';
 import {Ng2TelInputModule} from 'ng2-tel-input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {FinanceModule} from '../../finance/finance.module';
 
 
 
@@ -69,16 +70,17 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     StockComponent,
     EditStockComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(AdminLayoutRoutes),
-    FormsModule,
-    ReactiveFormsModule,
-    MatRippleModule,
-    ComponentsModule,
-    MaterialModule,
-    NgxIntlTelInputModule,
-    Ng2TelInputModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(AdminLayoutRoutes),
+        FormsModule,
+        ReactiveFormsModule,
+        MatRippleModule,
+        ComponentsModule,
+        MaterialModule,
+        NgxIntlTelInputModule,
+        Ng2TelInputModule,
+        FinanceModule
+    ]
 })
 export class AdminLayoutModule { }

@@ -5,12 +5,17 @@
         <div class="card">
           <div class="card-header card-header-danger">
             <h4 class="card-title">Gestion Caisse</h4>
+            <mat-button-toggle-group #group="matButtonToggleGroup">
+              <mat-button-toggle value="left" aria-label="Text align left" (click)="openChantier()">
+                <mat-icon>format_align_left</mat-icon>
+              </mat-button-toggle>
+              <mat-button-toggle value="center" aria-label="Text align center" (click)="openDialog()">
+                <mat-icon>format_align_center</mat-icon>
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+
           </div>
           <div class="card-body">
-            <div class="example-button-row">
-              <button mat-button color="accent" (click)="openChantier()">Chantier</button>
-              <button mat-button color="accent" (click)="openDialog()">Effectué une autre opération</button>
-            </div>
 
             <mat-divider></mat-divider>
             <br>
