@@ -22,6 +22,7 @@ import {CaisseComponent} from '../../caisse/caisse.component';
 import {AdministrationComponent} from '../../administration/administration.component';
 import {StockComponent} from '../../stock/stock.component';
 import {EditStockComponent} from '../../stock/edit-stock/edit-stock.component';
+import {DetailHistoryComponent} from '../../stock/detail-history/detail-history.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -107,6 +108,9 @@ export const AdminLayoutRoutes: Routes = [
     path: 'materiel/:id', component: ListMaterielComponent
   },
   {
+    path: 'detailStockHistory/:id', component: DetailHistoryComponent
+  },
+  {
     path: 'listDetailStock', component: ListStockComponent
   },
   {
@@ -121,6 +125,7 @@ export const AdminLayoutRoutes: Routes = [
   {
     path: 'administration', component: AdministrationComponent
   },
+
   /*{ path: 'banque',
     canActivate: [AuthGuardService],
     children: [{

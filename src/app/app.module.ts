@@ -23,6 +23,7 @@ import {APP_DATE_FORMATS, AppDateAdapter} from './helper/format-datepicker';
 import {Ng2TelInputModule} from 'ng2-tel-input';
 import {MatTableModule} from '@angular/material/table';
 import {ChartistModule} from 'ng-chartist';
+import { DetailHistoryComponent } from './stock/detail-history/detail-history.component';
 
 registerLocaleData(localeFr);
 
@@ -32,6 +33,7 @@ registerLocaleData(localeFr);
 @NgModule({
   declarations: [
     AppComponent,
+    DetailHistoryComponent,
 
 
   ],

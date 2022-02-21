@@ -50,8 +50,8 @@ export class DetailStockService {
     return this.http.put<Resultat<DetailStock>>(`${environment.apiUrl}/api/detailStock`, detailStock);
   }
 
-  getCategorieById(id: Categorie): Observable<Resultat<Categorie>> {
-    return this.http.get<Resultat<Categorie>>(`${environment.apiUrl}/api/categorie/${id}`);
+  getDetailStockById(id: number): Observable<Resultat<DetailStock>> {
+    return this.http.get<Resultat<DetailStock>>(`${environment.apiUrl}/api/detailStock/${id}`);
   }
   getCatByIdEntreprise(id: number): Observable<Resultat<Categorie[]>> {
     return this.http.get<Resultat<Categorie[]>>(`${environment.apiUrl}/api/getCategorieByidEntreprise/${id}`);
