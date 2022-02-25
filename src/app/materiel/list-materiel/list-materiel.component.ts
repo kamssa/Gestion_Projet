@@ -66,7 +66,7 @@ export class ListMaterielComponent implements OnInit {
           this.notificationService.warn('Pas d\'articles enregistrés !') ;
 
         }else if (list.body.length > 0){
-          console.log(list.body);
+
           this.array = list.body.map(item => {
 
             return {
