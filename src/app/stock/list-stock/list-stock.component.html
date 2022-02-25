@@ -1,11 +1,15 @@
 <div class="main-content" >
   <div class="container-fluid">
     <div class="row">
+
       <div class="col-md-8">
         <div class="search-div">
           <button mat-raised-button  (click)="onCreate()">
             <mat-icon>add</mat-icon>Stock
           </button>
+          <span class="fill-remaining-space"></span>
+          <a class="btn-dialog-close" mat-stroked-button routerLink="/stock"> <mat-icon>undo</mat-icon></a>
+          <span style="color: blue">{{array?.length}} ligne(s)</span>
           <mat-form-field class="search-form-field" floatLabel="never">
             <input matInput [(ngModel)]="searchKey" placeholder="Recherche..." autocomplete="off" (keyup)="applyFilter()">
             <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey"  (click)="onSearchClear()">

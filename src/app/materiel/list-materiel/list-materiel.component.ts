@@ -61,7 +61,7 @@ export class ListMaterielComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.id = +params['id'];
       this.materielService.getMatByIdCategorie(this.id).subscribe(list => {
-       console.log(list.body);
+
         if (list.body.length === 0){
           this.notificationService.warn('Pas d\'articles enregistrés !') ;
 

@@ -19,21 +19,17 @@
                         <input  matInput placeholder="Materiel" formControlName="libelle">
                       </mat-form-field>
                       <mat-form-field>
-                        <input #value matInput type="number" placeholder="Prix unitaire" formControlName="prix_unitaire">
+                        <input #value matInput type="number" placeholder="Prix unitaire" formControlName="prixUnitaire">
                       </mat-form-field>
                       <mat-form-field>
                         <input  #quantite type="number" matInput placeholder="quantite" formControlName="quantite">
                       </mat-form-field>
-                      <mat-form-field>
-                        <input  #frais type="number" matInput placeholder="frais" formControlName="frais">
-                      </mat-form-field>
+
                       <mat-label>
                         <input matInput #montant  placeholder="{{montant}}"  (click)="getCalcul()">
                       </mat-label>
 
-                      <mat-form-field formGroupName="fournisseur">
-                        <input matInput placeholder="fournisseur" formControlName="libelle">
-                      </mat-form-field>
+
                     </div>
                   </div>
                 </div>
@@ -54,7 +50,7 @@
     </div>
   </div>
   <ng-template #newAchat>
-    <form class="example-form" [formGroup]="achatTravauxForm" (ngSubmit)="onSubmit()" novalidate>
+    <form class="example-form" [formGroup]="achatTravauxForm" (ngSubmit)="onSubmit()"  *ngIf="achatTravauxForm">
       <mat-card> Effectuer un nouvel achat</mat-card>
       <br>
       <div class="well">
@@ -69,25 +65,21 @@
                       <mat-icon class="material-icons">delete</mat-icon>
                     </button>
                   </mat-action-row>
-                  <mat-form-field  class="example-full-width" formGroupName="materiaux">
-                    <input  matInput placeholder="Materiel" formControlName="libelle">
+                  <mat-form-field style="position: relative; margin-top:20px;"
+                                  class="example-full-width" appearance="fill">
+                    <mat-label >Selectionner un article</mat-label>
+                    <input type="text" matInput matInput [formControl]="myControl" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option?.libelleMateriaux}}
+                      </mat-option>
+                    </mat-autocomplete>
                   </mat-form-field>
-                  <mat-form-field  class="example-full-width">
-                    <input #value matInput type="number" placeholder="Prix unitaire" formControlName="prix_unitaire">
-                  </mat-form-field>
+
                   <mat-form-field  class="example-full-width">
                     <input  #quantite type="number" matInput placeholder="quantite" formControlName="quantite">
                   </mat-form-field>
-                  <mat-form-field  class="example-full-width">
-                    <input  #frais type="number" matInput placeholder="frais" formControlName="frais">
-                  </mat-form-field>
-                  <mat-form-field>
-                    <input matInput  #montant  id="montant"   placeholder="montant" (click)="getCalcul()">
-                  </mat-form-field>
 
-                  <mat-form-field  class="example-full-width" formGroupName="fournisseur">
-                    <input matInput placeholder="fournisseur" formControlName="libelle">
-                  </mat-form-field>
                 </div>
               </div>
             </div>

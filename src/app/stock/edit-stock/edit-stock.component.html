@@ -52,6 +52,8 @@
   <ng-template #newAchat>
     <div class="container">
       <div class="row">
+        <span class="fill-remaining-space"></span>
+        <a class="btn-dialog-close" mat-stroked-button routerLink="/listDetailStock"> <mat-icon>undo</mat-icon></a>
         <div class="col-md-12">
     <form class="example-form" [formGroup]="stockForm" (ngSubmit)="onSubmit()"  *ngIf="stockForm">
       <mat-card> Ajouter un enregistrement au stock</mat-card>

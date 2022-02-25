@@ -181,17 +181,21 @@ export class ListStockComponent implements OnInit {
 
       if (confirm('Voulez-vous vraiment supprimer un élément du stock ?')){
         this.stockService.supprimerStock(row.id).subscribe(result => {
-          console.log(result);
+        if(result.status === 0){
           this.notificationService.warn('Suppression avec succès');
-           const index: number = this.array.indexOf(row);
+          const index: number = this.array.indexOf(row);
           if (index !== -1) {
-        this.array.splice(index, 1);
-        this.listData = new MatTableDataSource(this.array);
-        this.listData.sort = this.sort;
-        this.listData.paginator = this.paginator;
-        console.log('Affiche Voici mon tableau', index);
+            this.array.splice(index, 1);
+            this.listData = new MatTableDataSource(this.array);
+            this.listData.sort = this.sort;
+            this.listData.paginator = this.paginator;
 
-      }
+
+          }
+        }else {
+          this.notificationService.warn('Suppression impossible');
+        }
+
         });
 
 

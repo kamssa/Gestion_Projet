@@ -61,7 +61,7 @@ export class ListCategorieComponent implements OnInit {
         this.personne = resultat.body;
         this.roles = resultat.body.roles;
         this.roles.forEach(val => {
-          console.log(val.name);
+
           this.ROLE_NAME = val.name;
           if (this.ROLE_NAME === 'ROLE_MANAGER'){
             this.ROLE_MANAGER = this.ROLE_NAME;

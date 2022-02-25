@@ -3,12 +3,7 @@ import { CommonModule } from '@angular/common';
 import {RouterModule} from '@angular/router';
 import {AdminLayoutRoutes} from './admin-layout.routing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
 import {MatRippleModule} from '@angular/material/core';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {MatTooltipModule} from '@angular/material/tooltip';
 import {AdminLayoutComponent} from './admin-layout.component';
 import {DashboardComponent} from '../../dashboard/dashboard.component';
 import {ComponentsModule} from '../../components/components.module';
@@ -37,8 +32,8 @@ import {StockComponent} from '../../stock/stock.component';
 import {EditStockComponent} from '../../stock/edit-stock/edit-stock.component';
 import {NgxIntlTelInputModule} from 'ngx-intl-tel-input';
 import {Ng2TelInputModule} from 'ng2-tel-input';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {FinanceModule} from '../../finance/finance.module';
+import {DetailHistoryComponent} from '../../stock/detail-history/detail-history.component';
 
 
 
@@ -68,7 +63,8 @@ import {FinanceModule} from '../../finance/finance.module';
     EditOperationCaisseComponent,
     AdministrationComponent,
     StockComponent,
-    EditStockComponent
+    EditStockComponent,
+    DetailHistoryComponent
   ],
     imports: [
         CommonModule,

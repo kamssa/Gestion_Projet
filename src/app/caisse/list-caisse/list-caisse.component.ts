@@ -9,6 +9,9 @@ import {DialogConfirmService} from '../../helper/dialog-confirm.service';
 import {NotificationService} from '../../helper/notification.service';
 import {AdminService} from '../../service/admin.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {CaisseService} from '../../service/caisse.service';
+import {EditOperationComponent} from '../../banque/edit-operation/edit-operation.component';
+import {EditOperationCaisseComponent} from '../edit-operation-caisse/edit-operation-caisse.component';
 
 @Component({
   selector: 'app-list-caisse',
@@ -16,7 +19,7 @@ import {JwtHelperService} from '@auth0/angular-jwt';
   styleUrls: ['./list-caisse.component.scss']
 })
 export class ListCaisseComponent implements OnInit {
-  displayedColumns: string[] = ['nomComplet', 'email', 'telephone', 'actions'];
+  displayedColumns: string[] = ['date', 'designation', 'montant',  'employe' , 'actions'];
   listData: MatTableDataSource<any>;
 
   receptacle: any = [];
@@ -30,6 +33,7 @@ export class ListCaisseComponent implements OnInit {
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   searchKey: any;
   constructor(
+              private  caisseService: CaisseService,
               public dialog: MatDialog,
               private router: Router,
               private  dialogService: DialogConfirmService,
@@ -42,6 +46,15 @@ export class ListCaisseComponent implements OnInit {
 
   }
 
+  onCreate() {
+
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "60%";
+    const dialogRef = this.dialog.open(EditOperationCaisseComponent, dialogConfig);
+
+  }
 
   applyFilter() {
 
@@ -59,7 +72,5 @@ export class ListCaisseComponent implements OnInit {
 
   }
 
-  onCreate() {
 
-  }
 }
