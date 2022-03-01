@@ -15,7 +15,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./datail-achat-dialog.component.scss']
 })
 export class DatailAchatDialogComponent implements OnInit {
-  displayedColumns: string[] = ['materiaux', 'prix_unitaire', 'quantite', 'frais', 'montant', 'fournisseur', 'delete'];
+  displayedColumns: string[] = ['materiaux', 'prix_unitaire', 'quantite', 'montant', 'delete'];
   dataSource: MatTableDataSource<DetailAchatTravaux>;
   receptacle: any = [];
   achatTravauxId: number;

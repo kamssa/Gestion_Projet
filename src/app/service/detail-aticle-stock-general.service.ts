@@ -53,7 +53,7 @@ export class DetailAticleStockGeneralService {
     return this.http.get<Resultat<DetailAticleStockGeneral>>(`${environment.apiUrl}/api/detailAticleStockGeneral/${id}`);
   }
   getDetailAticleStockGeneralByIdEntreprise(id: number): Observable<Resultat<DetailAticleStockGeneral[]>> {
-    return this.http.get<Resultat<DetailAticleStockGeneral[]>>(`${environment.apiUrl}/api/detailAticleStockGeneral/${id}`);
+    return this.http.get<Resultat<DetailAticleStockGeneral[]>>(`${environment.apiUrl}/api/getStockGenralByidEntreprise/${id}`);
   }
 
   supprimerDetailAticleStockGeneral(id: number): Observable<any> {

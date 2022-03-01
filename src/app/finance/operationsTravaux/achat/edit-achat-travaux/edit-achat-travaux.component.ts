@@ -12,21 +12,16 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 import {AchatTravaux} from '../../../../model/AchatTravaux';
 import {Router} from '@angular/router';
 import {AchatTravauxService} from '../../../../service/achat-travaux.service';
-import {SteTravauxService} from "../../../../service/ste-travaux.service";
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
 import {Materiaux} from '../../../../model/Materiaux';
-import {Stock} from '../../../../model/Stock';
 import {Manager} from '../../../../model/Manager';
 import {Employe} from '../../../../model/Employe';
-import {StockService} from '../../../../service/stock.service';
-import {MaterielService} from '../../../../service/materiel.service';
 import {DialogConfirmService} from '../../../../helper/dialog-confirm.service';
 import {NotificationService} from '../../../../helper/notification.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {ManagerService} from '../../../../service/manager.service';
 import {EmployeService} from '../../../../service/employe.service';
-import {DetailStockService} from '../../../../service/detail-stock.service';
 import {map, startWith} from 'rxjs/operators';
 import {DetailAticleStockGeneralService} from '../../../../service/detail-aticle-stock-general.service';
 import {DetailAticleStockGeneral} from '../../../../model/DetailAticleStockGeneral';
@@ -107,7 +102,7 @@ export class EditAchatTravauxComponent implements OnInit {
           this.managerService.getManagerById(this.personne.id).subscribe(res => {
             this.personne = res.body;
             this.nav = true;
-            this.detailAticleStockGeneralService.getAllDetailAticleStockGeneral()
+            this.detailAticleStockGeneralService.getDetailAticleStockGeneralByIdEntreprise(this.personne.entreprise.id)
               .subscribe(data => {
                 console.log('Voir les données retournées', data.body);
                 this.detailAticleStockGeneral = data.body;

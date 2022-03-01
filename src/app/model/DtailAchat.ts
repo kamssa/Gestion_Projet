@@ -7,7 +7,6 @@ export class DetailAchatTravaux {
               public unite?: string,
               public quantite?: number,
               public prixUnitaire?: number,
-              public frais?: number,
               public montant?: number,
 
   ) {
