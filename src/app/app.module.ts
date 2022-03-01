@@ -25,6 +25,7 @@ import {MatTableModule} from '@angular/material/table';
 import {ChartistModule} from 'ng-chartist';
 import { DetailHistoryComponent } from './stock/detail-history/detail-history.component';
 import { ComptabiliteComponent } from './comptabilite/comptabilite/comptabilite.component';
+import { EmployePermitionComponent } from './employe/employe-permition/employe-permition.component';
 
 registerLocaleData(localeFr);
 
@@ -34,7 +35,8 @@ registerLocaleData(localeFr);
 @NgModule({
   declarations: [
     AppComponent,
-    ComptabiliteComponent
+    ComptabiliteComponent,
+    EmployePermitionComponent
 
 
 

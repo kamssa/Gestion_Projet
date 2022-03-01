@@ -152,7 +152,8 @@ export class StockComponent implements OnInit {
     console.log(row);
   }
 
-  onCategorie() {
- this.router.navigate(['/listDetailStock']);
+  onCategorie(ev) {
+    ev = this.personne.entreprise.id;
+    this.router.navigate(['/listDetailStock', ev]);
   }
 }

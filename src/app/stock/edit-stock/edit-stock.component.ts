@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Inject, OnInit, Output, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Stock} from '../../model/Stock';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {StockService} from '../../service/stock.service';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {MaterielService} from '../../service/materiel.service';
@@ -21,6 +21,7 @@ import {Fournisseur} from '../../model/Fournisseur';
 import {DetailStockService} from '../../service/detail-stock.service';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import {CategorieService} from '../../service/categorie.service';
 
 @Component({
   selector: 'app-edit-stock',
@@ -57,10 +58,11 @@ export class EditStockComponent implements OnInit {
   @Output() change = new EventEmitter<number>();
   selected: any;
   filteredOptions: Observable<Materiaux[]>;
-
+  id: number;
   myControl = new FormControl();
   constructor(private  fb: FormBuilder,
               private stockService: StockService,
+              private categorieService: CategorieService,
               private materielService: MaterielService,
               public dialog: MatDialog,
               private router: Router,
@@ -70,7 +72,8 @@ export class EditStockComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: Stock,
               private managerService: ManagerService,
               private employeService: EmployeService,
-              private detailStockService: DetailStockService) {
+              private detailStockService: DetailStockService,
+              private route: ActivatedRoute) {
 
 
   }
@@ -96,7 +99,20 @@ export class EditStockComponent implements OnInit {
           this.managerService.getManagerById(this.personne.id).subscribe(res => {
             this.personne = res.body;
             this.nav = true;
-            this.materielService.getAllMateriel()
+            this.route.params.subscribe(params => {
+              this.id = +params['id'];
+              this.categorieService.getMatByIdEntreprise(this.id).subscribe(data => {
+             console.log('materiel par entreprise: ', data.body);
+             this.materiaux = data.body;
+             this.filteredOptions = this.myControl.valueChanges.pipe(
+
+               startWith(''),
+                  map(value => (typeof value === 'string' ? value : value.libelle)),
+                  map(libelle => (libelle ? this.filter(libelle) : this.materiaux.slice())),
+                );
+              });
+            });
+           /* this.materielService.getAllMateriel()
               .subscribe(data => {
                 this.materiaux = data.body;
                 this.filteredOptions = this.myControl.valueChanges.pipe(
@@ -105,7 +121,7 @@ export class EditStockComponent implements OnInit {
                    map(value => (typeof value === 'string' ? value : value.libelle)),
                    map(libelle => (libelle ? this.filter(libelle) : this.materiaux.slice())),
                 );
-              });
+              });*/
             if (this.data['stock']){
               this.editMode = true;
               this.stockService.getStockById(this.data['stock'])
@@ -258,7 +274,7 @@ export class EditStockComponent implements OnInit {
           localStorage.removeItem('materiau');
            this.stock = data.body;
            this.notificationService.warn('Enregistrement effectué avec succès');
-           this.router.navigate(['/listDetailStock']);
+           this.router.navigate(['/listDetailStock', this.personne.entreprise.id]);
          }
        });
     }

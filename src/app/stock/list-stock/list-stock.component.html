@@ -4,7 +4,7 @@
 
       <div class="col-md-8">
         <div class="search-div">
-          <button mat-raised-button  (click)="onCreate()">
+          <button mat-raised-button  (click)="onCreate($event)">
             <mat-icon>add</mat-icon>Stock
           </button>
           <span class="fill-remaining-space"></span>
@@ -21,7 +21,7 @@
           <mat-table [dataSource]="listData"  matSort>
             <ng-container matColumnDef="libelle">
               <mat-header-cell *matHeaderCellDef  mat-sort-header>Libelle</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{element?.libelleMateriaux}}</mat-cell>
+              <mat-cell *matCellDef="let element">{{element?.libelle}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="quantite">
               <mat-header-cell *matHeaderCellDef  mat-sort-header>Quantite</mat-header-cell>

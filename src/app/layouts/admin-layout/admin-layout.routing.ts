@@ -111,10 +111,10 @@ export const AdminLayoutRoutes: Routes = [
     path: 'detailStockHistory/:id', component: DetailHistoryComponent
   },
   {
-    path: 'listDetailStock', component: ListStockComponent
+    path: 'listDetailStock/:id', component: ListStockComponent
   },
   {
-    path: 'detailStock', component: EditStockComponent
+    path: 'detailStock/:id', component: EditStockComponent
   },
   {
     path: 'caisse', component: CaisseComponent

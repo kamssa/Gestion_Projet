@@ -9,7 +9,7 @@ import {Employe} from '../../model/Employe';
 import {DepService} from '../../service/dep.service';
 import {ManagerService} from '../../service/manager.service';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {DialogConfirmService} from '../../helper/dialog-confirm.service';
 import {NotificationService} from '../../helper/notification.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
@@ -52,6 +52,7 @@ export class ListStockComponent implements OnInit {
   ROLE_NAME: any;
   error = '';
   ROLE_MANAGER: any;
+  id: number;
   detailStockHistory: DetailStockHistory[];
   constructor(private detailStockService: DetailStockService,
               private stockService: StockService,
@@ -63,7 +64,8 @@ export class ListStockComponent implements OnInit {
               private notificationService: NotificationService,
               private _snackBar: MatSnackBar,
               private helper: JwtHelperService,
-              private employeService: EmployeService)
+              private employeService: EmployeService,
+              private route: ActivatedRoute)
   {
 
   }
@@ -87,23 +89,36 @@ export class ListStockComponent implements OnInit {
           this.managerService.getManagerById(this.personne.id).subscribe( result => {
             this.personne = result.body;
             this.nav = true;
-            this.detailStockService.getAllDetailStock().subscribe(list => {
-              this.array = list.body.map(item => {
-                return {
-                  id: item.id,
-                  ...item
-                };
-              });
-              this.listData = new MatTableDataSource(this.array);
-              this.listData.sort = this.sort;
-              this.listData.paginator = this.paginator;
-              this.listData.filterPredicate = (data, filter) => {
-                return this.displayedColumns.some(ele => {
-                  return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
-                });
-              };
+            this.route.params.subscribe(params => {
+              this.id = +params['id'];
+              this.stockService.getStockentreByIdEntreprise(this.id).subscribe(list => {
 
+                if (list.body.length === 0){
+                  this.notificationService.warn('Pas d\'articles enregistrés !') ;
+
+                }else if (list.body.length > 0){
+
+                  this.array = list.body.map(item => {
+
+                    return {
+                      id: item.id,
+                      ...item
+                    };
+                  });
+
+                  this.listData = new MatTableDataSource(this.array);
+                  this.listData.sort = this.sort;
+                  this.listData.paginator = this.paginator;
+                  this.listData.filterPredicate = (data, filter) => {
+                    return this.displayedColumns.some(ele => {
+                      return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
+                    });
+                  };
+
+                }
+              });
             });
+
           });
         }else if (this.personne.type === 'EMPLOYE'){
           this.employeService.getEmployeById(this.personne.id).subscribe(
@@ -163,9 +178,11 @@ export class ListStockComponent implements OnInit {
   applyFilter() {
     this.listData.filter = this.searchKey.trim().toLowerCase();
   }
-  onCreate() {
+  onCreate(ev) {
+
     if (this.ROLE_NAME === 'ROLE_MANAGER'){
-      this.router.navigate(['/detailStock']);
+      ev = this.personne.entreprise.id;
+      this.router.navigate(['/detailStock', ev]);
     }else if (this.ROLE_NAME === 'ROLE_EMPLOYE'){
       this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }

@@ -8,6 +8,7 @@ import {environment} from '../../environments/environment';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {catchError, tap} from 'rxjs/operators';
 import {Stock} from '../model/Stock';
+import {DetailStock} from '../model/DetailStock';
 
 @Injectable({
   providedIn: 'root'
@@ -72,6 +73,9 @@ export class StockService {
   }
   getStockByIdEntreprise(id: number): Observable<Resultat<Stock[]>> {
     return this.http.get<Resultat<Stock[]>>(`${environment.apiUrl}/api/getStockByidEntreprise/${id}`);
+  }
+  getStockentreByIdEntreprise(id: number): Observable<Resultat<Stock[]>> {
+    return this.http.get<Resultat<Stock[]>>(`${environment.apiUrl}/api/listStockParEntreprise/${id}`);
   }
   getStockById(id: number): Observable<Resultat<Stock>> {
     return this.http.get<Resultat<Stock>>(`${environment.apiUrl}/api/stock/${id}`);

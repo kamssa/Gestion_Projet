@@ -8,6 +8,8 @@
             <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey"  (click)="onSearchClear()">
               <mat-icon>close</mat-icon>
             </button>
+            <span class="fill-remaining-space"></span>
+            <a class="btn-dialog-close" mat-stroked-button routerLink="/listDetailStock"> <mat-icon>undo</mat-icon></a>
           </mat-form-field>
         </div>
         <div class="mat-elevation-z8" *ngIf="ROLE_MANAGER">
@@ -42,7 +44,7 @@
             </ng-container>
             <ng-container matColumnDef="fournisseur">
               <mat-header-cell *matHeaderCellDef  mat-sort-header>Fournisseur</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{element?.fournisseur.libelle }}</mat-cell>
+              <mat-cell *matCellDef="let element">{{element?.libellefournisseur }}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="actions">
               <mat-header-cell *matHeaderCellDef></mat-header-cell>

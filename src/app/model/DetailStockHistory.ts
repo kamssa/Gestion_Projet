@@ -1,5 +1,4 @@
 import {Categorie} from './Categorie';
-import {Fournisseur} from './Fournisseur';
 
 export class DetailStockHistory {
   constructor(public id?: number,
@@ -10,8 +9,9 @@ export class DetailStockHistory {
               public quantite?: number,
               public  montant?: number,
               public frais?: number,
+              public  libellefournisseur?: string,
               public categorie?: Categorie,
-              public  fournisseur?: Fournisseur
+
   ) {
   }
 }

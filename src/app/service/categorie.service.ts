@@ -6,8 +6,8 @@ import {HttpClient} from '@angular/common/http';
 import {MessageService} from './message.service';
 import {environment} from '../../environments/environment';
 import {catchError, map, tap} from 'rxjs/operators';
-import {Departement} from '../model/Departement';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Materiaux} from '../model/Materiaux';
 
 @Injectable({
   providedIn: 'root'
@@ -80,6 +80,9 @@ export class CategorieService {
   }
   getCatByIdEntreprise(id: number): Observable<Resultat<Categorie[]>> {
     return this.http.get<Resultat<Categorie[]>>(`${environment.apiUrl}/api/getCategorieByidEntreprise/${id}`);
+  }
+  getMatByIdEntreprise(id: number): Observable<Resultat<Materiaux[]>> {
+    return this.http.get<Resultat<Materiaux[]>>(`${environment.apiUrl}/api/listMatParEntreprise/${id}`);
   }
 
   supprimerCategorie(id: number): Observable<any> {

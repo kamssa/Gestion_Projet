@@ -161,8 +161,7 @@ export class ListCategorieComponent implements OnInit {
       dialogRef.afterClosed().subscribe(resul => {
         this.categorieService.categorieCreer$
           .subscribe(result => {
-           if(result.status === 0){
-             console.log(result);
+           if (result.status === 0){
              this.array.unshift(result.body);
              this.listData = new MatTableDataSource(this.array);
              this.listData.sort = this.sort;

@@ -93,7 +93,7 @@
                   <mat-error>Ce champ est obligatoire.</mat-error>
                 </mat-form-field>
                 <mat-form-field  class="example-full-width">
-                  <input   #montant type="number" matInput placeholder="{{montant | number}}" (click)="getCalcul()">
+                  <input   #montant type="number" matInput placeholder="{{montant || 0 | number}}" (click)="getCalcul()">
                   <mat-error>Ce champ est obligatoire.</mat-error>
                 </mat-form-field>
                 <mat-form-field  class="example-full-width" formGroupName="fournisseur">
