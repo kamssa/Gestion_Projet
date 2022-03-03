@@ -18,19 +18,22 @@
       <h3 class="site">Dépense : {{travaux.total|number}} CFA</h3>
       <h3 class="site">Debut des travaux : {{travaux.date | date: 'dd/MM/yyyy'}}</h3>
       <h3 class="site">Date de livraison :  {{travaux.dateLivraison | date: 'dd/MM/yyyy'}} </h3>
-      <button mat-button color="primary">Modifier</button>
+      <button mat-button color="primary" (click)="update(travaux.id)">Modifier</button>
     </mat-expansion-panel>
   </mat-accordion>
   <br>
   <mat-divider></mat-divider>
   <div fxLayout="row" fxLayoutAlign="space-around center">
-      <button mat-button (click)="achat()" color="accent">Ajout achat</button>
+      <button mat-button (click)="achat()" color="accent">Retrait du stock</button>
+      <button mat-button (click)="autreachat()" color="accent">Ajout achat</button>
       <button mat-button (click)="location()" color="accent">Ajout location</button>
-      <button mat-button (click)="loyer()" color="accent">Ajout loyer</button>
       <button  mat-icon-button [matMenuTriggerFor]="menu">
         <mat-icon>more_vert</mat-icon>
       </button>
       <mat-menu #menu = "matMenu" yPosition="above">
+        <button mat-menu-item (click)="ouvre()">
+          <span>Ajout loyer</span>
+        </button>
       <button mat-menu-item (click)="ouvre()">
         <span>Ajout main d'ouvre</span>
       </button>
@@ -38,7 +41,7 @@
         <span>Ajout transport</span>
       </button>
     <button mat-menu-item (click)="autre()">
-        <span>Ajout Autres</span>
+        <span>Ajout Caisse</span>
       </button>
       </mat-menu>
     </div>
@@ -49,6 +52,8 @@
     <app-detail-loyer travauxId="{{travauxId}}" *ngIf="edit==4" (change)="montantChange($event)"></app-detail-loyer>
     <app-edit-transp-travaux travauxId="{{travauxId}}" *ngIf="edit==5" (change)="montantChange($event)"></app-edit-transp-travaux>
     <app-edit-autredepense-travaux travauxId="{{travauxId}}" *ngIf="edit==6" (change)="montantChange($event)"></app-edit-autredepense-travaux>
+    <app-autre-achat-travaux travauxId="{{travauxId}}" *ngIf="edit==7" (change)="montantChange($event)"></app-autre-achat-travaux>
+
   </div>
 </div>
 

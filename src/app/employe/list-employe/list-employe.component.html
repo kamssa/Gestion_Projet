@@ -17,11 +17,11 @@
           <mat-table [dataSource]="listData"  matSort>
             <ng-container matColumnDef="nomComplet">
               <mat-header-cell *matHeaderCellDef  mat-sort-header>Nom et prenom</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{element.nomComplet}}</mat-cell>
+              <mat-cell *matCellDef="let element">{{element?.nomComplet}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="service">
               <mat-header-cell *matHeaderCellDef  mat-sort-header>Service</mat-header-cell>
-              <mat-cell *matCellDef="let element">{{element.departement.libelle}}</mat-cell>
+              <mat-cell *matCellDef="let element">{{element?.departement?.libelle}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="actions">
               <mat-header-cell *matHeaderCellDef></mat-header-cell>

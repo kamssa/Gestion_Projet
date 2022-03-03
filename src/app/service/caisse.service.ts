@@ -26,43 +26,21 @@ export class CaisseService {
 
   constructor(private  http: HttpClient, private messageService: MessageService) {
   }
-  form: FormGroup = new FormGroup({
-    id: new FormControl(null),
-    version: new FormControl(null),
-    date: new FormControl(''),
-    montant: new FormControl('', [Validators.required]),
-    actived: new FormControl(''),
-  });
-  initializeFormGroup() {
-    this.form.setValue({
-      id: null,
-      version: null,
-      date: '',
-      nontant: '',
-      caisseDetail: '',
-      actived: '',
 
-
-
-    });
-  }
-  populateForm(id) {
-    this.form.patchValue(id);
-  }
   getAllCaisse(): Observable<Resultat<Caisse[]>> {
-    return this.http.get<Resultat<Caisse[]>>(`${environment.apiUrl}/api/auth/client`);
+    return this.http.get<Resultat<Caisse[]>>(`${environment.apiUrl}/api/caisse`);
   }
 
   ajoutCaisse(client: Caisse): Observable<Resultat<Caisse>> {
     console.log('methode du service qui ajoute un client', client);
     return this.http.post<Resultat<Caisse>>
-    (`${environment.apiUrl}/api/auth/client`,
+    (`${environment.apiUrl}/api/caisse`,
       client).pipe(
       tap(res => {
-        this.log(`Client crée =${res.body}`);
+        this.log(`Caisse crée =${res.body}`);
         this.caisseCreer(res);
       }),
-      catchError(this.handleError<Resultat<Caisse>>('ajoutClient'))
+      catchError(this.handleError<Resultat<Caisse>>('ajoutCaisse'))
     );
   }
   modifClient(client: Caisse): Observable<Resultat<Caisse>> {
@@ -78,7 +56,7 @@ export class CaisseService {
     );
   }
   getCaisseById(id: number): Observable<Resultat<Caisse>> {
-    return this.http.get<Resultat<Caisse>>(`${environment.apiUrl}/api/auth/client/${id}`);
+    return this.http.get<Resultat<Caisse>>(`${environment.apiUrl}/api/caisse/${id}`);
   }
   deleteCaisseById(id: number): Observable<Resultat<Caisse>> {
     return this.http.delete<Resultat<Caisse>>(`${environment.apiUrl}/api/auth/client/${id}`);

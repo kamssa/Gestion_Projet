@@ -6,6 +6,10 @@ import {Observable, Subscription} from 'rxjs';
 import {Travaux} from '../../../model/travaux';
 import {switchMap} from 'rxjs/operators';
 import {AchatTravauxService} from '../../../service/achat-travaux.service';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {AddCategorieComponent} from '../../../categorie/add-categorie/add-categorie.component';
+import {MatTableDataSource} from '@angular/material/table';
+import {UpdateProjetComponent} from '../update-projet/update-projet.component';
 
 @Component({
   selector: 'app-liste-site-travaux-operation',
@@ -29,7 +33,8 @@ export class ListeSiteTravauxOperationComponent implements OnInit{
               private travauxService: SteTravauxService,
               private  router: Router,
               private mediaObserver: MediaObserver,
-              private achatTravauxService: AchatTravauxService) {
+              private achatTravauxService: AchatTravauxService,
+              public dialog: MatDialog) {
 
   }
   ngOnInit(): void {
@@ -68,7 +73,9 @@ export class ListeSiteTravauxOperationComponent implements OnInit{
   location() {
     this.edit = 2;
   }
-
+  autreachat() {
+    this.edit = 7;
+  }
   montantChange($event) {
     if ($event){
       this.achatTravauxService.travauxCreer$.subscribe(
@@ -86,5 +93,31 @@ export class ListeSiteTravauxOperationComponent implements OnInit{
 
   }
 
+
+  update(id) {
+
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      const dialogRef = this.dialog.open(UpdateProjetComponent,
+    {
+
+      data: {
+        dialogConfig,
+        travaux: id
+      }
+    });
+    this.travauxService.travauxModif$
+      .subscribe(result => {
+        if (result.status === 0){
+          this.travaux = result.body;
+        }
+
+      });
+
+
+
+  }
 }
 

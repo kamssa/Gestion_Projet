@@ -75,7 +75,6 @@ export class AddEmployeComponent implements OnInit {
   }
 
   onSubmit(): void{
-    // console.log('Voir les valeur du formulaire', this.clientService.form.value);
 
     if (!this.employeService.form.get('id').value){
       this.employe = {
@@ -87,7 +86,6 @@ export class AddEmployeComponent implements OnInit {
         departement: this.departement,
         type:'EMPLOYE'
       };
-      console.log('Voir les valeur du formulaire', this.employe);
       this.employeService.ajoutEmploye(this.employe).subscribe(res => {
         if(res.status === 0){
           this.notificationService.success('Employe ajouté avec succès');
@@ -104,6 +102,7 @@ export class AddEmployeComponent implements OnInit {
           prenom: this.employeService.form.value.prenom,
           fonction: this.employeService.form.value.fonction,
           activated: this.employeService.form.value.activated,
+          departement: this.departement,
           type:'EMPLOYE'
         };
 
@@ -116,6 +115,7 @@ export class AddEmployeComponent implements OnInit {
           email: this.employeService.form.value.email,
           password: this.employeService.form.value.password,
           activated: this.employeService.form.value.activated,
+          departement: this.departement,
           type:'EMPLOYE'
         };
 

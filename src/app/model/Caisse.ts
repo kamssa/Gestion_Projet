@@ -1,4 +1,5 @@
 import {CaisseDetail} from './CaisseDetail';
+import {Entreprise} from './Entreprise';
 
 export class Caisse {
   constructor(
@@ -7,6 +8,7 @@ export class Caisse {
     public date?: Date,
     public   montant?: number,
     public  actived?: boolean,
+    public entreprise?: Entreprise,
     public  caisseDetail?: CaisseDetail[]
 ) {
   }

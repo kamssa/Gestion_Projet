@@ -176,7 +176,7 @@ export class EditAchatTravauxComponent implements OnInit {
     return mat && mat.libelleMateriaux;
   }
   getCalcul() {
-    return  this.montantInput.nativeElement.value = this.valueInput.nativeElement.value * this.quantiteInput.nativeElement.value
+    return  this.montantInput.nativeElement.value = this.valueInput.nativeElement.value * this.quantiteInput.nativeElement.value;
 
   }
 

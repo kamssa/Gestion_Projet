@@ -8,6 +8,7 @@ import {environment} from "../../environments/environment";
 import {MessageService} from "./message.service";
 import {AchatTravaux} from "../model/AchatTravaux";
 import {Photo} from "../model/Photo";
+import {Categorie} from '../model/Categorie';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,15 @@ export class SteTravauxService {
   }
 
   modifierTravaux(travauxModif: Travaux): Observable<Resultat<Travaux>> {
-    return this.http.put<Resultat<Travaux>>(`${environment.apiUrl}/api/travaux`, travauxModif);
+    return this.http.put<Resultat<Travaux>>(`${environment.apiUrl}/api/travaux`,
+      travauxModif)
+      .pipe(
+        tap(res => {
+          this.log(`travaux modifier =${res.body}`);
+          this.travauxModif(res);
+        }),
+        catchError(this.handleError<Resultat<Travaux>>('modifierTravaux'))
+      );;
   }
   getTravauxById(id: number): Observable<Resultat<Travaux>> {
     return this.http.get<Resultat<Travaux>>(`${environment.apiUrl}/api/travaux/${id}`);
@@ -81,7 +90,7 @@ export class SteTravauxService {
     this.travauxCreerSource.next(res);
   }
 
-  abonnesModif(res: Resultat<Travaux>) {
+  travauxModif(res: Resultat<Travaux>) {
     this.travauxModifSource.next(res);
   }
 

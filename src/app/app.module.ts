@@ -23,22 +23,18 @@ import {APP_DATE_FORMATS, AppDateAdapter} from './helper/format-datepicker';
 import {Ng2TelInputModule} from 'ng2-tel-input';
 import {MatTableModule} from '@angular/material/table';
 import {ChartistModule} from 'ng-chartist';
-import { DetailHistoryComponent } from './stock/detail-history/detail-history.component';
-import { ComptabiliteComponent } from './comptabilite/comptabilite/comptabilite.component';
-import { EmployePermitionComponent } from './employe/employe-permition/employe-permition.component';
 
+import { AdvanceProjetComponent } from './administration/advance-projet/advance-projet.component';
+
+import {FusionChartsModule} from 'angular-fusioncharts';
 registerLocaleData(localeFr);
-
 
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ComptabiliteComponent,
-    EmployePermitionComponent
-
-
+    AdvanceProjetComponent,
 
   ],
   imports: [
@@ -57,7 +53,8 @@ registerLocaleData(localeFr);
     BanqueModule,
     SalaireModule,
     MatTableModule,
-    ChartistModule
+    ChartistModule,
+    FusionChartsModule
   ],
   providers: [
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS },

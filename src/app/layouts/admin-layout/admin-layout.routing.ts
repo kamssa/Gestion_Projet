@@ -23,6 +23,8 @@ import {AdministrationComponent} from '../../administration/administration.compo
 import {StockComponent} from '../../stock/stock.component';
 import {EditStockComponent} from '../../stock/edit-stock/edit-stock.component';
 import {DetailHistoryComponent} from '../../stock/detail-history/detail-history.component';
+import {ListCaisseComponent} from '../../caisse/list-caisse/list-caisse.component';
+import {AdvanceProjetComponent} from '../../administration/advance-projet/advance-projet.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -120,11 +122,15 @@ export const AdminLayoutRoutes: Routes = [
     path: 'caisse', component: CaisseComponent
   },
   {
-    path: 'caisse', component: CaisseComponent
+    path: 'listCaisse', component: ListCaisseComponent
   },
   {
     path: 'administration', component: AdministrationComponent
   },
+  {
+    path: 'etatProjet', component: AdvanceProjetComponent
+  }
+
 
   /*{ path: 'banque',
     canActivate: [AuthGuardService],

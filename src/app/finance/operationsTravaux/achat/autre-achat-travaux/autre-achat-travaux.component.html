@@ -1,0 +1,117 @@
+<div class="main-div">
+  <div *ngIf="editMode; else newAchat">
+    <div class="">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title> modifier un achat  pour les travaux</mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-header>
+        <form [formGroup]="autreAchatTravauxForm" (ngSubmit)="onSubmit()" novalidate *ngIf="autreAchatTravauxForm">
+          <div class="well">
+            <mat-card>
+              <div class="achat">
+                <div class="row">
+                  <div formArrayName="detailAutreAchatTravaux">
+                    <div *ngFor="let itemrow of autreAchatTravauxForm.controls.detailAutreAchatTravaux['controls']; let i=index"
+                         [formGroupName]="i">
+
+                      <mat-form-field formGroupName="materiaux">
+                        <input  matInput placeholder="Materiel" formControlName="libelle">
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input #value matInput type="number" placeholder="Prix unitaire" formControlName="prixUnitaire">
+                      </mat-form-field>
+                      <mat-form-field>
+                        <input  #quantite type="number" matInput placeholder="quantite" formControlName="quantite">
+                      </mat-form-field>
+
+                      <mat-label>
+                        <input matInput #montant  placeholder="{{montant}}"  (click)="getCalcul()">
+                      </mat-label>
+
+
+                    </div>
+                  </div>
+                </div>
+                <hr>
+                <div fxLayout="row" fxLayoutAlign="space-between">
+                  <button mat-raised-button class="boutonEnr" type="submit"> Modifier
+                  </button>
+                  <button mat-raised-button class="boutonAnn" type="button" type="reset">Annuler
+                  </button>
+                </div>
+              </div>
+
+            </mat-card>
+
+          </div>
+        </form>
+      </mat-card>
+    </div>
+  </div>
+  <ng-template #newAchat>
+    <form class="example-form" [formGroup]="autreAchatTravauxForm" (ngSubmit)="onSubmit()"  *ngIf="autreAchatTravauxForm">
+      <mat-card> Achat d'article</mat-card>
+      <br>
+      <div class="well">
+
+        <div class="achat">
+          <div class="row">
+            <div formArrayName="detailAutreAchatTravaux">
+              <div *ngFor="let itemrow of autreAchatTravauxForm.controls.detailAutreAchatTravaux['controls']; let i=index"
+                   [formGroupName]="i">
+                <mat-action-row>
+                  <button type="button" mat-mini-fab color="warn" (click)="deleteRow(i)">
+                    <mat-icon class="material-icons">delete</mat-icon>
+                  </button>
+                </mat-action-row>
+                <mat-form-field style="position: relative; margin-top:20px;"
+                                class="example-full-width" appearance="fill">
+                  <mat-label >Selectionner un article</mat-label>
+                  <input type="text" matInput matInput [formControl]="myControl" [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                      {{option?.libelle}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+
+                <mat-form-field>
+                  <input #value matInput type="number" placeholder="Prix unitaire" formControlName="prixUnitaire">
+                </mat-form-field>
+                <mat-form-field>
+                  <input  #quantite type="number" matInput placeholder="Quantite" formControlName="quantite">
+                </mat-form-field>
+                <mat-form-field>
+                  <input  #frais type="number" matInput placeholder="frais" formControlName="frais">
+                </mat-form-field>
+                <mat-label>
+                  <input matInput #montant  placeholder="{{montant}}"  (click)="getCalcul()">
+                </mat-label>
+                <mat-form-field>
+                  <input  #fournisseur type="text" matInput placeholder="Fournisseur" formControlName="fournisseur">
+                </mat-form-field>
+
+              </div>
+            </div>
+          </div>
+          <mat-action-row>
+            <button type="button" mat-raised-button color="warn" (click)="addNewRows()">
+              <span class="material-icons">add</span>
+            </button>
+          </mat-action-row>
+          <hr>
+          <div fxLayout="row" fxLayoutAlign="space-between">
+            <button mat-raised-button class="boutonEnr" type="submit"> Enregistrer
+            </button>
+            <button mat-raised-button class="boutonAnn" type="button" type="reset">Annuler
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </form>
+  </ng-template>
+</div>
+
+

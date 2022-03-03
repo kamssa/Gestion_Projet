@@ -22,6 +22,6 @@ export class AdministrationComponent implements OnInit {
   }
 
   openDialog() {
-
+    this.router.navigate(['/etatProjet']);
   }
 }

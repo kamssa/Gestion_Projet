@@ -93,8 +93,11 @@ export class EditSiteTravauxComponent implements OnInit {
         }),
         ville: this.fb.group({
           nom: ['', Validators.required],
+        }),
+        client: this.fb.group({
+          nom: [''],
 
-        })
+        }),
       });
     }else if (this.personne.type === 'EMPLOYE'){
       this.createSiteForm = this.fb.group({
@@ -132,7 +135,8 @@ export class EditSiteTravauxComponent implements OnInit {
       date: createSiteFormValue.date,
       dateLivraison: createSiteFormValue.dateLivraison,
       site: createSiteFormValue.site,
-      ville: createSiteFormValue.ville
+      ville: createSiteFormValue.ville,
+      client: createSiteFormValue.client
     };
      console.log('Voir enregistrement', travail);
      this.siteTravauxService.ajoutTravaux(travail).subscribe(data => {

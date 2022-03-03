@@ -40,6 +40,8 @@ import {ListLoyerComponent} from './operationsTravaux/loyer/list-loyer/list-loye
 import {DetailLoyerComponent} from './operationsTravaux/loyer/detail-loyer/detail-loyer.component';
 import {EditAchatTravauxComponent} from './operationsTravaux/achat/edit-achat-travaux/edit-achat-travaux.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { AutreAchatTravauxComponent } from './operationsTravaux/achat/autre-achat-travaux/autre-achat-travaux.component';
+import {UpdateProjetComponent} from './siteTravaux/update-projet/update-projet.component';
 
 
 
@@ -96,7 +98,9 @@ import {FlexLayoutModule} from '@angular/flex-layout';
     ConnexionComponent,
     SuccessDialogComponent,
     ErrorDialogComponent,
-    EditAchatTravauxComponent
+    EditAchatTravauxComponent,
+    AutreAchatTravauxComponent,
+    UpdateProjetComponent
 
 
   ],

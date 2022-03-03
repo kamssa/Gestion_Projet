@@ -34,6 +34,9 @@ import {NgxIntlTelInputModule} from 'ngx-intl-tel-input';
 import {Ng2TelInputModule} from 'ng2-tel-input';
 import {FinanceModule} from '../../finance/finance.module';
 import {DetailHistoryComponent} from '../../stock/detail-history/detail-history.component';
+import {ComptabiliteComponent} from '../../comptabilite/comptabilite/comptabilite.component';
+import {EmployePermitionComponent} from '../../employe/employe-permition/employe-permition.component';
+import {UpdateProjetComponent} from '../../finance/siteTravaux/update-projet/update-projet.component';
 
 
 
@@ -64,7 +67,10 @@ import {DetailHistoryComponent} from '../../stock/detail-history/detail-history.
     AdministrationComponent,
     StockComponent,
     EditStockComponent,
-    DetailHistoryComponent
+    DetailHistoryComponent,
+    ComptabiliteComponent,
+    EmployePermitionComponent,
+
   ],
     imports: [
         CommonModule,

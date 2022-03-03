@@ -1,0 +1,43 @@
+<div class="main-div">
+  <div>
+    <mat-card>Modifier Chantier</mat-card>
+    <br>
+    <div class="container">
+      <form [formGroup]="tForm" (ngSubmit)="onSubmit()" *ngIf="tForm">
+       <!-- <mat-form-field formGroupName="site">
+          <input matInput type="text" placeholder="Nom du site" formControlName="nomChantier"/>
+        </mat-form-field>-->
+        <mat-form-field >
+          <input matInput type="text" placeholder="Budget" formControlName="budget"/>
+        </mat-form-field>
+        <mat-form-field >
+          <input matInput type="text" placeholder="Accompte" formControlName="accompte"/>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Solde" formControlName="reste"/>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Dépense" formControlName="total"/>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="Seuil" formControlName="seuil"/>
+        </mat-form-field>
+        <mat-form-field formGroupName="ville">
+          <input matInput type="text" placeholder="Ville" formControlName="nom"/>
+        </mat-form-field>
+        <mat-form-field formGroupName="client">
+          <input matInput type="text" placeholder="Client" formControlName="nom"/>
+        </mat-form-field>
+        <button type="submit" class="btn btn-success">
+          Valider
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+
+
+</div>
+
+

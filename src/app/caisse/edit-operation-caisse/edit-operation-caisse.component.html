@@ -1,45 +1,115 @@
-<mat-toolbar>
-  <span>{{caisseService.form.controls['id'].value?"Modifier l'opération":"Nouvelle opération"}}</span>
-  <span class="fill-remaining-space"></span>
-  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
-</mat-toolbar>
-<form [formGroup]="caisseService.form" (submit)="onSubmit()">
+<div class="main-div" *ngIf="edit">
+  <div *ngIf="editMode; else newAchat">
+    <div class="">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title> modifier autre dépense</mat-card-title>
+          <mat-card-subtitle></mat-card-subtitle>
+        </mat-card-header>
+        <form class="example-form" [formGroup]="caisseForm" (ngSubmit)="onSubmit()" novalidate *ngIf="autreDepenseForm">
+          <div class="achat">
+            <div class="row">
+              <div formArrayName="caisseDetail">
+                <div *ngFor="let itemrow of caisseForm.controls.caisseDetail['controls']; let i=index"
+                     [formGroupName]="i">
+                  <mat-form-field  class="example-full-width">
+                    <input  #montant type="text" matInput placeholder="Libelle" formControlName="libelle">
+                  </mat-form-field>
+                  <mat-form-field  class="example-full-width">
+                    <input  #montant type="number" matInput placeholder="Montant" formControlName="montant">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
 
-  <mat-stepper [linear]="isLinear" #stepper>
-    <mat-step>
-      <ng-template matStepLabel>INFORMATIONS SUR L'OPERATION</ng-template>
-      <input type="hidden" formControlName="id">
-      <mat-form-field class="example-full-width">
-        <input matInput [matDatepicker]="picker" placeholder="Choisir la date" formControlName="date" id="date"
-               readonly (click)="picker.open()">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+            <hr>
+            <div fxLayout="row" fxLayoutAlign="space-between">
+              <button mat-raised-button class="boutonEnr" type="submit"> Enregistrer
+              </button>
+              <button mat-raised-button class="boutonAnn" type="button" type="reset">Annuler
+              </button>
+            </div>
+          </div>
+        </form>
+      </mat-card>
+    </div>
+  </div>
+  <ng-template #newAchat>
+    <form class="example-form" [formGroup]="caisseForm" (ngSubmit)="onSubmit()" *ngIf ="caisseForm">
+      <mat-card> Effectuer le paiement pour la caisse</mat-card>
+      <br>
+      <div class="well">
 
-      <mat-form-field appearance="fill">
-        <mat-label>Designation</mat-label>
-        <input matInput placeholder="Designation" formControlName="libelle">
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Montant</mat-label>
-        <input matInput placeholder="Montant" formControlName="montant">
-      </mat-form-field>
-      <div>
-        <button mat-button matStepperNext type="button">Suivant</button>
+        <div class="achat">
+          <div class="row">
+            <div formArrayName="caisseDetail">
+              <div *ngFor="let itemrow of caisseForm.controls.caisseDetail['controls']; let i=index"
+                   [formGroupName]="i">
+                <mat-stepper [linear]="isLinear" #stepper>
+                  <mat-step>
+                    <ng-template matStepLabel>INFORMATIONS SUR L'OPERATION</ng-template>
+                    <input type="hidden" formControlName="id">
+                    <!--<mat-form-field class="example-full-width">
+                      <input matInput [matDatepicker]="picker" placeholder="Choisir la date" formControlName="date" id="date"
+                             readonly (click)="picker.open()">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>-->
+
+                    <mat-form-field appearance="fill">
+                      <mat-label>Designation</mat-label>
+                      <input #designation matInput placeholder="Designation" formControlName="designation">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Prix unitaire</mat-label>
+                      <input #prixUnitaire matInput placeholder="Prix unitaire" formControlName="prixUnitaire">
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-label>Quantite</mat-label>
+                      <input #quantite matInput placeholder="Quantite" formControlName="quantite">
+                    </mat-form-field>
+                    <mat-label>
+                      <input matInput #montant  placeholder="{{montant}}"  (click)="getCalcul()">
+                    </mat-label>
+                    <div>
+                      <button mat-button matStepperNext type="button">Suivant</button>
+                    </div>
+                  </mat-step>
+                  <mat-step  label="INFORMATIONS COMPLEMENTAIRES">
+                    <mat-form-field style="position: relative; margin-top:20px;" class="example-full-width" appearance="fill">
+                      <mat-label >Selection un employe</mat-label>
+                      <mat-select (selectionChange)="greetDep($event)">
+                        <mat-option *ngFor="let d of employes" [value]="d.id">
+                          {{d.nomComplet}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <!-- <section class="example-section">
+                       <mat-checkbox class="example-margin" formControlName='actived'>Soumettre</mat-checkbox>
+                     </section>-->
+                    <div>
+                      <button mat-button matStepperPrevious type="button">Retour</button>
+                      <button mat-button type="submit" [disabled]="caisseForm.invalid">Valider</button>
+                    </div>
+                  </mat-step>
+                </mat-stepper>
+
+              </div>
+            </div>
+          </div>
+          <mat-action-row>
+            <button type="button" mat-raised-button color="warn" (click)="addNewRows()">
+              <span class="material-icons">add</span>
+            </button>
+          </mat-action-row>
+
+        </div>
+
       </div>
-    </mat-step>
-    <mat-step  label="INFORMATIONS COMPLEMENTAIRES">
-      <mat-form-field appearance="fill">
-        <mat-label>Employe</mat-label>
-        <input matInput placeholder="Employe">
-      </mat-form-field>
-      <section class="example-section">
-        <mat-checkbox class="example-margin" formControlName='actived'>Soumettre</mat-checkbox>
-      </section>
-      <div>
-        <button mat-button matStepperPrevious type="button">Retour</button>
-        <button mat-button type="submit" [disabled]="caisseService.form.invalid">Valider</button>
-      </div>
-    </mat-step>
-  </mat-stepper>
-</form>
+    </form>
+
+
+  </ng-template>
+</div>
+
+
