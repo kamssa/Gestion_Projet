@@ -78,13 +78,7 @@
               <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
               <mat-datepicker #pickers></mat-datepicker>
             </mat-form-field>
-            <div>
-              <mat-form-field class="example-full-width" formGroupName="ville">
-                <input matInput type="text" placeholder="Ville" formControlName="nom" id="nom">
-                <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
-                <mat-error *ngIf="hasError('nom', 'required')">Champ obligatoire</mat-error>
-              </mat-form-field>
-            </div>
+
             <div>
               <mat-form-field class="example-full-width" formGroupName="ville">
                 <input matInput type="text" placeholder="Client" formControlName="nom" id="nom">
