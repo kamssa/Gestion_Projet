@@ -15,9 +15,10 @@
                   <mat-form-field  class="example-full-width">
                     <input  #montant type="text" matInput placeholder="Libelle" formControlName="libelle">
                   </mat-form-field>
-                  <mat-form-field  class="example-full-width">
-                    <input  #montant type="number" matInput placeholder="Montant" formControlName="montant">
-                  </mat-form-field>
+                  <mat-label>
+                    <input matInput #montant  placeholder="{{montant}}"  (click)="getCalcul()">
+                  </mat-label>
+
                 </div>
               </div>
             </div>

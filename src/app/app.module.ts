@@ -26,9 +26,17 @@ import {ChartistModule} from 'ng-chartist';
 
 import { AdvanceProjetComponent } from './administration/advance-projet/advance-projet.component';
 
-import {FusionChartsModule} from 'angular-fusioncharts';
-registerLocaleData(localeFr);
+import { FusionChartsModule } from 'angular-fusioncharts';
 
+// Load FusionCharts
+import FusionCharts from 'fusioncharts/core';
+// Load Charts Module
+import Column2d from 'fusioncharts/viz/column2d';
+// Load Fusion Theme
+import FusionTheme from 'fusioncharts/themes/es/fusioncharts.theme.fusion'
+registerLocaleData(localeFr);
+// Add dependencies to FusionChartsModule
+FusionChartsModule.fcRoot(FusionCharts, Column2d, FusionTheme)
 
 
 @NgModule({

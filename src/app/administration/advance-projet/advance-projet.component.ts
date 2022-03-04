@@ -6,7 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./advance-projet.component.scss']
 })
 export class AdvanceProjetComponent implements OnInit {
-
+ datasource: any;
+  dataFormat = new Date();
+  type: any;
+  height: any;
+  width: any;
   ngOnInit(): void {
   }
 
