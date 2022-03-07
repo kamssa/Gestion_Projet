@@ -52,7 +52,7 @@ export class UpdateProjetComponent implements OnInit {
                   accompte: this.travau.accompte,
                   reste: this.travau.reste,
                   total: this.travau.total,
-                  seuil: this.travau.seuil,
+                  debousserSec: this.travau.debousserSec,
                   date: this.travau.date,
                   dateLivraison: this.travau.dateLivraison,
                   site: this.travau.site,

@@ -10,7 +10,7 @@ export class Travaux {
               public  budget?: number,
               public  reste?: number,
               public  total?: number,
-              public  seuil?: number,
+              public  debousserSec?: number,
               public  date?: Date,
               public  dateLivraison?: Date,
               public site?: Site,
