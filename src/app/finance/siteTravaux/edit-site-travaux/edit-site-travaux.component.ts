@@ -82,6 +82,7 @@ export class EditSiteTravauxComponent implements OnInit {
   initForm(): void {
     if(this.personne.type === 'MANAGER'){
       this.createSiteForm = this.fb.group({
+        libelle: new FormControl('', [Validators.required]),
         numeroBon: new FormControl('', [Validators.required]),
         accompte: new FormControl(''),
         budget: new FormControl('', [Validators.required]),
@@ -96,11 +97,12 @@ export class EditSiteTravauxComponent implements OnInit {
         }),
         client: this.fb.group({
           nom: [''],
-
+           type:'CLIENT'
         }),
       });
     }else if (this.personne.type === 'EMPLOYE'){
       this.createSiteForm = this.fb.group({
+        libelle: new FormControl('', [Validators.required]),
         numeroBon: new FormControl('', [Validators.required]),
         accompte: new FormControl(''),
         budget: new FormControl('', [Validators.required]),
@@ -129,6 +131,7 @@ export class EditSiteTravauxComponent implements OnInit {
   onSubmit(createSiteFormValue): void {
     console.log(this.createSiteForm.value);
     let  travail : Travaux = {
+      libelle: createSiteFormValue.libelle,
       numeroBon: createSiteFormValue.numeroBon,
       accompte: createSiteFormValue.accompte,
       budget: createSiteFormValue.budget,

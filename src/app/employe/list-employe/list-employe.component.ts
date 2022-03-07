@@ -101,7 +101,7 @@ export class ListEmployeComponent implements OnInit {
       dialogConfig.width = "60%";
       const dialogRef = this.dialog.open(AddEmployeComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(resul=> {
-        console.log('verifier retour dialog open');
+
         this.employeService.employeCreer$
           .subscribe(result => {
             console.log(result.body);
@@ -152,7 +152,7 @@ export class ListEmployeComponent implements OnInit {
     if(this.ROLE_NAME === "ROLE_MANAGER"){
       if(confirm('Voulez-vous vraiment supprimer l\'employé ?')){
         this.employeService.deleteEmployeById(row.id).subscribe(result => {
-          console.log(result);
+
         });
         this.notificationService.warn('Suppression avec succès');
 

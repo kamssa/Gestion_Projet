@@ -6,6 +6,7 @@ export class Travaux {
   constructor(public  id?: number,
               public  version?: number,
               public  numeroBon?: string,
+              public  libelle?: string,
               public  accompte?: number,
               public  budget?: number,
               public  reste?: number,

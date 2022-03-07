@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {Departement} from '../../model/Departement';
 import {MatSnackBar, MatSnackBarHorizontalPosition} from '@angular/material/snack-bar';
@@ -63,7 +63,7 @@ export class ListDepComponent implements OnInit {
         this.personne = resultat.body;
         this.roles = resultat.body.roles;
         this.roles.forEach(val => {
-          console.log(val.name);
+
           this.ROLE_NAME = val.name;
           if (this.ROLE_NAME === 'ROLE_MANAGER'){
             this.ROLE_MANAGER = this.ROLE_NAME;

@@ -43,7 +43,7 @@ export class AddDepComponent implements OnInit {
       const decoded = this.helper.decodeToken(token);
       this.managerService.getManagerById(decoded.sub).subscribe(res => {
         this.personne = res.body;
-        console.log(this.personne);
+
         this.roles = res.body.roles;
         this.roles.forEach(val => {
           this.ROLE_ADMIN = val;
@@ -69,7 +69,7 @@ export class AddDepComponent implements OnInit {
         description: this.departementService.form.value.description,
         entreprise: this.personne.entreprise
       };
-      console.log(this.departement);
+
       this.departementService.ajoutDepartement(this.departement).subscribe(res =>{
         if(res.status === 0){
           this.notificationService.success('Departement ajouté avec succès');

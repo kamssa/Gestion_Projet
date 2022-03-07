@@ -46,11 +46,15 @@
             </mat-form-field>
             </div>
             <mat-form-field class="example-full-width" formGroupName="site">
-              <input matInput type="text" placeholder="Nom du chantier" formControlName="nomChantier" id="nomChantier">
+              <input matInput type="text" placeholder="Nom du projet" formControlName="nomChantier" id="nomChantier">
               <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
               <mat-error *ngIf="hasError('nomChantier', 'required')">Champ obligatoire</mat-error>
             </mat-form-field>
-
+            <mat-form-field class="example-full-width">
+              <input matInput type="text" placeholder="Nom du chantier" formControlName="libelle" id="libelle">
+              <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
+              <mat-error *ngIf="hasError('libelle', 'required')">Champ obligatoire</mat-error>
+            </mat-form-field>
             <mat-form-field class="example-full-width">
               <input matInput type="text" placeholder="Numero du bon" formControlName="numeroBon" id="numeroBon">
               <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
@@ -80,7 +84,7 @@
             </mat-form-field>
 
             <div>
-              <mat-form-field class="example-full-width" formGroupName="ville">
+              <mat-form-field class="example-full-width" formGroupName="client">
                 <input matInput type="text" placeholder="Client" formControlName="nom" id="nom">
 
               </mat-form-field>
