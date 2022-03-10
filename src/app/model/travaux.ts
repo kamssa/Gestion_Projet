@@ -12,8 +12,10 @@ export class Travaux {
               public  reste?: number,
               public  total?: number,
               public  debousserSec?: number,
+              public percent?: number,
               public  date?: Date,
               public  dateLivraison?: Date,
+
               public site?: Site,
               public ville?: Ville,
               public client?: Client) {

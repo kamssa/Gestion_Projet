@@ -7,6 +7,7 @@ import {environment} from '../../environments/environment';
 import {Employe} from '../model/Employe';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {catchError, map, tap} from 'rxjs/operators';
+import {Materiaux} from '../model/Materiaux';
 
 @Injectable({
   providedIn: 'root'
@@ -102,6 +103,9 @@ export class EmployeService {
         catchError(this.handleError<Array<Employe>>('rechercheEmployeParMc'))
       );
 
+  }
+  getEmployeByIdEntreprise(id: number): Observable<Resultat<Employe[]>> {
+    return this.http.get<Resultat<Employe[]>>(`${environment.apiUrl}/api/auth/listEmployeParEntreprise/${id}`);
   }
 
   employeCreer(res: Resultat<Employe>) {

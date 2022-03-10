@@ -1,7 +1,7 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-12">
   <div *ngIf="editMode; else newAchat">
     <div class="">
       <mat-card>
@@ -17,15 +17,18 @@
                   <div formArrayName="detailStock">
                     <div *ngFor="let itemrow of stockForm.controls.detailStock['controls']; let i=index"
                          [formGroupName]="i">
-
-                      <mat-form-field formGroupName="materiaux">
-                        <input  matInput placeholder="Materiel" formControlName="libelle">
+                      <mat-form-field class="example-full-width" color="accent">
+                        <input matInput disabled value="{{stock.libelle}}" >
                       </mat-form-field>
                       <mat-form-field>
                         <input #value matInput type="number" placeholder="Prix unitaire" formControlName="prixUnitaire">
                       </mat-form-field>
                       <mat-form-field>
                         <input  #quantite type="number" matInput placeholder="quantite" formControlName="quantite">
+                      </mat-form-field>
+                      <mat-form-field  class="example-full-width">
+                        <input   #frais type="number" matInput placeholder="Frais" formControlName="frais">
+                        <mat-error>Ce champ est obligatoire.</mat-error>
                       </mat-form-field>
                       <mat-form-field formGroupName="fournisseur">
                         <input matInput placeholder="fournisseur" formControlName="libelle">

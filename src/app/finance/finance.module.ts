@@ -42,6 +42,7 @@ import {EditAchatTravauxComponent} from './operationsTravaux/achat/edit-achat-tr
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { AutreAchatTravauxComponent } from './operationsTravaux/achat/autre-achat-travaux/autre-achat-travaux.component';
 import {UpdateProjetComponent} from './siteTravaux/update-projet/update-projet.component';
+import { AddTravauxSiteComponent } from './siteTravaux/add-travaux-site/add-travaux-site.component';
 
 
 
@@ -100,7 +101,8 @@ import {UpdateProjetComponent} from './siteTravaux/update-projet/update-projet.c
     ErrorDialogComponent,
     EditAchatTravauxComponent,
     AutreAchatTravauxComponent,
-    UpdateProjetComponent
+    UpdateProjetComponent,
+    AddTravauxSiteComponent
 
 
   ],

@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {AchatTravaux} from '../../../../model/AchatTravaux';
-import {Router} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {AchatTravauxService} from '../../../../service/achat-travaux.service';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {Observable} from 'rxjs';
@@ -22,10 +22,12 @@ import {NotificationService} from '../../../../helper/notification.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {ManagerService} from '../../../../service/manager.service';
 import {EmployeService} from '../../../../service/employe.service';
-import {map, startWith} from 'rxjs/operators';
+import {map, startWith, switchMap} from 'rxjs/operators';
 import {DetailAticleStockGeneralService} from '../../../../service/detail-aticle-stock-general.service';
 import {DetailAticleStockGeneral} from '../../../../model/DetailAticleStockGeneral';
 import {DetailAchatTravaux} from '../../../../model/DtailAchat';
+import {SteTravauxService} from '../../../../service/ste-travaux.service';
+import {Travaux} from '../../../../model/travaux';
 
 
 @Component({
@@ -63,7 +65,8 @@ export class EditAchatTravauxComponent implements OnInit {
   @Output() change = new EventEmitter<number>();
   selected: any;
   filteredOptions: Observable<Materiaux[]>;
-
+  travaux: Travaux;
+  travauxId: number;
   myControl = new FormControl();
   constructor(private  fb: FormBuilder,
               private  achatTravauxService: AchatTravauxService,
@@ -72,10 +75,10 @@ export class EditAchatTravauxComponent implements OnInit {
               private router: Router,
               private  dialogService: DialogConfirmService,
               private notificationService: NotificationService,
-              private helper: JwtHelperService,
+              private helper: JwtHelperService, private travauxService: SteTravauxService,
               @Inject(MAT_DIALOG_DATA) public data: AchatTravaux,
               private managerService: ManagerService,
-              private employeService: EmployeService,
+              private employeService: EmployeService, private route: ActivatedRoute,
              ) {
 
 
@@ -102,6 +105,14 @@ export class EditAchatTravauxComponent implements OnInit {
           this.managerService.getManagerById(this.personne.id).subscribe(res => {
             this.personne = res.body;
             this.nav = true;
+            this.route.paramMap.pipe(
+              switchMap((params: ParamMap) =>
+                this.travauxService.getTravauxById(+params.get('id')))
+            ).subscribe(result => {
+              this.travaux = result.body;
+              this.travauxId = result.body.id;
+              console.log(this.travauxId);
+            });
             this.detailAticleStockGeneralService.getDetailAticleStockGeneralByIdEntreprise(this.personne.entreprise.id)
               .subscribe(data => {
                 console.log('Voir les données retournées', data.body);
@@ -169,11 +180,16 @@ export class EditAchatTravauxComponent implements OnInit {
     return this.detailAticleStockGeneral.filter(option => option.libelleMateriaux.toLowerCase().includes(filterValue));
   }
   displayFn(mat: DetailAticleStockGeneral): string {
-    this.selected = mat && mat.libelleMateriaux ? mat.libelleMateriaux : '';
-    this.detailAticleStockGenerale = mat;
-    localStorage.setItem('materiau', JSON.stringify(mat));
-    console.log(this.detailAticleStockGenerale);
-    return mat && mat.libelleMateriaux;
+    if (mat) {
+      this.selected = mat && mat.libelleMateriaux ? mat.libelleMateriaux : '';
+      this.detailAticleStockGenerale = mat;
+      localStorage.setItem('materiau', JSON.stringify(mat));
+      console.log(this.detailAticleStockGenerale);
+      return mat && mat.libelleMateriaux;
+    }else {
+
+    }
+
   }
   getCalcul() {
     return  this.montantInput.nativeElement.value = this.valueInput.nativeElement.value * this.quantiteInput.nativeElement.value;
@@ -216,7 +232,7 @@ export class EditAchatTravauxComponent implements OnInit {
         this.achatTravaux = {
           libelle: this.detailAticleStockGenerale.libelleMateriaux,
           date: new  Date(),
-          travauxId: this.personne.entreprise.id,
+          travauxId: this.travauxId,
           detailAchatTravaux: [
             {
               libelleMateriaux: this.detailAticleStockGenerale.libelleMateriaux,
@@ -236,7 +252,7 @@ export class EditAchatTravauxComponent implements OnInit {
       }
 
 
-      localStorage.removeItem('materiau');
+      //localStorage.removeItem('materiau');
 
       this.achatTravauxService.ajoutAchatTravaux(this.achatTravaux)
         .subscribe(data => {
@@ -245,6 +261,8 @@ export class EditAchatTravauxComponent implements OnInit {
             this.achatTravaux = data.body;
             this.notificationService.warn('Enregistrement effectué avec succès');
             this.router.navigate(['/listDetailStock']);
+          }else {
+            this.notificationService.warn(data.messages);
           }
         });
     }

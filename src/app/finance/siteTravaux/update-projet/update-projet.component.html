@@ -4,9 +4,12 @@
     <br>
     <div class="container">
       <form [formGroup]="tForm" (ngSubmit)="onSubmit()" *ngIf="tForm">
-       <!-- <mat-form-field formGroupName="site">
-          <input matInput type="text" placeholder="Nom du site" formControlName="nomChantier"/>
-        </mat-form-field>-->
+        <mat-form-field formGroupName="site">
+          <input matInput type="text" placeholder="Nom du projet" formControlName="nomChantier"/>
+        </mat-form-field>
+         <mat-form-field>
+        <input matInput type="text" placeholder="Nom du site" formControlName="libelle"/>
+      </mat-form-field>
         <mat-form-field >
           <input matInput type="text" placeholder="Budget" formControlName="budget"/>
         </mat-form-field>
@@ -14,13 +17,16 @@
           <input matInput type="text" placeholder="Accompte" formControlName="accompte"/>
         </mat-form-field>
         <mat-form-field>
-          <input matInput type="text" placeholder="Solde" formControlName="reste"/>
-        </mat-form-field>
-        <mat-form-field>
-          <input matInput type="text" placeholder="Dépense" formControlName="total"/>
-        </mat-form-field>
-        <mat-form-field>
           <input matInput type="text" placeholder="Déboursé Sec" formControlName="debousserSec"/>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="solde" formControlName="reste"/>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="depense" formControlName="total"/>
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput type="text" placeholder="pourcent" formControlName="percent"/>
         </mat-form-field>
         <mat-form-field formGroupName="ville">
           <input matInput type="text" placeholder="Ville" formControlName="nom"/>

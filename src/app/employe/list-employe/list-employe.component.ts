@@ -48,24 +48,37 @@ export class ListEmployeComponent implements OnInit {
               private notificationService: NotificationService) {
   }
   ngOnInit(): void {
-    this.employeService.getAllEmploye().subscribe(list => {
-      console.log(list);
-      this.array = list.body.map(item => {
-        return {
-          id: item.id,
-          ...item
-        };
-      });
-      this.listData = new MatTableDataSource(this.array);
-      this.listData.sort = this.sort;
-      this.listData.paginator = this.paginator;
-      this.listData.filterPredicate = (data, filter) => {
-        return this.displayedColumns.some(ele => {
-          return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
-        });
-      };
+    if (localStorage.getItem('currentUser')) {
+      const token = localStorage.getItem('currentUser');
+      const decoded = this.helper.decodeToken(token);
+      this.managerService.getPersonneById(decoded.sub).subscribe(resultat => {
+        this.personne = resultat.body;
+        if (this.personne.type === 'MANAGER') {
+          this.managerService.getManagerById(this.personne.id).subscribe(res => {
+            this.personne = res.body;
+            this.employeService.getEmployeByIdEntreprise(this.personne.entreprise.id).subscribe(list => {
+              console.log(list);
+              this.array = list.body.map(item => {
+                return {
+                  id: item.id,
+                  ...item
+                };
+              });
+              this.listData = new MatTableDataSource(this.array);
+              this.listData.sort = this.sort;
+              this.listData.paginator = this.paginator;
+              this.listData.filterPredicate = (data, filter) => {
+                return this.displayedColumns.some(ele => {
+                  return ele !== 'actions' && data[ele].toLowerCase().indexOf(filter) !== -1;
+                });
+              };
 
-    });
+            });
+          });
+        }
+        });
+    }
+
      if(localStorage.getItem('currentUser')) {
        const token = localStorage.getItem('currentUser');
        const decoded = this.helper.decodeToken(token);
@@ -104,7 +117,6 @@ export class ListEmployeComponent implements OnInit {
 
         this.employeService.employeCreer$
           .subscribe(result => {
-            console.log(result.body);
             this.array.unshift(result.body);
             this.array = this.array;
             this.listData = new MatTableDataSource(this.array);

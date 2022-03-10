@@ -19,6 +19,8 @@ import {DetailStockService} from '../../service/detail-stock.service';
 import {DetailStock} from '../../model/DetailStock';
 import {DetailHistoryService} from '../../service/detail-history.service';
 import {DetailStockHistory} from '../../model/DetailStockHistory';
+import {AddMaterielComponent} from '../../materiel/add-materiel/add-materiel.component';
+import {EditStockComponent} from '../edit-stock/edit-stock.component';
 
 @Component({
   selector: 'app-list-stock',
@@ -185,7 +187,20 @@ export class ListStockComponent implements OnInit {
   }
 
   onEdit(row){
+    if (this.ROLE_NAME === 'ROLE_MANAGER'){
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      const dialogRef = this.dialog.open(EditStockComponent, {
+        data: {
+          stock: row.id
+        }
 
+      });
+    }else if (this.ROLE_NAME === 'ROLE_EMPLOYE') {
+      this.notificationService.warn('vous n\'êtes pas autorisé !') ;
+    }
   }
 
   onDelete(row){

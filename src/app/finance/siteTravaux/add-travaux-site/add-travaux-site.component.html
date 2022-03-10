@@ -1,0 +1,53 @@
+<div class="main-div">
+  <div>
+    <mat-card>Ajouter un site au projet</mat-card>
+    <br>
+    <div class="container">
+      <form [formGroup]="tForm" (ngSubmit)="onSubmit()" *ngIf="tForm">
+       <label>{{site.nomChantier}}</label>
+
+        <mat-form-field >
+          <input matInput type="text" placeholder="Nom du site" formControlName="libelle"/>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput type="text" placeholder="Numero du bon" formControlName="numeroBon" id="numeroBon">
+
+          </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput type="text" placeholder="Budget" formControlName="budget"/>
+        </mat-form-field>
+        <mat-form-field >
+          <input matInput type="text" placeholder="Accompte" formControlName="accompte"/>
+        </mat-form-field>
+
+        <mat-form-field formGroupName="ville">
+          <input matInput type="text" placeholder="Ville" formControlName="nom"/>
+        </mat-form-field>
+        <mat-form-field formGroupName="client">
+          <input matInput type="text" placeholder="Client" formControlName="nom"/>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="picker" placeholder="Choisir la date de debut du chantier" formControlName="date" id="date"
+                 readonly (click)="picker.open()">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+          <input matInput [matDatepicker]="pickers" placeholder="Choisir la date de livraison" formControlName="dateLivraison" id="dateL"
+                 readonly (click)="pickers.open()">
+          <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+          <mat-datepicker #pickers></mat-datepicker>
+        </mat-form-field>
+        <button type="submit" class="btn btn-success">
+          Valider
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+
+
+</div>
+
+

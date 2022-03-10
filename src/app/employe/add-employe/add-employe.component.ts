@@ -121,7 +121,7 @@ export class AddEmployeComponent implements OnInit {
 
       }
 
-      console.log('Voir le client', this.employe);
+
       this.employeService.modifEmploye(this.employe).subscribe(result => {
         console.log(result.status);
         if(result.status === 0){

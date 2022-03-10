@@ -8,6 +8,7 @@ import {HttpClient, HttpRequest} from "@angular/common/http";
 import {Site} from "../model/site";
 import {catchError, tap} from "rxjs/operators";
 import {MessageService} from "./message.service";
+import {Travaux} from '../model/travaux';
 
 
 @Injectable({
@@ -18,7 +19,13 @@ export class SiteService {
 
   constructor(private  http: HttpClient, private messageService: MessageService) {
   }
-
+  getSiteById(id: number): Observable<Resultat<Site>> {
+    return this.http.get<Resultat<Site>>(`${environment.apiUrl}/api/site/${id}`);
+  }
+  ajoutSite(site: Site): Observable<Resultat<Site>> {
+    console.log('methode du service qui ajoute un travail', site);
+    return this.http.post<Resultat<Site>>(`${environment.apiUrl}/api/site`, site);
+  }
 
 
   private log(message: string) {

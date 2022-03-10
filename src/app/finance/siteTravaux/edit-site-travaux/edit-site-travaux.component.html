@@ -36,37 +36,39 @@
       <div class="container">
         <form class="example-form" [formGroup]="createSiteForm" autocomplete="off" novalidate (ngSubmit)="createSiteChantier(createSiteForm.value)" fxLayout="column wrap"
               fxLayoutAlign="center center" fxLayoutGap="10px" *ngIf="createSiteForm">
-          <mat-card-title>NOUVEAU CHANTIER</mat-card-title>
+          <mat-card-title>NOUVEAU PROJET</mat-card-title>
           <mat-card-content>
             <div>
+              <mat-form-field class="example-full-width" formGroupName="site">
+                <input matInput type="text" placeholder="Nom du projet" formControlName="nomChantier" id="nomChantier">
+                <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
+                <mat-error *ngIf="hasError('nomChantier', 'required')">Champ obligatoire</mat-error>
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <input matInput type="text" placeholder="Nom du site" formControlName="libelle" id="libelle">
+                <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
+                <mat-error *ngIf="hasError('libelle', 'required')">Champ obligatoire</mat-error>
+              </mat-form-field>
          <mat-form-field class="example-full-width" formGroupName="ville">
               <input matInput type="text" placeholder="Nom de la ville" formControlName="nom" id="nom">
               <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
               <mat-error *ngIf="hasError('nom', 'required')">Champ obligatoire</mat-error>
             </mat-form-field>
             </div>
-            <mat-form-field class="example-full-width" formGroupName="site">
-              <input matInput type="text" placeholder="Nom du projet" formControlName="nomChantier" id="nomChantier">
-              <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
-              <mat-error *ngIf="hasError('nomChantier', 'required')">Champ obligatoire</mat-error>
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-              <input matInput type="text" placeholder="Nom du chantier" formControlName="libelle" id="libelle">
-              <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
-              <mat-error *ngIf="hasError('libelle', 'required')">Champ obligatoire</mat-error>
-            </mat-form-field>
+
+
             <mat-form-field class="example-full-width">
               <input matInput type="text" placeholder="Numero du bon" formControlName="numeroBon" id="numeroBon">
               <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
               <mat-error *ngIf="hasError('numeroBon', 'required')">Champ obligatoire</mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
-              <input matInput type="text" placeholder="Budget" formControlName="budget" id="budget">
+              <input matInput type="number" placeholder="Budget" formControlName="budget" id="budget">
               <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
               <mat-error *ngIf="hasError('budget', 'required')">Champ obligatoire</mat-error>
             </mat-form-field>
             <mat-form-field class="example-full-width">
-              <input matInput type="text" placeholder="Acompte" formControlName="accompte" id="accompte">
+              <input matInput type="number" placeholder="Acompte" formControlName="accompte" id="accompte">
               <mat-hint align="end">Vous devez remplir ce champs!</mat-hint>
               <mat-error *ngIf="hasError('accompte', 'required')">Champ obligatoire</mat-error>
             </mat-form-field>

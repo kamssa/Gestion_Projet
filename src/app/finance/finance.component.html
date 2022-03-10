@@ -17,7 +17,7 @@
                           <mat-card class="mat-card" matTooltip="Selectioner un site pour les details">
                             <div>
                               <mat-form-field style="width: 100%">
-                                <input  matInput #searchbox (keyup)="search(searchbox.value)" placeholder="Rechercher un site">
+                                <input  matInput #searchbox (keyup)="search(searchbox.value)" placeholder="Rechercher un projet">
 
                               </mat-form-field>
                             </div>
@@ -27,7 +27,7 @@
                                    [routerLink]="[tr.id]" routerLinkActive="active"
                                    (click)="onSelect(tr)">
                                   <div class="pull-left">
-                                    <p >{{tr.site.nomChantier}}</p>
+                                    <p >{{tr.libelle}}</p>
                                     <p> {{tr.budget | number}}</p>
                                   </div>
                                 </a>
@@ -72,7 +72,7 @@
 
                       <div class="action-2">
                         <div>
-                          <a mat-mini-fab color="primary" matTooltip="Accueil des chantiers" routerLink="/finance"
+                          <a mat-mini-fab color="primary" matTooltip="Accueil des projets" routerLink="/finance"
                              matTooltipPosition="after">
                             <mat-icon>face</mat-icon>
                           </a>

@@ -4,21 +4,35 @@
                          (closed)="panelOpenState = false">
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <p>Les informations sur le chantier : {{travaux.site.nomChantier}}</p>
+          <p>Les informations sur le projet : {{travaux.site.nomChantier}}</p>
         </mat-panel-title>
         <mat-panel-description>
           {{panelOpenState ? 'Fermer' : 'Ouvrir'}}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <h3 class="site">Site : {{travaux.site.nomChantier}}</h3>
+      <h3 class="site">Projet : {{travaux.site.nomChantier}}</h3>
+      <h3 class="site">Site : {{travaux.libelle}}</h3>
       <h3 class="site">Numero du bon  : {{travaux.numeroBon}}</h3>
       <h3 class="site">Budget : {{travaux.budget|number}} CFA</h3>
+      <h3 class="site">Debousser Sec : {{travaux.debousserSec|number}} CFA</h3>
       <h3 class="site">Acompte : {{travaux.accompte|number}} CFA</h3>
-      <h3 class="site"> Solde : {{travaux.reste|number}} CFA</h3>
-      <h3 class="site">Dépense : {{travaux.total|number}} CFA</h3>
+      <h3 class="site"> Solde : {{travaux.reste| number}} CFA</h3>
+      <h3 class="site">Dépense : {{travaux.total| number}} CFA</h3>
+      <h3 class="site">Evolution : {{travaux.percent| number}} %</h3>
       <h3 class="site">Debut des travaux : {{travaux.date | date: 'dd/MM/yyyy'}}</h3>
       <h3 class="site">Date de livraison :  {{travaux.dateLivraison | date: 'dd/MM/yyyy'}} </h3>
-      <button mat-button color="primary" (click)="update(travaux.id)">Modifier</button>
+      <hr>
+      <div fxLayout="row" fxLayoutAlign="space-between">
+        <button mat-raised-button class="boutonEnr"  (click)="update(travaux.id)"> Modifier
+        </button>
+        <div class="action-3">
+          <div class="" matTooltip="créer un nouvau chantier" matTooltipPosition="right">
+            <a mat-mini-fab (click)="add(travaux.site.id)" color="warn">
+              <mat-icon>add</mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
     </mat-expansion-panel>
   </mat-accordion>
   <br>

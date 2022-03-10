@@ -112,16 +112,7 @@ export class EditStockComponent implements OnInit {
                 );
               });
             });
-           /* this.materielService.getAllMateriel()
-              .subscribe(data => {
-                this.materiaux = data.body;
-                this.filteredOptions = this.myControl.valueChanges.pipe(
 
-                  startWith(''),
-                   map(value => (typeof value === 'string' ? value : value.libelle)),
-                   map(libelle => (libelle ? this.filter(libelle) : this.materiaux.slice())),
-                );
-              });*/
             if (this.data['stock']){
               this.editMode = true;
               this.stockService.getStockById(this.data['stock'])
@@ -277,6 +268,34 @@ export class EditStockComponent implements OnInit {
            this.router.navigate(['/listDetailStock', this.personne.entreprise.id]);
          }
        });
+    }else {
+      this.materiau = JSON.parse(localStorage.getItem('materiau'));
+
+      this.stock = {
+        id: null,
+        version: null,
+        libelle: this.materiau.categorie.libelle,
+        entreprise: this.personne.entreprise,
+        detailStock: [
+          {
+            id: null,
+            version: null,
+            libelleMateriaux: this.materiau.libelle,
+            unite: this.materiau.unite,
+            prixUnitaire: parseInt(this.valueInput.nativeElement.value),
+            quantite: parseInt(this.quantiteInput.nativeElement.value),
+            frais: parseInt(this.fraisInput.nativeElement.value),
+            categorie: this.materiau.categorie,
+            fournisseur: {
+              id: null,
+              version: null,
+              libelle: this.fournisseurInput.nativeElement.value
+            },
+          }
+        ]
+      };
+      localStorage.removeItem('materiau');
+      console.log('Voir stock retourne', this.stock);
     }
 
   }

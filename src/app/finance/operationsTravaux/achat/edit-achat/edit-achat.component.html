@@ -12,11 +12,11 @@
       </mat-expansion-panel-header>
       <h3 class="site">Site : {{travaux.site.nomChantier}}</h3>
       <h3 class="site">Numero du bon  : {{travaux.numeroBon}}</h3>
-      <h3 class="site">Budget : {{travaux.budget|number}}</h3>
-      <h3 class="site"> Solde : {{travaux.reste|number}}</h3>
-      <h3 class="site">Dépense : {{travaux.total|number}}</h3>
+      <h3 class="site">Budget : {{travaux.budget | number}}</h3>
+      <h3 class="site"> Solde : {{travaux.reste | number}}</h3>
+      <h3 class="site">Dépense : {{travaux.total | number}}</h3>
       <h3 class="site">Debut des travaux : {{travaux.date | date: 'dd/MM/yyyy'}}</h3>
-      <h3 class="site">Date de livraison : </h3>
+      <h3 class="site">Date de livraison : {{travaux.dateLivraison | date: 'dd/MM/yyyy'}}</h3>
     </mat-expansion-panel>
   </mat-accordion>
 

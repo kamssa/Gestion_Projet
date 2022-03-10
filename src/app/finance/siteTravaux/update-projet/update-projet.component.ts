@@ -47,16 +47,24 @@ export class UpdateProjetComponent implements OnInit {
                 this.tForm = this.fb.group({
                   id: this.travau.id,
                   version: this.travau.version ,
+                  libelle: this.travau.libelle,
                   numeroBon: this.travau.numeroBon,
                   budget: this.travau.budget,
                   accompte: this.travau.accompte,
                   reste: this.travau.reste,
                   total: this.travau.total,
+                  percent: this.travau.percent,
                   debousserSec: this.travau.debousserSec,
                   date: this.travau.date,
                   dateLivraison: this.travau.dateLivraison,
-                  site: this.travau.site,
+                  site: this.fb.group({
+                    id: this.travau.site.id,
+                    version: this.travau.site.version ,
+                    nomChantier: this.travau.site.nomChantier,
+                    entreprise: this.personne.entreprise
+                  }),
                   ville: this.fb.group({
+
                     nom: this.travau.ville.nom,
                   }),
                   client: this.fb.group({

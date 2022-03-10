@@ -10,6 +10,7 @@ import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {AddCategorieComponent} from '../../../categorie/add-categorie/add-categorie.component';
 import {MatTableDataSource} from '@angular/material/table';
 import {UpdateProjetComponent} from '../update-projet/update-projet.component';
+import {AddTravauxSiteComponent} from '../add-travaux-site/add-travaux-site.component';
 
 @Component({
   selector: 'app-liste-site-travaux-operation',
@@ -83,7 +84,7 @@ export class ListeSiteTravauxOperationComponent implements OnInit{
 
           this.travauxService.getTravauxById(this.travauxId).subscribe(res => {
           this.travaux = res.body;
-          console.log('Voir le reste ', res.body.reste);
+          console.log('Voir le reste ', res.body);
           });
         }
       );
@@ -117,6 +118,22 @@ export class ListeSiteTravauxOperationComponent implements OnInit{
       });
 
 
+
+  }
+
+  add(id) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
+    const dialogRef = this.dialog.open(AddTravauxSiteComponent,
+      {
+
+        data: {
+          dialogConfig,
+          site: id
+        }
+      });
 
   }
 }

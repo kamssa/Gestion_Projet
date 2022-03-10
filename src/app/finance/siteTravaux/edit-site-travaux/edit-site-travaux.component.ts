@@ -11,6 +11,8 @@ import {APP_DATE_FORMATS, AppDateAdapter} from '../../../helper/format-datepicke
 import {EmployeService} from '../../../service/employe.service';
 import {ManagerService} from '../../../service/manager.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {SiteService} from '../../../service/site.service';
+import {NotificationService} from '../../../helper/notification.service';
 
 @Component({
   selector: 'app-edit-site-travaux',
@@ -38,7 +40,8 @@ export class EditSiteTravauxComponent implements OnInit {
   constructor(
     private  router: Router, private  fb: FormBuilder,
     private  siteTravauxService: SteTravauxService,
-    private location: Location,
+    private siteService: SiteService,
+    private location: Location,   private notificationService: NotificationService,
     private dialog: MatDialog,
     private  employeService: EmployeService,
     private managerService: ManagerService,
@@ -129,33 +132,42 @@ export class EditSiteTravauxComponent implements OnInit {
     }
   }
   onSubmit(createSiteFormValue): void {
-    console.log(this.createSiteForm.value);
-    let  travail : Travaux = {
-      libelle: createSiteFormValue.libelle,
-      numeroBon: createSiteFormValue.numeroBon,
-      accompte: createSiteFormValue.accompte,
-      budget: createSiteFormValue.budget,
-      date: createSiteFormValue.date,
-      dateLivraison: createSiteFormValue.dateLivraison,
-      site: createSiteFormValue.site,
-      ville: createSiteFormValue.ville,
-      client: createSiteFormValue.client
-    };
-     console.log('Voir enregistrement', travail);
-     this.siteTravauxService.ajoutTravaux(travail).subscribe(data => {
-      console.log(data.body);
-      this.travail = data.body;
-      this.travauxId = data.body.id;
-      let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
-      dialogRef.afterClosed()
-        .subscribe(result => {
-          this.router.navigate(['finance']);
-        });
 
-    }, error => {
-      this.location.back();
-    });
 
+     this.siteService.ajoutSite(this.createSiteForm.value.site)
+       .subscribe(res => {
+
+         let  travail : Travaux = {
+           libelle: createSiteFormValue.libelle,
+           numeroBon: createSiteFormValue.numeroBon,
+           accompte: createSiteFormValue.accompte,
+           budget: createSiteFormValue.budget,
+           date: createSiteFormValue.date,
+           dateLivraison: createSiteFormValue.dateLivraison,
+           site: res.body,
+           ville: createSiteFormValue.ville,
+           client: createSiteFormValue.client
+         };
+         this.siteTravauxService.ajoutTravaux(travail).subscribe(data => {
+           if(data.status === 0){
+             this.travail = data.body;
+             this.travauxId = data.body.id;
+             let dialogRef = this.dialog.open(SuccessDialogComponent, this.dialogConfig);
+             dialogRef.afterClosed()
+               .subscribe(result => {
+                 this.router.navigate(['finance']);
+               });
+
+           }else {
+             this.notificationService.warn(data.messages);
+           }
+
+         }, error => {
+           this.location.back();
+         });
+
+
+       });
 
   }
   achat() {
