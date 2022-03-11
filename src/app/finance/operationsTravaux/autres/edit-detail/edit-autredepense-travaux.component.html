@@ -68,9 +68,10 @@
                         <mat-label>Quantite</mat-label>
                         <input #quantite matInput placeholder="Quantite" formControlName="quantite">
                       </mat-form-field>
-                      <mat-label>
-                        <input matInput #montant  placeholder="{{montant}}"  (click)="getCalcul()">
-                      </mat-label>
+                      <mat-form-field  class="example-full-width">
+                        <input   #montant type="number" matInput placeholder="{{montant || 0 | number}}" (click)="getCalcul()">
+                        <mat-error>Ce champ est obligatoire.</mat-error>
+                      </mat-form-field>
                       <div>
                         <button mat-button matStepperNext type="button">Suivant</button>
                       </div>

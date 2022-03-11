@@ -102,7 +102,7 @@ export class EditStockComponent implements OnInit {
             this.route.params.subscribe(params => {
               this.id = +params['id'];
               this.categorieService.getMatByIdEntreprise(this.id).subscribe(data => {
-             console.log('materiel par entreprise: ', data.body);
+
              this.materiaux = data.body;
              this.filteredOptions = this.myControl.valueChanges.pipe(
 

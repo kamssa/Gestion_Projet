@@ -101,17 +101,24 @@ export class ListAchatComponent implements OnInit, AfterViewInit{
     if (this.ROLE_NAME === "ROLE_MANAGER"){
       if (confirm("Voulez vous vraiment supprimer l'achat ")) {
         this.serviceAchat.supprimerUnAchat(row.id).subscribe(data => {
-          this.router.navigate(['finance/achat', this.travauxId]);
+          if(data.status ===0){
+            const index: number = this.array.indexOf(row);
+            if (index !== -1) {
+              this.array.splice(index, 1);
+              this.listData = new MatTableDataSource(this.array);
+              this.listData.sort = this.sort;
+              this.listData.paginator = this.paginator;
+
+            }
+            this.notificationService.warn("Suppression avec succès") ;
+            this.router.navigate(['finance/achat', this.travauxId]);
+          }else {
+            this.notificationService.warn("Le déboursé sec n\'est pas renseigné") ;
+          }
+
         });
       }
-      const index: number = this.array.indexOf(row);
-      if (index !== -1) {
-        this.array.splice(index, 1);
-        this.listData = new MatTableDataSource(this.array);
-        this.listData.sort = this.sort;
-        this.listData.paginator = this.paginator;
 
-      }
     }else {
       this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }

@@ -37,6 +37,8 @@ import {DetailHistoryComponent} from '../../stock/detail-history/detail-history.
 import {ComptabiliteComponent} from '../../comptabilite/comptabilite/comptabilite.component';
 import {EmployePermitionComponent} from '../../employe/employe-permition/employe-permition.component';
 import {UpdateProjetComponent} from '../../finance/siteTravaux/update-projet/update-projet.component';
+import {AdvanceProjetComponent} from '../../administration/advance-projet/advance-projet.component';
+import {ListProjetComponent} from '../../administration/advance-projet/list-projet/list-projet.component';
 
 
 
@@ -70,6 +72,8 @@ import {UpdateProjetComponent} from '../../finance/siteTravaux/update-projet/upd
     DetailHistoryComponent,
     ComptabiliteComponent,
     EmployePermitionComponent,
+    AdvanceProjetComponent,
+    ListProjetComponent
 
   ],
     imports: [
@@ -82,7 +86,7 @@ import {UpdateProjetComponent} from '../../finance/siteTravaux/update-projet/upd
         MaterialModule,
         NgxIntlTelInputModule,
         Ng2TelInputModule,
-        FinanceModule
+        FinanceModule,
     ]
 })
 export class AdminLayoutModule { }

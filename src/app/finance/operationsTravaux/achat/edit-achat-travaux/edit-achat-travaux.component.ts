@@ -70,6 +70,7 @@ export class EditAchatTravauxComponent implements OnInit {
   myControl = new FormControl();
   constructor(private  fb: FormBuilder,
               private  achatTravauxService: AchatTravauxService,
+
               private detailAticleStockGeneralService: DetailAticleStockGeneralService,
               public dialog: MatDialog,
               private router: Router,
@@ -242,7 +243,7 @@ export class EditAchatTravauxComponent implements OnInit {
             }
           ]
         };
-        console.log('Voir stock retourne', this.achatTravaux);
+
 
       } else if (this.personne.type === 'EMPLOYE') {
         this.achatTravaux = {
@@ -253,18 +254,26 @@ export class EditAchatTravauxComponent implements OnInit {
 
 
       //localStorage.removeItem('materiau');
+      this.travauxService.getTravauxById(this.travauxId)
+        .subscribe(res => {
+          if(res.body.debousserSec !== null){
 
-      this.achatTravauxService.ajoutAchatTravaux(this.achatTravaux)
-        .subscribe(data => {
-          if (data.status === 0){
-            localStorage.removeItem('materiau');
-            this.achatTravaux = data.body;
-            this.notificationService.warn('Enregistrement effectué avec succès');
-            this.router.navigate(['/listDetailStock']);
+            this.achatTravauxService.ajoutAchatTravaux(this.achatTravaux)
+              .subscribe(data => {
+                if (data.status === 0){
+                  localStorage.removeItem('materiau');
+                  this.achatTravaux = data.body;
+                  this.notificationService.warn('Enregistrement effectué avec succès');
+                  this.router.navigate(['/listDetailStock']);
+                }
+              });
           }else {
-            this.notificationService.warn(data.messages);
+            this.notificationService.warn("Le déboursé sec n\'est pas renseigné");
+
           }
+
         });
+
     }
 
   }

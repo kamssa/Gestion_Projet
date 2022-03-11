@@ -25,6 +25,7 @@ import {EditStockComponent} from '../../stock/edit-stock/edit-stock.component';
 import {DetailHistoryComponent} from '../../stock/detail-history/detail-history.component';
 import {ListCaisseComponent} from '../../caisse/list-caisse/list-caisse.component';
 import {AdvanceProjetComponent} from '../../administration/advance-projet/advance-projet.component';
+import {ListProjetComponent} from '../../administration/advance-projet/list-projet/list-projet.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -129,8 +130,13 @@ export const AdminLayoutRoutes: Routes = [
   },
   {
     path: 'etatProjet', component: AdvanceProjetComponent
-  }
+  },
+  {
+    path: 'etat/:id',
 
+    component: ListProjetComponent
+
+  },
 
   /*{ path: 'banque',
     canActivate: [AuthGuardService],

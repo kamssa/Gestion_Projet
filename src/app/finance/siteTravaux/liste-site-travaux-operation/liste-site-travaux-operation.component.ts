@@ -50,6 +50,7 @@ export class ListeSiteTravauxOperationComponent implements OnInit{
     ).subscribe(result => {
       this.travaux = result.body;
       this.travauxId = result.body.id;
+      console.log(result.body);
     });
   }
   achat() {
@@ -88,7 +89,13 @@ export class ListeSiteTravauxOperationComponent implements OnInit{
           });
         }
       );
-
+    this.achatTravauxService.travauxSupprime$
+      .subscribe(data => {
+        this.travauxService.getTravauxById(this.travauxId).subscribe(res => {
+          this.travaux = res.body;
+          console.log('Voir le reste ', res.body);
+        });
+      });
 
     }
 

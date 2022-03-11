@@ -39,9 +39,9 @@ export class FinanceComponent implements OnInit {
       .pipe(debounceTime(300),
         distinctUntilChanged(),
         switchMap(mc => mc ?  this.siteTravauxService.rechercheTravauxParMc(mc)
-          : this.siteTravauxService.rechercheTravauxParMc('aucun site trouvé'))
+          : this.siteTravauxService.rechercheTravauxParMc('Aucun projet  trouvé'))
       );
-       this.toutsLesTravaux();
+    this.toutsLesTravaux();
     // renvoie le site créé
     this.siteTravauxService.travauxCreer$.subscribe(res => {
         this.travaux.push(res.body);
@@ -80,6 +80,7 @@ export class FinanceComponent implements OnInit {
        }
 
      );*/
+
   }
   initForm(): void {
     this.createSiteForm = this.fb.group({

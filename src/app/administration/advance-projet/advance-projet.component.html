@@ -1,31 +1,61 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-12">
         <div class="card">
-          <div class="card-header card-header-danger">
-            <h4 class="card-title">Gestion des avancemement</h4>
+
+
+          <div class="card-header card-header-danger ">
+            <h4 class="card-title" routerLink="active">Etat financier </h4>
           </div>
           <div class="card-body">
-            <fusioncharts
-              width={{width}}
-              height={{height}}
-              type={{type}}
-              dataFormat={{dataFormat}}
-               >
-            </fusioncharts>
-
-            <mat-divider></mat-divider>
-
-            <br>
             <div>
+              <div>
+                <div class="listes">
+                  <div class="item">
 
+                      <div>
+
+                        <mat-card class="mat-card" matTooltip="Selectioner un projet pour les details">
+                          <div>
+                            <mat-form-field style="width: 100%">
+                              <input  matInput #searchbox (keyup)="search(searchbox.value)" placeholder="Rechercher un projet">
+
+                            </mat-form-field>
+                          </div>
+                          <div>
+                            <div  *ngFor="let tr of oTravaux | async"  class="list-group">
+                              <a class="list-group-item  clearfix"
+
+                                 (click)="onSelect(tr)">
+                                <div class="pull-left">
+                                  <p >{{tr.libelle}}</p>
+                                  <p> {{tr.budget | number}}</p>
+                                </div>
+                              </a>
+
+                              <mat-divider></mat-divider>
+                            </div>
+                          </div>
+                          </mat-card>
+                        </div>
+
+
+                      </div>
+
+
+                  </div>
+
+
+                </div>
+              </div>
             </div>
+         <app-list-projet travauxid="{{travauxId}}" *ngIf="edit==0"></app-list-projet>
           </div>
+
         </div>
       </div>
-
     </div>
+
   </div>
-</div>
 
