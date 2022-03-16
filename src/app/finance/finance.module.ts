@@ -40,9 +40,12 @@ import {ListLoyerComponent} from './operationsTravaux/loyer/list-loyer/list-loye
 import {DetailLoyerComponent} from './operationsTravaux/loyer/detail-loyer/detail-loyer.component';
 import {EditAchatTravauxComponent} from './operationsTravaux/achat/edit-achat-travaux/edit-achat-travaux.component';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import { AutreAchatTravauxComponent } from './operationsTravaux/achat/autre-achat-travaux/autre-achat-travaux.component';
+import { AutreAchatTravauxComponent } from './operationsTravaux/autreAchatTravaux/autre-achat-travaux/autre-achat-travaux.component';
 import {UpdateProjetComponent} from './siteTravaux/update-projet/update-projet.component';
 import { AddTravauxSiteComponent } from './siteTravaux/add-travaux-site/add-travaux-site.component';
+import { ListAutreAchatComponent } from './operationsTravaux/autreAchatTravaux/list-autre-achat/list-autre-achat.component';
+import { DialogAutreAchatTravauxComponent } from './operationsTravaux/autreAchatTravaux/dialog-autre-achat-travaux/dialog-autre-achat-travaux.component';
+import { EditAutreAchatTravauxComponent } from './operationsTravaux/autreAchatTravaux/edit-autre-achat-travaux/edit-autre-achat-travaux.component';
 
 
 
@@ -102,7 +105,10 @@ import { AddTravauxSiteComponent } from './siteTravaux/add-travaux-site/add-trav
     EditAchatTravauxComponent,
     AutreAchatTravauxComponent,
     UpdateProjetComponent,
-    AddTravauxSiteComponent
+    AddTravauxSiteComponent,
+    ListAutreAchatComponent,
+    DialogAutreAchatTravauxComponent,
+    EditAutreAchatTravauxComponent
 
 
   ],

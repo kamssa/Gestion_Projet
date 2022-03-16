@@ -20,13 +20,15 @@
               <mat-cell *matCellDef="let element">{{element?.nomComplet}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="service">
-              <mat-header-cell *matHeaderCellDef  mat-sort-header>Service</mat-header-cell>
+              <mat-header-cell *matHeaderCellDef  mat-sort-header>Departement</mat-header-cell>
               <mat-cell *matCellDef="let element">{{element?.departement?.libelle}}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="actions">
               <mat-header-cell *matHeaderCellDef></mat-header-cell>
               <mat-cell *matCellDef="let row">
                 <button mat-icon-button (click)="onEdit(row)"><mat-icon>launch</mat-icon></button>
+                <button mat-icon-button color="warn" (click)="onPermit(row)"><mat-icon>launch</mat-icon></button>
+
                 <button mat-icon-button color="warn" (click)="onDelete(row)"><mat-icon>delete_outline</mat-icon></button>
               </mat-cell>
             </ng-container>

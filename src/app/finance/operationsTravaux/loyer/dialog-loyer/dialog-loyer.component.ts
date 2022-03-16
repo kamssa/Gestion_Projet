@@ -16,7 +16,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./dialog-loyer.component.scss']
 })
 export class DialogLoyerComponent implements OnInit {
-  displayedColumns: string[] = ['libelle', 'montant', 'update', 'delete'];
+  displayedColumns: string[] = ['libelle', 'montant', 'delete'];
   dataSource: MatTableDataSource<DetailLoyer>;
   receptacle: any = [];
   detailLoyer: DetailLoyer[] = [];

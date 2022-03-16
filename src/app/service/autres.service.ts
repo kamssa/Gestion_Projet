@@ -8,6 +8,7 @@ import {Loyer} from "../model/Loyer";
 import {environment} from "../../environments/environment";
 import {catchError, map, tap} from "rxjs/operators";
 import {Autres} from "../model/Autres";
+import {AchatTravaux} from '../model/AchatTravaux';
 
 
 @Injectable({
@@ -15,17 +16,17 @@ import {Autres} from "../model/Autres";
 })
 export class AutresService {
 // observables sources
-  private travauxCreerSource = new Subject<Resultat<LocationTravaux>>();
-  private travauxModifSource = new Subject<Resultat<LocationTravaux>>();
-  private travauxFiltreSource = new Subject<string>();
-  private travauxSupprimeSource = new Subject<Resultat<boolean>>();
+  private autreCreerSource = new Subject<Resultat<Autres>>();
+  private autrModifSource = new Subject<Resultat<Autres>>();
+  private autreFiltreSource = new Subject<string>();
+  private autreSupprimeSource = new Subject<Resultat<boolean>>();
 
 
 // observables streams
-  travauxCreer$ = this.travauxCreerSource.asObservable();
-  travauxModif$ = this.travauxModifSource.asObservable();
-  travauxFiltre$ = this.travauxFiltreSource.asObservable();
-  travauxSupprime$ = this.travauxSupprimeSource.asObservable();
+  autrCreer$ = this.autreCreerSource.asObservable();
+  autrModif$ = this.autrModifSource.asObservable();
+  autrFiltre$ = this.autreFiltreSource.asObservable();
+  autrSupprime$ = this.autreSupprimeSource.asObservable();
 
   constructor(private  http: HttpClient, private messageService: MessageService) {
   }
@@ -36,14 +37,22 @@ export class AutresService {
 
   ajoutAutres(autres: Autres): Observable<Resultat<Autres>> {
     console.log('methode du service qui ajoute  autres', autres);
-    return this.http.post<Resultat<Autres>>(`${environment.apiUrl}/api/autres`, autres);
+    return this.http.post<Resultat<Autres>>
+    (`${environment.apiUrl}/api/autres`, autres)
+      .pipe(
+        tap(res => {
+          this.log(`achat crée =${res.body}`);
+          this.autreCreer(res);
+        }),
+        catchError(this.handleError<Resultat<AchatTravaux>>('ajoutAutres'))
+      );
   }
   modifAutreTravaux(autres: Autres): Observable<Resultat<Autres>> {
     console.log('methode du service qui modifier Autres', Autres);
     return this.http.put<Resultat<Autres>>(`${environment.apiUrl}/api/autres`, autres);
   }
   getAutresById(id: Autres): Observable<Resultat<Autres>> {
-    return this.http.get<Resultat<Autres>>(`${environment.apiUrl}/api/autres/${id}`);
+    return this.http.get<Resultat<Autres>>(`${environment.apiUrl}/api/autre/${id}`);
   }
   supprimerAutre(id: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/api/autres/${id}`);
@@ -56,7 +65,7 @@ export class AutresService {
 // recuperer achat par id travaux
   getautresByTravaux(id: number): Observable<Autres[]> {
     // @ts-ignore
-    return this.http.get<Resultat<Autres[]>>(`${environment.apiUrl}/${id}`)
+    return this.http.get<Resultat<Autres[]>>(`${environment.apiUrl}/api/autres/${id}`)
       .pipe(map(res => res.body,
         tap(res =>
           this.log(`location trouve =${res}`))),
@@ -64,21 +73,21 @@ export class AutresService {
       );
   }
 
-  travauxCreer(res: Resultat<LocationTravaux>) {
+  autreCreer(res: Resultat<Autres>) {
     console.log('Travail a ete  creer correctement essaie source');
-    this.travauxCreerSource.next(res);
+    this.autreCreerSource.next(res);
   }
 
-  abonnesModif(res: Resultat<LocationTravaux>) {
-    this.travauxModifSource.next(res);
+  autreModif(res: Resultat<Autres>) {
+    this.autrModifSource.next(res);
   }
 
-  filtreTravaux(text: string) {
-    this.travauxFiltreSource.next(text);
+  filtreautre(text: string) {
+    this.autreFiltreSource.next(text);
   }
 
-  travauxsupprime(res: Resultat<boolean>) {
-    this.travauxSupprimeSource.next(res);
+  autresupprime(res: Resultat<boolean>) {
+    this.autreSupprimeSource.next(res);
   }
 
   private log(message: string) {

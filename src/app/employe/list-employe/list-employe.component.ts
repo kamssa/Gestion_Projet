@@ -14,6 +14,7 @@ import {AuthService} from '../../service/auth.service';
 import {Departement} from '../../model/Departement';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {NotificationService} from '../../helper/notification.service';
+import {EmployePermitionComponent} from '../employe-permition/employe-permition.component';
 
 @Component({
   selector: 'app-list-employe',
@@ -181,6 +182,16 @@ export class ListEmployeComponent implements OnInit {
     }else {
       this.notificationService.warn('vous n\'êtes pas autorisé !') ;
     }
+
+  }
+
+  onPermit(row: any) {
+      this.employeService.populateForm(row);
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = "60%";
+      const dialogRef = this.dialog.open(EmployePermitionComponent, dialogConfig);
 
   }
 }

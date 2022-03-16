@@ -8,6 +8,9 @@ import {AchatTravauxService} from '../../../service/achat-travaux.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {switchMap} from 'rxjs/operators';
 import {UpdateProjetComponent} from '../../../finance/siteTravaux/update-projet/update-projet.component';
+import {ManagerService} from '../../../service/manager.service';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {AutresService} from '../../../service/autres.service';
 
 @Component({
   selector: 'app-list-projet',
@@ -26,15 +29,44 @@ export class ListProjetComponent implements OnInit {
   panelOpenState = false;
   travaux$: Observable<Travaux>;
   montant: number;
+  personne: any;
+  array: any;
+  roles: any;
+  ROLE_ADMIN: any;
+  ROLE_NAME: any;
+  error = '';
+  ROLE_MANAGER: any;
   constructor(private route: ActivatedRoute,
+              private managerService: ManagerService,
+              private autresService: AutresService,
               private travauxService: SteTravauxService,
               private  router: Router,
               private mediaObserver: MediaObserver,
+              private helper: JwtHelperService,
               private achatTravauxService: AchatTravauxService,
               public dialog: MatDialog) {
 
   }
   ngOnInit(): void {
+    this.refreshData();
+     setInterval(() => {
+      this.refreshData();
+    }, 3000);
+  }
+  refreshData(){
+    if (localStorage.getItem('currentUser')) {
+      const token = localStorage.getItem('currentUser');
+      const decoded = this.helper.decodeToken(token);
+      this.managerService.getPersonneById(decoded.sub).subscribe(resultat => {
+        this.personne = resultat.body;
+        if (this.personne.type === 'MANAGER') {
+          this.managerService.getManagerById(this.personne.id).subscribe(res => {
+            this.personne = res.body;
+          });
+        }
+      });
+    }
+
     this.mediaSub = this.mediaObserver.media$.subscribe(
       (result: MediaChange) => {
         console.log(result.mqAlias);
@@ -46,7 +78,6 @@ export class ListProjetComponent implements OnInit {
     ).subscribe(result => {
       this.travaux = result.body;
       this.travauxId = result.body.id;
-      console.log(result.body);
     });
   }
   update(id) {
@@ -62,16 +93,33 @@ export class ListProjetComponent implements OnInit {
           travaux: id
         }
       });
-    this.travauxService.travauxModif$
-      .subscribe(result => {
-        if (result.status === 0){
-          this.travaux = result.body;
-        }
+  }
+  onAchat(travail: Travaux) {
+    this.router.navigate(['finance/achat', travail.id]);
+  }
 
-      });
-
-
+  onLocation(travail: Travaux) {
+    this.router.navigate(['finance/location', travail.id]);
 
   }
 
+
+  onLoyer(travail: Travaux) {
+    this.router.navigate(['finance/loyer', travail.id]);
+
+  }
+
+  onOeuvre(travail: Travaux) {
+    this.router.navigate(['finance/oeuvre', travail.id]);
+
+  }
+
+  onTransport(travail: Travaux) {
+    this.router.navigate(['finance/transport', travail.id]);
+
+  }
+
+  onAutres(travail: Travaux) {
+    this.router.navigate(['finance/autre', travail.id]);
+  }
 }

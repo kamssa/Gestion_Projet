@@ -16,7 +16,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./dialog-autres.component.scss']
 })
 export class DialogAutresComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['Libelle', 'montant', 'delete'];
+  displayedColumns: string[] = ['designation', 'prixUnitaire', 'quantite', 'montant', 'delete'];
   dataSource: MatTableDataSource<DetailAutres>;
   receptacle: any = [];
   detailAutres: DetailAutres[] = [];

@@ -9,16 +9,18 @@ import {Observable} from 'rxjs';
 import {Materiaux} from '../../../../model/Materiaux';
 import {DetailAticleStockGeneralService} from '../../../../service/detail-aticle-stock-general.service';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
-import {Router} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {DialogConfirmService} from '../../../../helper/dialog-confirm.service';
 import {NotificationService} from '../../../../helper/notification.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {ManagerService} from '../../../../service/manager.service';
 import {EmployeService} from '../../../../service/employe.service';
-import {map, startWith} from 'rxjs/operators';
+import {map, startWith, switchMap} from 'rxjs/operators';
 import {AutreAchatTravauxService} from '../../../../service/autre-achat-travaux.service';
 import {AutreAchatTravaux} from '../../../../model/AutreAchatTravaux';
 import {CategorieService} from '../../../../service/categorie.service';
+import {Travaux} from '../../../../model/travaux';
+import {SteTravauxService} from '../../../../service/ste-travaux.service';
 
 @Component({
   selector: 'app-autre-achat-travaux',
@@ -57,12 +59,16 @@ export class AutreAchatTravauxComponent implements OnInit {
   materiaux: Materiaux [];
   materiau: Materiaux;
   myControl = new FormControl();
+  travaux: Travaux;
+  travauxId: number;
   constructor(private  fb: FormBuilder,
               private categorieService: CategorieService,
               private  autreAchatTravauxService: AutreAchatTravauxService,
               private detailAticleStockGeneralService: DetailAticleStockGeneralService,
               public dialog: MatDialog,
               private router: Router,
+              private travauxService: SteTravauxService,
+              private route: ActivatedRoute,
               private  dialogService: DialogConfirmService,
               private notificationService: NotificationService,
               private helper: JwtHelperService,
@@ -95,6 +101,14 @@ export class AutreAchatTravauxComponent implements OnInit {
           this.managerService.getManagerById(this.personne.id).subscribe(res => {
             this.personne = res.body;
             this.nav = true;
+            this.route.paramMap.pipe(
+              switchMap((params: ParamMap) =>
+                this.travauxService.getTravauxById(+params.get('id')))
+            ).subscribe(result => {
+              this.travaux = result.body;
+              this.travauxId = result.body.id;
+              console.log(this.travauxId);
+            });
             this.categorieService.getMatByIdEntreprise(this.personne.entreprise.id).subscribe(data => {
               console.log('materiel par entreprise: ', data.body);
               this.materiaux = data.body;
@@ -212,7 +226,7 @@ export class AutreAchatTravauxComponent implements OnInit {
         this.autreAchatTravaux = {
           libelle: this.materiau.libelle,
           date: new  Date(),
-          travauxId: this.personne.entreprise.id,
+          travauxId: this.travauxId,
           detailAutreAchatTravaux: [
             {
               libelleMateriaux: this.materiau.libelle,
@@ -225,28 +239,19 @@ export class AutreAchatTravauxComponent implements OnInit {
           ]
         };
         console.log('Voir Autre stock retourne', this.autreAchatTravaux);
-
-      } else if (this.personne.type === 'EMPLOYE') {
-        this.autreAchatTravaux = {
-
-
-        };
+        this.autreAchatTravauxService.ajoutAutreAchatTravaux(this.autreAchatTravaux)
+          .subscribe(data => {
+            if (data.status === 0){
+              localStorage.removeItem('materiau');
+              this.autreAchatTravaux = data.body;
+              this.notificationService.warn('Enregistrement effectué avec succès');
+              this.router.navigate(['/listDetailStock']);
+            }
+          });
       }
 
-
-      localStorage.removeItem('materiau');
-
-      this.autreAchatTravauxService.ajoutAutreAchatTravaux(this.autreAchatTravaux)
-        .subscribe(data => {
-          if (data.status === 0){
-            localStorage.removeItem('materiau');
-            this.autreAchatTravaux = data.body;
-            this.notificationService.warn('Enregistrement effectué avec succès');
-            this.router.navigate(['/listDetailStock']);
-          }
-        });
     }
-
+    localStorage.removeItem('materiau');
   }
 
   deleteRow(i: any) {

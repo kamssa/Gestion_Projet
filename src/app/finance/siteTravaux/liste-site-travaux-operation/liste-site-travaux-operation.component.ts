@@ -11,6 +11,7 @@ import {AddCategorieComponent} from '../../../categorie/add-categorie/add-catego
 import {MatTableDataSource} from '@angular/material/table';
 import {UpdateProjetComponent} from '../update-projet/update-projet.component';
 import {AddTravauxSiteComponent} from '../add-travaux-site/add-travaux-site.component';
+import {AutresService} from '../../../service/autres.service';
 
 @Component({
   selector: 'app-liste-site-travaux-operation',
@@ -35,6 +36,7 @@ export class ListeSiteTravauxOperationComponent implements OnInit{
               private  router: Router,
               private mediaObserver: MediaObserver,
               private achatTravauxService: AchatTravauxService,
+              private autresService: AutresService,
               public dialog: MatDialog) {
 
   }
@@ -96,7 +98,22 @@ export class ListeSiteTravauxOperationComponent implements OnInit{
           console.log('Voir le reste ', res.body);
         });
       });
+      this.achatTravauxService.travauxCreer$.subscribe(
+        result => {
 
+          this.travauxService.getTravauxById(this.travauxId).subscribe(res => {
+            this.travaux = res.body;
+            console.log('Voir le reste ', res.body);
+          });
+        }
+      );
+      this.autresService.autrCreer$.subscribe(
+        data => {
+          this.travauxService.getTravauxById(this.travauxId).subscribe(res => {
+            this.travaux = res.body;
+            console.log('Voir le reste ', res.body);
+          });
+        });
     }
 
   }

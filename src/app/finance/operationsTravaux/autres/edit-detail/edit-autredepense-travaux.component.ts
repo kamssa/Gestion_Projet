@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from "@angular/router";
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {Autres} from "../../../../model/Autres";
 import {AutresService} from "../../../../service/autres.service";
 import {AchatTravaux} from '../../../../model/AchatTravaux';
@@ -10,16 +10,16 @@ import {Manager} from '../../../../model/Manager';
 import {Employe} from '../../../../model/Employe';
 import {Observable} from 'rxjs';
 import {Materiaux} from '../../../../model/Materiaux';
-import {AchatTravauxService} from '../../../../service/achat-travaux.service';
-import {DetailAticleStockGeneralService} from '../../../../service/detail-aticle-stock-general.service';
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {DialogConfirmService} from '../../../../helper/dialog-confirm.service';
 import {NotificationService} from '../../../../helper/notification.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {ManagerService} from '../../../../service/manager.service';
 import {EmployeService} from '../../../../service/employe.service';
-import {map, startWith} from 'rxjs/operators';
 import {DetailAutres} from '../../../../model/DetailAutres';
+import {switchMap} from 'rxjs/operators';
+import {SteTravauxService} from '../../../../service/ste-travaux.service';
+import {Travaux} from '../../../../model/travaux';
 
 @Component({
   selector: 'app-edit-autredepense-travaux',
@@ -57,7 +57,8 @@ export class EditAutredepenseTravauxComponent implements OnInit {
   @Output() change = new EventEmitter<number>();
   selected: any;
   filteredOptions: Observable<Materiaux[]>;
-
+  travaux: Travaux;
+  travauxId: number;
   myControl = new FormControl();
   constructor(private  fb: FormBuilder,
               private  autresService: AutresService,
@@ -69,6 +70,8 @@ export class EditAutredepenseTravauxComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: AchatTravaux,
               private managerService: ManagerService,
               private employeService: EmployeService,
+              private travauxService: SteTravauxService,
+              private route: ActivatedRoute
   ) {
 
 
@@ -100,7 +103,14 @@ export class EditAutredepenseTravauxComponent implements OnInit {
           this.managerService.getManagerById(this.personne.id).subscribe(res => {
             this.personne = res.body;
             this.nav = true;
-
+            this.route.paramMap.pipe(
+              switchMap((params: ParamMap) =>
+                this.travauxService.getTravauxById(+params.get('id')))
+            ).subscribe(result => {
+              this.travaux = result.body;
+              this.travauxId = result.body.id;
+              console.log(this.travauxId);
+            });
             if (this.data['detailAutres']){
               this.editMode = true;
               this.autresService.getAutresById(this.data['detailAutres'])
@@ -195,7 +205,7 @@ export class EditAutredepenseTravauxComponent implements OnInit {
         this.autre = {
           libelle: this.designationInput.nativeElement.value,
           date: null,
-          travauxId: this.personne.entreprise.id,
+          travauxId: this.travauxId,
           detailAutres: [
             {
               date: null,
@@ -215,20 +225,16 @@ export class EditAutredepenseTravauxComponent implements OnInit {
 
         };
       }
-
-
-      localStorage.removeItem('materiau');
-
       this.autresService.ajoutAutres(this.autre)
         .subscribe(data => {
           if (data.status === 0){
             this.autre = data.body;
             this.notificationService.warn('Enregistrement effectué avec succès');
-            this.router.navigate(['/listDetailStock']);
+           // this.router.navigate(['/listDetailStock']);
           }
         });
     }
-
+    localStorage.removeItem('materiau');
   }
 
   deleteRow(i: any) {

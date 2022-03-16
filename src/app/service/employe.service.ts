@@ -8,6 +8,7 @@ import {Employe} from '../model/Employe';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {catchError, map, tap} from 'rxjs/operators';
 import {Materiaux} from '../model/Materiaux';
+import {Role} from '../model/Role';
 
 @Injectable({
   providedIn: 'root'
@@ -107,7 +108,11 @@ export class EmployeService {
   getEmployeByIdEntreprise(id: number): Observable<Resultat<Employe[]>> {
     return this.http.get<Resultat<Employe[]>>(`${environment.apiUrl}/api/auth/listEmployeParEntreprise/${id}`);
   }
-
+  addRoleToEmploye(idEmploye: number, idRole: number): Observable<Resultat<Employe>> {
+    console.log(idEmploye);
+    console.log(idRole);
+    return this.http.get<Resultat<Employe>>(`${environment.apiUrl}/api/auth/addRoleToEmploye/?idEmploye=${idEmploye}&idRole=${idRole}`);
+  }
   employeCreer(res: Resultat<Employe>) {
     console.log('Client a ete  creer correctement essaie source');
     this.employeCreerSource.next(res);

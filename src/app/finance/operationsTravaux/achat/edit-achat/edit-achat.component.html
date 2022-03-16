@@ -10,13 +10,17 @@
           {{panelOpenState ? 'Fermer' : 'Ouvrir'}}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <h3 class="site">Site : {{travaux.site.nomChantier}}</h3>
+      <h3 class="site">Projet : {{travaux.site.nomChantier}}</h3>
+      <h3 class="site">Site : {{travaux.libelle}}</h3>
       <h3 class="site">Numero du bon  : {{travaux.numeroBon}}</h3>
-      <h3 class="site">Budget : {{travaux.budget | number}}</h3>
-      <h3 class="site"> Solde : {{travaux.reste | number}}</h3>
-      <h3 class="site">Dépense : {{travaux.total | number}}</h3>
+      <h3 class="site">Budget : {{travaux.budget|number}} CFA</h3>
+      <h3 class="site">Debousser Sec : {{travaux.debousserSec|number}} CFA</h3>
+      <h3 class="site">Acompte : {{travaux.accompte|number}} CFA</h3>
+      <h3 class="site"> Solde : {{travaux.reste| number}} CFA</h3>
+      <h3 class="site">Dépense : {{travaux.total| number}} CFA</h3>
+      <h3 class="site">Evolution : {{travaux.percent | number}} %</h3>
       <h3 class="site">Debut des travaux : {{travaux.date | date: 'dd/MM/yyyy'}}</h3>
-      <h3 class="site">Date de livraison : {{travaux.dateLivraison | date: 'dd/MM/yyyy'}}</h3>
+      <h3 class="site">Date de livraison :  {{travaux.dateLivraison | date: 'dd/MM/yyyy'}} </h3>
     </mat-expansion-panel>
   </mat-accordion>
 

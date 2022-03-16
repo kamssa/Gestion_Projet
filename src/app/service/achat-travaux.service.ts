@@ -42,7 +42,7 @@ export class AchatTravauxService {
           this.travauxCreer(res);
         }),
         catchError(this.handleError<Resultat<AchatTravaux>>('ajoutAchatTravaux'))
-      );;
+      );
   }
   modifAchatTravaux(achatTravaux: AchatTravaux): Observable<Resultat<AchatTravaux>> {
     console.log('methode du service qui modifie un achat', achatTravaux);

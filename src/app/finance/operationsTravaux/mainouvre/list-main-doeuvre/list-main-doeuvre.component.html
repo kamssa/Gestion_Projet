@@ -7,16 +7,16 @@
   <table mat-table [dataSource]="dataSource" matSort>
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-      <td mat-cell *matCellDef="let achatTravaux"> {{achatTravaux.createdAt | date:'dd-MM-yyyy'}} </td>
+      <td mat-cell *matCellDef="let mainOeuvres"> {{mainOeuvres.createdAt | date:'dd-MM-yyyy'}} </td>
     </ng-container>
     <ng-container matColumnDef="total">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> total </th>
-      <td mat-cell *matCellDef="let achatTravaux"> {{achatTravaux.montant | number}} </td>
+      <td mat-cell *matCellDef="let mainOeuvres"> {{mainOeuvres.montant | number}} </td>
     </ng-container>
     <ng-container matColumnDef="details">
       <th mat-header-cell *matHeaderCellDef> Details </th>
-      <td mat-cell *matCellDef="let achatTravaux">
-        <button mat-icon-button color="primary" (click)="openDialog(achatTravaux.id)">
+      <td mat-cell *matCellDef="let detailMainOeuvre">
+        <button mat-icon-button color="primary" (click)="openDialog(detailMainOeuvre.id)">
           <mat-icon class="mat-18">reorder</mat-icon>
         </button>
       </td>
@@ -24,8 +24,8 @@
 
     <ng-container matColumnDef="update">
       <th mat-header-cell *matHeaderCellDef> Update </th>
-      <td mat-cell *matCellDef="let achatTravaux">
-        <button mat-icon-button color="accent" (click)="redirectToUpdate(achatTravaux.id)">
+      <td mat-cell *matCellDef="let mainOeuvres">
+        <button mat-icon-button color="accent" (click)="redirectToUpdate(mainOeuvres.id)">
           <mat-icon class="mat-18">system_update</mat-icon>
         </button>
       </td>
@@ -33,8 +33,8 @@
 
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef> Delete </th>
-      <td mat-cell *matCellDef="let achatTravaux">
-        <button mat-icon-button color="warn" (click)="redirectToDelete(achatTravaux.id)">
+      <td mat-cell *matCellDef="let mainOeuvres">
+        <button mat-icon-button color="warn" (click)="redirectToDelete(mainOeuvres.id)">
           <mat-icon class="mat-18">delete</mat-icon>
         </button>
       </td>

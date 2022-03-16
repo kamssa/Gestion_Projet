@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {DetailAchatTravaux} from '../../../../model/DtailAchat';
 import {AchatTravaux} from '../../../../model/AchatTravaux';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';

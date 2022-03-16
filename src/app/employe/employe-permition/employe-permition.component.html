@@ -1,1 +1,40 @@
-<p>employe-permition works!</p>
+<mat-toolbar>
+  <span>{{employeService.form.controls['id'].value?"Permission ":"Nouvel employé"}}</span>
+  <span class="fill-remaining-space"></span>
+  <button class="btn-dialog-close" mat-stroked-button (click)="onClose()" tabIndex="-1"><mat-icon>clear</mat-icon></button>
+</mat-toolbar>
+<form [formGroup]="employeService.form" (submit)="onSubmit()">
+
+  <mat-horizontal-stepper [linear]="isLinear" #stepper>
+    <mat-step>
+      <ng-template matStepLabel>INFORMATIONS SUR L'EMPLOYE</ng-template>
+      <input type="hidden" formControlName="id">
+      <mat-form-field style="position: relative; margin-top:20px;" class="example-full-width" appearance="fill">
+        <mat-label >Selection une permission</mat-label>
+        <mat-select (selectionChange)="greetDep($event)">
+          <mat-option *ngFor="let d of roles" [value]="d.id">
+            {{d.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input matInput placeholder="nom" formControlName="nom" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Prénom</mat-label>
+        <input matInput placeholder="prénom" formControlName="prenom" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" readonly>
+      </mat-form-field>
+
+      <div>
+        <button mat-button type="submit">Valider</button>
+      </div>
+    </mat-step>
+
+  </mat-horizontal-stepper>
+</form>

@@ -43,7 +43,25 @@
             </mat-card-actions>
           </mat-card>
           <hr>
-
+        <div  fxLayout="row" fxLayoutAlign="space-around center">
+          <button  mat-button color="primary" (click)="onAchat(travaux)">Liste Achat</button>
+          <button  mat-button color="primary" (click)="onLocation(travaux)">Liste Location</button>
+          <button  mat-button color="primary" (click)="onLoyer(travaux)">Liste Loyer</button>
+          <button  mat-icon-button [matMenuTriggerFor]="menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu = "matMenu" yPosition="above">
+            <button mat-menu-item (click)="onOeuvre(travaux)">
+              <span>Liste Main d'oeuvre</span>
+            </button>
+            <button mat-menu-item (click)="onTransport(travaux)">
+              <span>Liste Transport</span>
+            </button>
+            <button mat-menu-item (click)="onAutres(travaux)">
+              <span>Liste Caisse</span>
+            </button>
+          </mat-menu>
+        </div>
 
 
 

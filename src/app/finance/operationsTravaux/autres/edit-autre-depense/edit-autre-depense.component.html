@@ -10,7 +10,7 @@
           {{panelOpenState ? 'Fermer' : 'Ouvrir'}}
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <h3 class="site">Site : {{travaux.site.nomChantier}}</h3>
+      <h3 class="site">Site : {{travaux.libelle}}</h3>
       <h3 class="site">Numero du bon  : {{travaux.numeroBon}}</h3>
       <h3 class="site">Budget : {{travaux.budget | number}}</h3>
       <h3 class="site">Acompte : {{travaux.accompte }}</h3>
@@ -26,7 +26,7 @@
   <div class="div-second">
     <mat-list>
       <mat-list-item>
-        <button mat-button (click)="autre()" color="accent">Vor la liste des autres dépenses</button>
+        <button mat-button (click)="autre()" color="accent">Vor la liste des dépenses caisse</button>
       </mat-list-item>
 
     </mat-list>
