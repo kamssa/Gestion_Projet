@@ -93,7 +93,10 @@ export class ListDepComponent implements OnInit {
 
             });
           });
-        }else if (this.personne.type === 'EMPLOYE'){
+        }else {
+          this.error ='Vous n\'etes pas autorisé';
+        }
+        /*else if (this.personne.type === 'EMPLOYE'){
           this.employeService.getEmployeById(this.personne.id).subscribe(
             rest => {
               this.personne = rest.body;
@@ -118,7 +121,7 @@ export class ListDepComponent implements OnInit {
             });
 
         }
-
+*/
       });
 
     }

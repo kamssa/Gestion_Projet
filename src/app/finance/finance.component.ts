@@ -29,6 +29,7 @@ export class FinanceComponent implements OnInit {
   oTravaux: Observable<Travaux[]>;
   searchTravauxSource = new BehaviorSubject<string>('');
   value = '';
+  role = true;
   constructor(
     private  router: Router, private  fb: FormBuilder,
     private  siteTravauxService: SteTravauxService,

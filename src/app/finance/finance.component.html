@@ -3,6 +3,20 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card">
+          <div class="action-2">
+            <div *ngIf="!role">
+              <a mat-mini-fab matTooltip="Accueil appli" routerLink="/accueil" matTooltipPosition="before">
+                <mat-icon>home</mat-icon>
+              </a>
+              <a mat-mini-fab color="primary" matTooltip="Accueil des projets" routerLink="/finance"
+                 matTooltipPosition="after">
+                <mat-icon>face</mat-icon>
+              </a>
+
+            </div>
+
+          </div>
+          <br>
           <div class="card-header card-header-danger ">
             <h4 class="card-title" routerLink="active">Gestion financière </h4>
           </div>

@@ -85,7 +85,7 @@ export class ListProjetComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '60%';
-    const dialogRef = this.dialog.open(UpdateProjetComponent,
+    this.dialog.open(UpdateProjetComponent,
       {
 
         data: {

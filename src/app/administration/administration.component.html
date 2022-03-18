@@ -8,15 +8,14 @@
           </div>
           <div class="card-body">
 
-            <div class="example-button-row">
-              <button  mat-stroked-button  color="accent" (click)="retrait()">Etat de la caisse</button>
-              <button  mat-stroked-button color="accent" (click)="stock()">Etat du stocks de l'entreprise</button>
+            <div class="example-button-row" *ngIf="role && role1 && role2 && role3">
               <button  mat-stroked-button color="accent" (click)="openDialog()">Etat d'un projet</button>
 
             </div>
 
             <mat-divider></mat-divider>
             <br>
+            <div *ngIf="error" class="btn btn-danger">{{error}}</div>
             <div>
 
             </div>

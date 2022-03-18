@@ -76,6 +76,8 @@ export class ListEmployeComponent implements OnInit {
 
             });
           });
+        }else {
+          this.error ='Vous n\'etes pas autorisé';
         }
         });
     }
@@ -96,6 +98,7 @@ export class ListEmployeComponent implements OnInit {
        });
 
      }
+
   }
 
   onSearchClear() {

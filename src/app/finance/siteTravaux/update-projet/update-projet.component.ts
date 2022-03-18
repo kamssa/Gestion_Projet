@@ -35,8 +35,8 @@ export class UpdateProjetComponent implements OnInit {
       this.managerService.getPersonneById(decoded.sub).subscribe(resultat => {
         this.personne = resultat.body;
 
-        if (this.personne.type === 'MANAGER'){
-          this.managerService.getManagerById(this.personne.id).subscribe( result => {
+        if (this.personne.type === 'EMPLOYE'){
+          this.managerService.getPersonneById(this.personne.id).subscribe( result => {
             this.personne = result.body;
             this.nav = true;
         // insert code
