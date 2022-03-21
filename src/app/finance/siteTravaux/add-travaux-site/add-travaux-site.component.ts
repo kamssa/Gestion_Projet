@@ -27,13 +27,15 @@ export class AddTravauxSiteComponent implements OnInit {
   personne: any;
   nav: boolean;
   site: Site;
-  constructor( private managerService: ManagerService,
-               private siteService: SiteService,
-               private travauxService: SteTravauxService,
-               private  fb: FormBuilder, private  router: Router,
-               @Inject(MAT_DIALOG_DATA) public data: Site,
-               private snackBar: MatSnackBar,  private helper: JwtHelperService,
-               public dialogRef: MatDialogRef<AddTravauxSiteComponent>) { }
+
+  constructor(private managerService: ManagerService,
+              private siteService: SiteService,
+              private travauxService: SteTravauxService,
+              private  fb: FormBuilder, private  router: Router,
+              @Inject(MAT_DIALOG_DATA) public data: Site,
+              private snackBar: MatSnackBar, private helper: JwtHelperService,
+              public dialogRef: MatDialogRef<AddTravauxSiteComponent>) {
+  }
 
   ngOnInit(): void {
     if (localStorage.getItem('currentUser')) {
@@ -42,8 +44,8 @@ export class AddTravauxSiteComponent implements OnInit {
       this.managerService.getPersonneById(decoded.sub).subscribe(resultat => {
         this.personne = resultat.body;
 
-        if (this.personne.type === 'MANAGER'){
-          this.managerService.getManagerById(this.personne.id).subscribe( result => {
+        if (this.personne.type === 'MANAGER') {
+          this.managerService.getManagerById(this.personne.id).subscribe(result => {
             this.personne = result.body;
             this.nav = true;
             // insert code
@@ -56,19 +58,19 @@ export class AddTravauxSiteComponent implements OnInit {
                   numeroBon: new FormControl('', [Validators.required]),
                   accompte: new FormControl(''),
                   budget: new FormControl('', [Validators.required]),
-                  date: new FormControl('' ),
-                  dateLivraison: new FormControl('' ),
+                  date: new FormControl(''),
+                  dateLivraison: new FormControl(''),
                   site: this.fb.group({
                     id: res.body.id,
-                    version:  res.body.version ,
+                    version: res.body.version,
                     nomChantier: res.body.nomChantier,
                     entreprise: this.personne.entreprise
-                }) ,
+                  }),
                   ville: this.fb.group({
                     nom: new FormControl(''),
                   }),
                   client: this.fb.group({
-                    nom: new FormControl('' ),
+                    nom: new FormControl(''),
                     type: 'CLIENT'
                   }),
                 });
@@ -88,7 +90,7 @@ export class AddTravauxSiteComponent implements OnInit {
     this.travau = this.tForm.value;
     console.log(this.travau);
     this.travauxService.ajoutTravaux(this.travau).subscribe(data => {
-      if (data){
+      if (data) {
         console.log('voir travaux', this.travau);
         this.travau = data.body;
         this.dialogRef.close(this.travau);
@@ -100,10 +102,6 @@ export class AddTravauxSiteComponent implements OnInit {
       }
     });
     //  this.router.navigate(['terrainAGEO']);
-    this.dialogRef.close();
-  }
-  onClose() {
-
     this.dialogRef.close();
   }
 }

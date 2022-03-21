@@ -41,10 +41,11 @@ export class AdvanceProjetComponent implements OnInit {
 
   ngOnInit(): void {
     this.oTravaux = this.searchTravauxSource
-      .pipe(debounceTime(300),
+      .pipe(
+        debounceTime(300),
         distinctUntilChanged(),
         switchMap(mc => mc ?  this.siteTravauxService.rechercheTravauxParMc(mc)
-          : this.siteTravauxService.rechercheTravauxParMc('Aucun projet  trouvé'))
+          : this.siteTravauxService.rechercheTravauxParMc(' '))
       );
     this.toutsLesTravaux();
     // renvoie le site créé

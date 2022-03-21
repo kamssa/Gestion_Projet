@@ -118,7 +118,11 @@ export class EditSiteTravauxComponent implements OnInit {
         ville: this.fb.group({
           nom: ['', Validators.required],
 
-        })
+        }),
+        client: this.fb.group({
+          nom: [''],
+          type:'CLIENT'
+        }),
       });
     }
 

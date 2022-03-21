@@ -12,7 +12,7 @@ import {SteTravauxService} from '../service/ste-travaux.service';
   templateUrl: './finance.component.html',
   styleUrls: ['./finance.component.scss']
 })
-export class FinanceComponent implements OnInit {
+export class FinanceComponent implements OnInit{
   createSiteForm: FormGroup;
   editMode: any;
   name: any;
@@ -30,6 +30,7 @@ export class FinanceComponent implements OnInit {
   searchTravauxSource = new BehaviorSubject<string>('');
   value = '';
   role = true;
+  value1 = 'Clear me';
   constructor(
     private  router: Router, private  fb: FormBuilder,
     private  siteTravauxService: SteTravauxService,
@@ -37,10 +38,11 @@ export class FinanceComponent implements OnInit {
 
   ngOnInit(): void {
     this.oTravaux = this.searchTravauxSource
-      .pipe(debounceTime(300),
+      .pipe(
+        debounceTime(300),
         distinctUntilChanged(),
         switchMap(mc => mc ?  this.siteTravauxService.rechercheTravauxParMc(mc)
-          : this.siteTravauxService.rechercheTravauxParMc('Aucun projet  trouvé'))
+          : this.siteTravauxService.rechercheTravauxParMc(' '))
       );
     this.toutsLesTravaux();
     // renvoie le site créé
@@ -79,7 +81,6 @@ export class FinanceComponent implements OnInit {
          this.messageServiceErreur = msg.toString();
          this.closeMessage();
        }
-
      );*/
 
   }
