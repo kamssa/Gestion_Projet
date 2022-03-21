@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
+import {SteTravauxService} from '../service/ste-travaux.service';
+import {Travaux} from '../model/travaux';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +9,9 @@ import * as Chartist from 'chartist';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+travaux : Travaux[];
 
-
-  constructor() { }
+  constructor( private steTravauxService: SteTravauxService) { }
   startAnimationForLineChart(chart){
     let seq: any, delays: any, durations: any;
     seq = 0;
@@ -67,6 +69,10 @@ export class DashboardComponent implements OnInit {
     seq2 = 0;
   };
   ngOnInit() {
+    this.steTravauxService.getAllTravaux()
+      .subscribe(res => {
+       this.travaux = res.body;
+      });
     /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
 
     const dataDailySalesChart: any = {

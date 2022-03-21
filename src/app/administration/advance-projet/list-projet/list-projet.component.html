@@ -5,36 +5,36 @@
       <div class="col-md-8">
 
           <mat-card>
-            <mat-card-title>Projet : {{travaux.site.nomChantier}}</mat-card-title>
+            <mat-card-title class="tilte">Projet : {{travaux.site.nomChantier}}</mat-card-title>
 
-            <mat-card-subtitle>Site : {{travaux.libelle}}</mat-card-subtitle>
+            <mat-card-subtitle class = "sub">Site : {{travaux.libelle}}</mat-card-subtitle>
       <ul>
         <li>
-          <h3 class="site">Numero du bon  : {{travaux.numeroBon}}</h3>
+          <button mat-button color="primary" class="site">Numero du bon  : {{travaux.numeroBon}}</button>
         </li>
         <li>
-          <h3 class="site">Budget : {{travaux.budget|number}} CFA</h3>
+          <button mat-button color="primary" class="site">Budget : {{travaux.budget|number}} CFA</button>
         </li>
         <li>
-          <h3 class="site">Debousser Sec : {{travaux.debousserSec|number}} CFA</h3>
+          <button mat-button color="primary" class="site">Debousser Sec : {{travaux.debousserSec|number}} CFA</button>
         </li>
         <li>
-          <h3 class="site">Acompte : {{travaux.accompte|number}} CFA</h3>
+          <button mat-button color="primary" class="site">Acompte : {{travaux.accompte|number}} CFA</button>
         </li>
         <li>
-          <h3 class="site"> Solde : {{travaux.reste| number}} CFA</h3>
+          <button mat-button color="warn"> <span>Solde :</span>  {{travaux.reste| number}} CFA</button>
         </li>
         <li>
-          <h3 class="site">Dépense : {{travaux.total| number}} CFA</h3>
+          <button mat-button color="warn" class="site">Dépense : {{travaux.total| number}} CFA</button>
         </li>
         <li>
-          <h3 class="site">Evolution : {{travaux.percent | number}} %</h3>
+          <button mat-button color="warn" class="site">Evolution : {{travaux.percent | number}} %</button>
         </li>
         <li>
-          <h3 class="site">Debut des travaux : {{travaux.date | date: 'dd/MM/yyyy'}}</h3>
+          <button mat-button color="primary" class="site">Debut des travaux : {{travaux.date | date: 'dd/MM/yyyy'}}</button>
         </li>
         <li>
-          <h3 class="site">Date de livraison :  {{travaux.dateLivraison | date: 'dd/MM/yyyy'}} </h3>
+          <button mat-button color="primary"  class="site">Date de livraison :  {{travaux.dateLivraison | date: 'dd/MM/yyyy'}} </button>
         </li>
       </ul>
             <mat-card-actions>
