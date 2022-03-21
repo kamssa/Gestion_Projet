@@ -33,42 +33,23 @@ export class ListTransportComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit() {
-    if(this.travauxId === undefined){
-      this.serviceTransport.getTransportByTravaux(this.data['travaux'])
-        .subscribe( data => {
-          this.transports = data;
-          console.log(data);
-          console.log(this.transports);
-          this.transports.forEach(value => {
-            console.log(value);
-            let opp : DetailTransport = value;
+    console.log(this.travauxId);
+    this.serviceTransport.getTransportByTravaux(this.travauxId)
+      .subscribe( data => {
+        this.transports = data;
+        console.log(data);
+        console.log(this.transports);
+        this.transports.forEach(value => {
+          console.log(value);
+          let opp : DetailTransport = value;
 
-            this.receptacle.push(opp);
-          });
-          this.dataSource = this.receptacle;
-          this.dataSource = new MatTableDataSource<DetailTransport>(this.receptacle);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          this.receptacle.push(opp);
         });
-    }else {
-      this.serviceTransport.getTransportByTravaux(this.travauxId)
-        .subscribe( data => {
-          this.transports = data;
-          console.log(data);
-          console.log(this.transports);
-          this.transports.forEach(value => {
-            console.log(value);
-            let opp : DetailTransport = value;
-
-            this.receptacle.push(opp);
-          });
-          this.dataSource = this.receptacle;
-          this.dataSource = new MatTableDataSource<DetailTransport>(this.receptacle);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        });
-    }
-
+        this.dataSource = this.receptacle;
+        this.dataSource = new MatTableDataSource<DetailTransport>(this.receptacle);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
 
   }
   redirectToDetails(id: number){

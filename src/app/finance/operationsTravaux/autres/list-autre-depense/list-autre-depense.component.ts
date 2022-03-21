@@ -32,42 +32,23 @@ export class ListAutreDepenseComponent implements OnInit , AfterViewInit {
 
   }
   ngOnInit() {
-    if(this.travauxId === undefined){
-      this.serviceAutre.getautresByTravaux(this.data['travaux'])
-        .subscribe( data => {
-          this.autres = data;
-          console.log(data);
-          console.log(this.autres);
-          this.autres.forEach(value => {
-            console.log(value);
-            let opp : AchatTravaux = value;
+    console.log(this.travauxId);
+    this.serviceAutre.getautresByTravaux(this.travauxId)
+      .subscribe( data => {
+        this.autres = data;
+        console.log(data);
+        console.log(this.autres);
+        this.autres.forEach(value => {
+          console.log(value);
+          let opp : AchatTravaux = value;
 
-            this.receptacle.push(opp);
-          });
-          this.dataSource = this.receptacle;
-          this.dataSource = new MatTableDataSource<DetailAutres>(this.receptacle);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          this.receptacle.push(opp);
         });
-    }else {
-      this.serviceAutre.getautresByTravaux(this.travauxId)
-        .subscribe( data => {
-          this.autres = data;
-          console.log(data);
-          console.log(this.autres);
-          this.autres.forEach(value => {
-            console.log(value);
-            let opp : AchatTravaux = value;
-
-            this.receptacle.push(opp);
-          });
-          this.dataSource = this.receptacle;
-          this.dataSource = new MatTableDataSource<DetailAutres>(this.receptacle);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        });
-    }
-
+        this.dataSource = this.receptacle;
+        this.dataSource = new MatTableDataSource<DetailAutres>(this.receptacle);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
 
   }
   redirectToDetails(id: number){

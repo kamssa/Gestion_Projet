@@ -34,42 +34,23 @@ export class ListLoyerComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit() {
-    if(this.travauxId === undefined){
-      this.loyerService.getLoyerByTravaux(this.data['travaux'])
-        .subscribe( data => {
-          this.loyer = data;
-          console.log(data);
-          console.log(this.loyer);
-          this.loyer.forEach(value => {
-            console.log(value);
-            let opp : Loyer = value;
-            this.receptacle.push(opp);
+    console.log(this.travauxId);
+    this.loyerService.getLoyerByTravaux(this.travauxId)
+      .subscribe( data => {
+        this.loyer = data;
+        console.log(data);
+        console.log(this.loyer);
+        this.loyer.forEach(value => {
+          console.log(value);
+          let opp : Loyer = value;
+          this.receptacle.push(opp);
 
-          });
-          this.dataSource = this.receptacle;
-          this.dataSource = new MatTableDataSource<Loyer>(this.receptacle);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
         });
-    }else {
-      this.loyerService.getLoyerByTravaux(this.travauxId)
-        .subscribe( data => {
-          this.loyer = data;
-          console.log(data);
-          console.log(this.loyer);
-          this.loyer.forEach(value => {
-            console.log(value);
-            let opp : Loyer = value;
-            this.receptacle.push(opp);
-
-          });
-          this.dataSource = this.receptacle;
-          this.dataSource = new MatTableDataSource<Loyer>(this.receptacle);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        });
-    }
-
+        this.dataSource = this.receptacle;
+        this.dataSource = new MatTableDataSource<Loyer>(this.receptacle);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
   }
   redirectToDetails(id: number){
     console.log(id);

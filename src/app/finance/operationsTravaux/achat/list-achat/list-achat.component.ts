@@ -45,48 +45,24 @@ export class ListAchatComponent implements OnInit, AfterViewInit{
 
   }
   ngOnInit() {
-     if(this.travauxId === undefined){
-       console.log(this.travauxId);
-       this.serviceAchat.getAchatTravauxByTravaux(this.data['travaux']).subscribe(list => {
-         if(list.length !== 0){
-           this.array = list.map(item => {
-             return {
-               id: item.id,
-               ...item
-             };
-           });
-         }else{
-           console.log('aucune donnée');
-         }
+    this.serviceAchat.getAchatTravauxByTravaux(this.travauxId).subscribe(list => {
+      if(list.length !== 0){
+        this.array = list.map(item => {
+          return {
+            id: item.id,
+            ...item
+          };
+        });
+      }else{
+        console.log('aucune donnée');
+      }
 
-         this.listData = new MatTableDataSource(this.array);
-         this.listData.sort = this.sort;
-         this.listData.paginator = this.paginator;
+      this.listData = new MatTableDataSource(this.array);
+      this.listData.sort = this.sort;
+      this.listData.paginator = this.paginator;
 
 
-       });
-     }else {
-       console.log(this.travauxId);
-       this.serviceAchat.getAchatTravauxByTravaux(this.travauxId).subscribe(list => {
-         if(list.length !== 0){
-           this.array = list.map(item => {
-             return {
-               id: item.id,
-               ...item
-             };
-           });
-         }else{
-           console.log('aucune donnée');
-         }
-
-         this.listData = new MatTableDataSource(this.array);
-         this.listData.sort = this.sort;
-         this.listData.paginator = this.paginator;
-
-
-       });
-     }
-
+    });
 
     if(localStorage.getItem('currentUser')) {
       const token = localStorage.getItem('currentUser');

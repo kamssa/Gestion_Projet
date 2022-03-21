@@ -37,42 +37,23 @@ export class ListMainDoeuvreComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit() {
-    if(this.travauxId === undefined){
-      this.mainoeuvreService.getMainOeuvreByTravaux(this.data['travaux'])
-        .subscribe( data => {
-          this.mainOeuvres = data;
-          console.log(data);
-          console.log(this.mainOeuvres);
-          this.mainOeuvres.forEach(value => {
-            console.log(value);
-            let opp : MainOeuvre = value;
+    console.log(this.travauxId);
+    this.mainoeuvreService.getMainOeuvreByTravaux(this.travauxId)
+      .subscribe( data => {
+        this.mainOeuvres = data;
+        console.log(data);
+        console.log(this.mainOeuvres);
+        this.mainOeuvres.forEach(value => {
+          console.log(value);
+          let opp : MainOeuvre = value;
 
-            this.receptacle.push(opp);
-          });
-          this.dataSource = this.receptacle;
-          this.dataSource = new MatTableDataSource<MainOeuvre>(this.receptacle);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          this.receptacle.push(opp);
         });
-    }else {
-      this.mainoeuvreService.getMainOeuvreByTravaux(this.travauxId)
-        .subscribe( data => {
-          this.mainOeuvres = data;
-          console.log(data);
-          console.log(this.mainOeuvres);
-          this.mainOeuvres.forEach(value => {
-            console.log(value);
-            let opp : MainOeuvre = value;
-
-            this.receptacle.push(opp);
-          });
-          this.dataSource = this.receptacle;
-          this.dataSource = new MatTableDataSource<MainOeuvre>(this.receptacle);
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        });
-    }
-
+        this.dataSource = this.receptacle;
+        this.dataSource = new MatTableDataSource<MainOeuvre>(this.receptacle);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
 
   }
   redirectToDetails(id: number){

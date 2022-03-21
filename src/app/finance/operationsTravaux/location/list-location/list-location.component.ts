@@ -37,40 +37,22 @@ export class ListLocationComponent implements OnInit, AfterViewInit {
     // this.dataSource.sort = this.sort;
   }
   ngOnInit() {
-    if(this.travauxId === undefined){
-      this.locationService.getLocationByTravaux(this.data['travaux'])
-        .subscribe( data => {
-          this.locations = data;
-          console.log(data);
-          console.log(this.locations);
-          this.locations.forEach(value => {
-            console.log(value);
-            let opp : LocationTravaux = value;
-            this.receptacle.push(opp);
+    console.log(this.travauxId);
+    this.locationService.getLocationByTravaux(this.travauxId)
+      .subscribe( data => {
+        this.locations = data;
+        console.log(data);
+        console.log(this.locations);
+        this.locations.forEach(value => {
+          console.log(value);
+          let opp : LocationTravaux = value;
+          this.receptacle.push(opp);
 
-          });
-          this.dataSource = this.receptacle;
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
         });
-    }else {
-      this.locationService.getLocationByTravaux(this.travauxId)
-        .subscribe( data => {
-          this.locations = data;
-          console.log(data);
-          console.log(this.locations);
-          this.locations.forEach(value => {
-            console.log(value);
-            let opp : LocationTravaux = value;
-            this.receptacle.push(opp);
-
-          });
-          this.dataSource = this.receptacle;
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
-        });
-    }
-
+        this.dataSource = this.receptacle;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      });
   }
   redirectToDetails(id: number){
     console.log(id);
