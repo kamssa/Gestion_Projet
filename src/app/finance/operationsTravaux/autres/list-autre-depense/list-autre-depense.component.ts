@@ -1,13 +1,14 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {AchatTravaux} from '../../../../model/AchatTravaux';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatDialog} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {AutresService} from '../../../../service/autres.service';
 import {Autres} from '../../../../model/Autres';
 import {DetailAutres} from '../../../../model/DetailAutres';
 import {DialogAutresComponent} from '../dialog-autres/dialog-autres.component';
+import {Travaux} from '../../../../model/travaux';
 
 @Component({
   selector: 'app-list-autre-depense',
@@ -24,29 +25,49 @@ export class ListAutreDepenseComponent implements OnInit , AfterViewInit {
   @Input() travauxId: number;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(private serviceAutre: AutresService,
+              @Inject(MAT_DIALOG_DATA) public data: Travaux,
               public dialog: MatDialog) {
   }
   ngAfterViewInit(): void {
 
   }
   ngOnInit() {
-    console.log(this.travauxId);
-    this.serviceAutre.getautresByTravaux(this.travauxId)
-      .subscribe( data => {
-        this.autres = data;
-        console.log(data);
-        console.log(this.autres);
-        this.autres.forEach(value => {
-          console.log(value);
-          let opp : AchatTravaux = value;
+    if(this.travauxId === undefined){
+      this.serviceAutre.getautresByTravaux(this.data['travaux'])
+        .subscribe( data => {
+          this.autres = data;
+          console.log(data);
+          console.log(this.autres);
+          this.autres.forEach(value => {
+            console.log(value);
+            let opp : AchatTravaux = value;
 
-          this.receptacle.push(opp);
+            this.receptacle.push(opp);
+          });
+          this.dataSource = this.receptacle;
+          this.dataSource = new MatTableDataSource<DetailAutres>(this.receptacle);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
         });
-        this.dataSource = this.receptacle;
-        this.dataSource = new MatTableDataSource<DetailAutres>(this.receptacle);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
+    }else {
+      this.serviceAutre.getautresByTravaux(this.travauxId)
+        .subscribe( data => {
+          this.autres = data;
+          console.log(data);
+          console.log(this.autres);
+          this.autres.forEach(value => {
+            console.log(value);
+            let opp : AchatTravaux = value;
+
+            this.receptacle.push(opp);
+          });
+          this.dataSource = this.receptacle;
+          this.dataSource = new MatTableDataSource<DetailAutres>(this.receptacle);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        });
+    }
+
 
   }
   redirectToDetails(id: number){

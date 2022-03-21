@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
-import {MatDialog} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {EditLocationTravauxComponent} from "../../location/edit-detail/edit-location-travaux.component";
 import {DialogLocationComponent} from "../../location/dialog-location/dialog-location.component";
 import {DetailLoyer} from "../../../../model/DetailLoyer";
@@ -11,6 +11,7 @@ import {LoyService} from "../../../../service/loy.service";
 import {DialogLoyerComponent} from "../dialog-loyer/dialog-loyer.component";
 import {EditPaieLoyerComponent} from "../edit-paie-loyer/edit-paie-loyer.component";
 import {DetailLoyerComponent} from "../detail-loyer/detail-loyer.component";
+import {Travaux} from '../../../../model/travaux';
 
 @Component({
   selector: 'app-list-loyer',
@@ -26,30 +27,49 @@ export class ListLoyerComponent implements OnInit, AfterViewInit {
 
   @Input() travauxId: number;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  constructor(private loyerService: LoyService,
+  constructor(private loyerService: LoyService, @Inject(MAT_DIALOG_DATA) public data: Travaux,
               public dialog: MatDialog) {
   }
   ngAfterViewInit(): void {
 
   }
   ngOnInit() {
-    console.log(this.travauxId);
-    this.loyerService.getLoyerByTravaux(this.travauxId)
-      .subscribe( data => {
-        this.loyer = data;
-        console.log(data);
-        console.log(this.loyer);
-        this.loyer.forEach(value => {
-          console.log(value);
-          let opp : Loyer = value;
-          this.receptacle.push(opp);
+    if(this.travauxId === undefined){
+      this.loyerService.getLoyerByTravaux(this.data['travaux'])
+        .subscribe( data => {
+          this.loyer = data;
+          console.log(data);
+          console.log(this.loyer);
+          this.loyer.forEach(value => {
+            console.log(value);
+            let opp : Loyer = value;
+            this.receptacle.push(opp);
 
+          });
+          this.dataSource = this.receptacle;
+          this.dataSource = new MatTableDataSource<Loyer>(this.receptacle);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
         });
-        this.dataSource = this.receptacle;
-        this.dataSource = new MatTableDataSource<Loyer>(this.receptacle);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
+    }else {
+      this.loyerService.getLoyerByTravaux(this.travauxId)
+        .subscribe( data => {
+          this.loyer = data;
+          console.log(data);
+          console.log(this.loyer);
+          this.loyer.forEach(value => {
+            console.log(value);
+            let opp : Loyer = value;
+            this.receptacle.push(opp);
+
+          });
+          this.dataSource = this.receptacle;
+          this.dataSource = new MatTableDataSource<Loyer>(this.receptacle);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        });
+    }
+
   }
   redirectToDetails(id: number){
     console.log(id);

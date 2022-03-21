@@ -1,11 +1,11 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {DetailAchatTravaux} from "../../../../model/DtailAchat";
 import {AchatTravaux} from "../../../../model/AchatTravaux";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {AchatTravauxService} from "../../../../service/achat-travaux.service";
-import {MatDialog} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {DatailAchatDialogComponent} from "../../achat/dialogue/datail-achat-dialog/datail-achat-dialog.component";
 import {LocationService} from "../../../../service/location.service";
 import {DetailLocation} from "../../../../model/DetailLocation";
@@ -13,6 +13,7 @@ import {LocationTravaux} from "../../../../model/LocationTravaux";
 import {DialogLocationComponent} from "../dialog-location/dialog-location.component";
 import {EditAchatTravauxComponent} from "../../achat/edit-achat-travaux/edit-achat-travaux.component";
 import {EditLocationTravauxComponent} from "../edit-detail/edit-location-travaux.component";
+import {Travaux} from '../../../../model/travaux';
 
 @Component({
   selector: 'app-list-location',
@@ -29,28 +30,47 @@ export class ListLocationComponent implements OnInit, AfterViewInit {
   @Input() travauxId: number;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(private locationService: LocationService,
+              @Inject(MAT_DIALOG_DATA) public data: Travaux,
               public dialog: MatDialog) {
   }
   ngAfterViewInit(): void {
     // this.dataSource.sort = this.sort;
   }
   ngOnInit() {
-    console.log(this.travauxId);
-    this.locationService.getLocationByTravaux(this.travauxId)
-      .subscribe( data => {
-        this.locations = data;
-        console.log(data);
-        console.log(this.locations);
-        this.locations.forEach(value => {
-          console.log(value);
-          let opp : LocationTravaux = value;
-          this.receptacle.push(opp);
+    if(this.travauxId === undefined){
+      this.locationService.getLocationByTravaux(this.data['travaux'])
+        .subscribe( data => {
+          this.locations = data;
+          console.log(data);
+          console.log(this.locations);
+          this.locations.forEach(value => {
+            console.log(value);
+            let opp : LocationTravaux = value;
+            this.receptacle.push(opp);
 
+          });
+          this.dataSource = this.receptacle;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
         });
-        this.dataSource = this.receptacle;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
+    }else {
+      this.locationService.getLocationByTravaux(this.travauxId)
+        .subscribe( data => {
+          this.locations = data;
+          console.log(data);
+          console.log(this.locations);
+          this.locations.forEach(value => {
+            console.log(value);
+            let opp : LocationTravaux = value;
+            this.receptacle.push(opp);
+
+          });
+          this.dataSource = this.receptacle;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        });
+    }
+
   }
   redirectToDetails(id: number){
     console.log(id);

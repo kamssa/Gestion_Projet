@@ -1,11 +1,11 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {DetailAchatTravaux} from "../../../../model/DtailAchat";
 import {AchatTravaux} from "../../../../model/AchatTravaux";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {AchatTravauxService} from "../../../../service/achat-travaux.service";
-import {MatDialog} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {EditAchatTravauxComponent} from "../../achat/edit-achat-travaux/edit-achat-travaux.component";
 import {DatailAchatDialogComponent} from "../../achat/dialogue/datail-achat-dialog/datail-achat-dialog.component";
 import {MainOeuvre} from "../../../../model/MainOeuvre";
@@ -13,6 +13,7 @@ import {DetailMainOeuvre} from "../../../../model/DetailMainDoeuvre";
 import {MainoeuvreService} from "../../../../service/mainoeuvre.service";
 import {EditMainouvreTravauxComponent} from "../edit-mainouvre-travaux/edit-mainouvre-travaux.component";
 import {DialogMainouvreComponent} from "../dialog-mainouvre/dialog-mainouvre.component";
+import {Travaux} from '../../../../model/travaux';
 
 @Component({
   selector: 'app-list-main-doeuvre',
@@ -29,29 +30,49 @@ export class ListMainDoeuvreComponent implements OnInit, AfterViewInit {
   @Input() travauxId: number;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(private mainoeuvreService: MainoeuvreService,
+              @Inject(MAT_DIALOG_DATA) public data: Travaux,
               public dialog: MatDialog) {
   }
   ngAfterViewInit(): void {
 
   }
   ngOnInit() {
-    console.log(this.travauxId);
-    this.mainoeuvreService.getMainOeuvreByTravaux(this.travauxId)
-      .subscribe( data => {
-        this.mainOeuvres = data;
-        console.log(data);
-        console.log(this.mainOeuvres);
-        this.mainOeuvres.forEach(value => {
-          console.log(value);
-          let opp : MainOeuvre = value;
+    if(this.travauxId === undefined){
+      this.mainoeuvreService.getMainOeuvreByTravaux(this.data['travaux'])
+        .subscribe( data => {
+          this.mainOeuvres = data;
+          console.log(data);
+          console.log(this.mainOeuvres);
+          this.mainOeuvres.forEach(value => {
+            console.log(value);
+            let opp : MainOeuvre = value;
 
-          this.receptacle.push(opp);
+            this.receptacle.push(opp);
+          });
+          this.dataSource = this.receptacle;
+          this.dataSource = new MatTableDataSource<MainOeuvre>(this.receptacle);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
         });
-        this.dataSource = this.receptacle;
-        this.dataSource = new MatTableDataSource<MainOeuvre>(this.receptacle);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
+    }else {
+      this.mainoeuvreService.getMainOeuvreByTravaux(this.travauxId)
+        .subscribe( data => {
+          this.mainOeuvres = data;
+          console.log(data);
+          console.log(this.mainOeuvres);
+          this.mainOeuvres.forEach(value => {
+            console.log(value);
+            let opp : MainOeuvre = value;
+
+            this.receptacle.push(opp);
+          });
+          this.dataSource = this.receptacle;
+          this.dataSource = new MatTableDataSource<MainOeuvre>(this.receptacle);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        });
+    }
+
 
   }
   redirectToDetails(id: number){

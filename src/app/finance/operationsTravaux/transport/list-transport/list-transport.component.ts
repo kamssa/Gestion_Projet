@@ -1,13 +1,14 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {DetailTransport} from '../../../../model/DetailTransport';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {TransportService} from '../../../../service/transport.service';
-import {MatDialog} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {EditTranspTravauxComponent} from '../edit-detail/edit-transp-travaux.component';
 import {Transport} from '../../../../model/Transport';
 import {DialogTransportComponent} from "../dialog-transport/dialog-transport.component";
+import {Travaux} from '../../../../model/travaux';
 
 @Component({
   selector: 'app-list-transport',
@@ -25,29 +26,49 @@ export class ListTransportComponent implements OnInit, AfterViewInit {
   @Input() travauxId: number;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(private serviceTransport: TransportService,
+              @Inject(MAT_DIALOG_DATA) public data: Travaux,
               public dialog: MatDialog) {
   }
   ngAfterViewInit(): void {
 
   }
   ngOnInit() {
-    console.log(this.travauxId);
-    this.serviceTransport.getTransportByTravaux(this.travauxId)
-      .subscribe( data => {
-        this.transports = data;
-        console.log(data);
-        console.log(this.transports);
-        this.transports.forEach(value => {
-          console.log(value);
-          let opp : DetailTransport = value;
+    if(this.travauxId === undefined){
+      this.serviceTransport.getTransportByTravaux(this.data['travaux'])
+        .subscribe( data => {
+          this.transports = data;
+          console.log(data);
+          console.log(this.transports);
+          this.transports.forEach(value => {
+            console.log(value);
+            let opp : DetailTransport = value;
 
-          this.receptacle.push(opp);
+            this.receptacle.push(opp);
+          });
+          this.dataSource = this.receptacle;
+          this.dataSource = new MatTableDataSource<DetailTransport>(this.receptacle);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
         });
-        this.dataSource = this.receptacle;
-        this.dataSource = new MatTableDataSource<DetailTransport>(this.receptacle);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      });
+    }else {
+      this.serviceTransport.getTransportByTravaux(this.travauxId)
+        .subscribe( data => {
+          this.transports = data;
+          console.log(data);
+          console.log(this.transports);
+          this.transports.forEach(value => {
+            console.log(value);
+            let opp : DetailTransport = value;
+
+            this.receptacle.push(opp);
+          });
+          this.dataSource = this.receptacle;
+          this.dataSource = new MatTableDataSource<DetailTransport>(this.receptacle);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        });
+    }
+
 
   }
   redirectToDetails(id: number){

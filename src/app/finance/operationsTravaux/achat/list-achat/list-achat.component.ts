@@ -1,16 +1,17 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator} from '@angular/material/paginator';
 import {AchatTravauxService} from '../../../../service/achat-travaux.service';
 import {AchatTravaux} from '../../../../model/AchatTravaux';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
-import {MatDialog} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
 import {DatailAchatDialogComponent} from "../dialogue/datail-achat-dialog/datail-achat-dialog.component";
 import {EditAchatTravauxComponent} from "../edit-achat-travaux/edit-achat-travaux.component";
 import {Router} from '@angular/router';
 import {ManagerService} from '../../../../service/manager.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {NotificationService} from '../../../../helper/notification.service';
+import {Travaux} from '../../../../model/travaux';
 
 @Component({
   selector: 'app-list-achat',
@@ -35,6 +36,7 @@ export class ListAchatComponent implements OnInit, AfterViewInit{
    constructor(private serviceAchat: AchatTravauxService,
                public dialog: MatDialog,
                private router: Router,
+               @Inject(MAT_DIALOG_DATA) public data: Travaux,
                private managerService: ManagerService,
                private helper: JwtHelperService,
                private notificationService: NotificationService) {
@@ -43,24 +45,48 @@ export class ListAchatComponent implements OnInit, AfterViewInit{
 
   }
   ngOnInit() {
-    this.serviceAchat.getAchatTravauxByTravaux(this.travauxId).subscribe(list => {
-      if(list.length !== 0){
-        this.array = list.map(item => {
-          return {
-            id: item.id,
-            ...item
-          };
-        });
-      }else{
-        console.log('aucune donnée');
-      }
+     if(this.travauxId === undefined){
+       console.log(this.travauxId);
+       this.serviceAchat.getAchatTravauxByTravaux(this.data['travaux']).subscribe(list => {
+         if(list.length !== 0){
+           this.array = list.map(item => {
+             return {
+               id: item.id,
+               ...item
+             };
+           });
+         }else{
+           console.log('aucune donnée');
+         }
 
-      this.listData = new MatTableDataSource(this.array);
-      this.listData.sort = this.sort;
-      this.listData.paginator = this.paginator;
+         this.listData = new MatTableDataSource(this.array);
+         this.listData.sort = this.sort;
+         this.listData.paginator = this.paginator;
 
 
-    });
+       });
+     }else {
+       console.log(this.travauxId);
+       this.serviceAchat.getAchatTravauxByTravaux(this.travauxId).subscribe(list => {
+         if(list.length !== 0){
+           this.array = list.map(item => {
+             return {
+               id: item.id,
+               ...item
+             };
+           });
+         }else{
+           console.log('aucune donnée');
+         }
+
+         this.listData = new MatTableDataSource(this.array);
+         this.listData.sort = this.sort;
+         this.listData.paginator = this.paginator;
+
+
+       });
+     }
+
 
     if(localStorage.getItem('currentUser')) {
       const token = localStorage.getItem('currentUser');
