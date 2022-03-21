@@ -11,12 +11,6 @@ import {UpdateProjetComponent} from '../../../finance/siteTravaux/update-projet/
 import {ManagerService} from '../../../service/manager.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {AutresService} from '../../../service/autres.service';
-import {ListAchatComponent} from '../../../finance/operationsTravaux/achat/list-achat/list-achat.component';
-import {ListLocationComponent} from '../../../finance/operationsTravaux/location/list-location/list-location.component';
-import {ListLoyerComponent} from '../../../finance/operationsTravaux/loyer/list-loyer/list-loyer.component';
-import {ListMainDoeuvreComponent} from '../../../finance/operationsTravaux/mainouvre/list-main-doeuvre/list-main-doeuvre.component';
-import {ListTransportComponent} from '../../../finance/operationsTravaux/transport/list-transport/list-transport.component';
-import {ListAutreDepenseComponent} from '../../../finance/operationsTravaux/autres/list-autre-depense/list-autre-depense.component';
 
 @Component({
   selector: 'app-list-projet',
@@ -100,102 +94,32 @@ export class ListProjetComponent implements OnInit {
         }
       });
   }
-  onAchat(travail: Travaux){
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
-    this.dialog.open(ListAchatComponent,
-      {
-
-        data: {
-          dialogConfig,
-          travaux: travail.id
-        }
-      });
-  }
-  /*onAchat(travail: Travaux) {
+  onAchat(travail: Travaux) {
     this.router.navigate(['finance/achat', travail.id]);
-  }*/
+  }
 
   onLocation(travail: Travaux) {
-   // this.router.navigate(['finance/location', travail.id]);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
-    this.dialog.open(ListLocationComponent,
-      {
+    this.router.navigate(['finance/location', travail.id]);
 
-        data: {
-          dialogConfig,
-          travaux: travail.id
-        }
-      });
   }
 
 
   onLoyer(travail: Travaux) {
-    //this.router.navigate(['finance/loyer', travail.id]);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
-    this.dialog.open(ListLoyerComponent,
-      {
+    this.router.navigate(['finance/loyer', travail.id]);
 
-        data: {
-          dialogConfig,
-          travaux: travail.id
-        }
-      });
   }
 
   onOeuvre(travail: Travaux) {
-    //this.router.navigate(['finance/oeuvre', travail.id]);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
-    this.dialog.open(ListMainDoeuvreComponent,
-      {
+    this.router.navigate(['finance/oeuvre', travail.id]);
 
-        data: {
-          dialogConfig,
-          travaux: travail.id
-        }
-      });
   }
 
   onTransport(travail: Travaux) {
-    //this.router.navigate(['finance/transport', travail.id]);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
-    this.dialog.open(ListTransportComponent,
-      {
+    this.router.navigate(['finance/transport', travail.id]);
 
-        data: {
-          dialogConfig,
-          travaux: travail.id
-        }
-      });
   }
 
   onAutres(travail: Travaux) {
-    //this.router.navigate(['finance/autre', travail.id]);
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
-    this.dialog.open(ListAutreDepenseComponent,
-      {
-
-        data: {
-          dialogConfig,
-          travaux: travail.id
-        }
-      });
+    this.router.navigate(['finance/autre', travail.id]);
   }
 }
