@@ -77,17 +77,10 @@
                       </div>
                     </mat-step>
                     <mat-step  label="INFORMATIONS COMPLEMENTAIRES">
-                      <mat-form-field style="position: relative; margin-top:20px;" class="example-full-width" appearance="fill">
-                        <mat-label >Selection un employe</mat-label>
-                        <mat-select (selectionChange)="greetDep($event)">
-                          <mat-option *ngFor="let d of employes" [value]="d.id">
-                            {{d.nomComplet}}
-                          </mat-option>
-                        </mat-select>
+                      <mat-form-field  class="example-full-width">
+                        <input   #nomPrenomInput type="text" matInput placeholder="Nom et Prenom" formControlName="nomPrenom">
+                        <mat-error>Ce champ est obligatoire.</mat-error>
                       </mat-form-field>
-                     <!-- <section class="example-section">
-                        <mat-checkbox class="example-margin" formControlName='actived'>Soumettre</mat-checkbox>
-                      </section>-->
                       <div>
                         <button mat-button matStepperPrevious type="button">Retour</button>
                         <button mat-button type="submit" [disabled]="autreDepenseForm.invalid">Valider</button>

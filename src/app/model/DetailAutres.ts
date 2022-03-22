@@ -8,7 +8,7 @@ export class DetailAutres {
               public  prixUnitaire?: number,
               public  quantite?: number,
               public montant?: number,
-              public employe?: Employe
+              public nomPrenom?: string
               ) {
   }
 }

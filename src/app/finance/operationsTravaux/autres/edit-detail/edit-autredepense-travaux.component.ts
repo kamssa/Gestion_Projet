@@ -4,8 +4,7 @@ import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {Autres} from "../../../../model/Autres";
 import {AutresService} from "../../../../service/autres.service";
 import {AchatTravaux} from '../../../../model/AchatTravaux';
-import {DetailAchatTravaux} from '../../../../model/DtailAchat';
-import {DetailAticleStockGeneral} from '../../../../model/DetailAticleStockGeneral';
+
 import {Manager} from '../../../../model/Manager';
 import {Employe} from '../../../../model/Employe';
 import {Observable} from 'rxjs';
@@ -53,6 +52,7 @@ export class EditAutredepenseTravauxComponent implements OnInit {
   @ViewChild("designation", {static: false}) designationInput: ElementRef;
   @ViewChild("prixUnitaire", {static: false}) prixUnitaireInput: ElementRef;
   @ViewChild("montant", {static: false}) montantInput: ElementRef;
+  @ViewChild("nomPrenom", {static: false}) nomPrenomInput: ElementRef;
   @ViewChild("picker", {static: false}) pickerInput: ElementRef;
   @Output() change = new EventEmitter<number>();
   selected: any;
@@ -129,7 +129,7 @@ export class EditAutredepenseTravauxComponent implements OnInit {
                           prixUnitaire: detailAutreTravaux.prixUnitaire,
                           quantite: detailAutreTravaux.quantite,
                           montant: detailAutreTravaux.montant,
-                          employe: detailAutreTravaux.employe
+                          nomPrenom: detailAutreTravaux.nomPrenom
                         })
                       );
                     }
@@ -179,7 +179,7 @@ export class EditAutredepenseTravauxComponent implements OnInit {
       prixUnitaire: [''],
       quantite: [''],
       montant: [''],
-      employe: [''],
+      nomPrenom: [''],
 
     });
   }
@@ -212,7 +212,7 @@ export class EditAutredepenseTravauxComponent implements OnInit {
               designation: this.designationInput.nativeElement.value,
               prixUnitaire:  this.prixUnitaireInput.nativeElement.value,
               quantite:  this.quantiteInput.nativeElement.value,
-              employe: this.employe,
+              nomPrenom: this.nomPrenomInput.nativeElement.value,
 
             }
           ]

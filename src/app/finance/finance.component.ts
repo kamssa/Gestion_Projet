@@ -142,7 +142,9 @@ export class FinanceComponent implements OnInit{
   onAchat(travail: Travaux) {
     this.router.navigate(['finance/achat', travail.id]);
   }
-
+  onAutreAchat(travail: Travaux) {
+    this.router.navigate(['finance/autreAchat', travail.id]);
+  }
   onLocation(travail: Travaux) {
     this.router.navigate(['finance/location', travail.id]);
 

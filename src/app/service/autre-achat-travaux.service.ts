@@ -54,9 +54,9 @@ export class AutreAchatTravauxService {
   }
 
 // recuperer achat par id travaux
-  getAchatTravauxByTravaux(id: number): Observable<AutreAchatTravaux[]> {
+  getAutreAchatTravauxByTravaux(id: number): Observable<AutreAchatTravaux[]> {
     // @ts-ignore
-    return this.http.get<Resultat<AchatTravaux[]>>(`${environment.apiUrl}/api/achat/${id}`)
+    return this.http.get<Resultat<AutreAchatTravaux[]>>(`${environment.apiUrl}/api/autreAchat/${id}`)
       .pipe(map(res => res.body,
         tap(res =>
           this.log(`travaux trouve =${res}`))),

@@ -34,7 +34,6 @@ export class ListLoyerComponent implements OnInit, AfterViewInit {
 
   }
   ngOnInit() {
-    console.log(this.travauxId);
     this.loyerService.getLoyerByTravaux(this.travauxId)
       .subscribe( data => {
         this.loyer = data;

@@ -26,6 +26,7 @@ import {DetailHistoryComponent} from '../../stock/detail-history/detail-history.
 import {ListCaisseComponent} from '../../caisse/list-caisse/list-caisse.component';
 import {AdvanceProjetComponent} from '../../administration/advance-projet/advance-projet.component';
 import {ListProjetComponent} from '../../administration/advance-projet/list-projet/list-projet.component';
+import {EditAutreAchatTravauxComponent} from '../../finance/operationsTravaux/autreAchatTravaux/edit-autre-achat-travaux/edit-autre-achat-travaux.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -49,6 +50,11 @@ export const AdminLayoutRoutes: Routes = [
           {
             path: 'achat/:id',
             component: EditAchatComponent
+
+          },
+          {
+            path: 'autreAchat/:id',
+            component: EditAutreAchatTravauxComponent
 
           },
           {
