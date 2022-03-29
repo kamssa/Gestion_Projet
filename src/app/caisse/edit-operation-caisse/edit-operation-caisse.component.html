@@ -78,12 +78,8 @@
                   </mat-step>
                   <mat-step  label="INFORMATIONS COMPLEMENTAIRES">
                     <mat-form-field style="position: relative; margin-top:20px;" class="example-full-width" appearance="fill">
-                      <mat-label >Selection un employe</mat-label>
-                      <mat-select (selectionChange)="greetDep($event)">
-                        <mat-option *ngFor="let d of employes" [value]="d.id">
-                          {{d.nomComplet}}
-                        </mat-option>
-                      </mat-select>
+                      <mat-label>Designation</mat-label>
+                      <input #employe matInput placeholder="Employe" formControlName="employe">
                     </mat-form-field>
                     <!-- <section class="example-section">
                        <mat-checkbox class="example-margin" formControlName='actived'>Soumettre</mat-checkbox>

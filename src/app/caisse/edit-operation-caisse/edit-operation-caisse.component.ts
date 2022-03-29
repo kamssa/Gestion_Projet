@@ -201,7 +201,7 @@ export class EditOperationCaisseComponent implements OnInit {
               prixUnitaire:  this.prixUnitaireInput.nativeElement.value,
               quantite:  this.quantiteInput.nativeElement.value,
               entrepriseId: this.personne.entreprise.id,
-              employe: this.employe,
+              employe: this.employeInput.nativeElement.value,
 
             }
           ]

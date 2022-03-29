@@ -10,7 +10,7 @@ export class CaisseDetail {
     public  quantite?: number,
     public montant?: number,
     public entrepriseId?: number,
-    public employe?: Employe
+    public employe?: string
   ) {
   }
 
