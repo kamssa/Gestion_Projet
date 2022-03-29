@@ -7,28 +7,28 @@
   <table mat-table [dataSource]="dataSource"  matSort>
     <ng-container matColumnDef="materiaux">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Materiel </th>
-      <td mat-cell *matCellDef="let detailAchatTravaux"> {{detailAchatTravaux.libelleMateriaux}} </td>
+      <td mat-cell *matCellDef="let detailAutreAchatTravaux"> {{detailAutreAchatTravaux.libelleMateriaux}} </td>
     </ng-container>
     <ng-container matColumnDef="prix_unitaire">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Prix unitaire </th>
-      <td mat-cell *matCellDef="let detailAchatTravaux"> {{detailAchatTravaux.prixUnitaire|number}} </td>
+      <td mat-cell *matCellDef="let detailAutreAchatTravaux"> {{detailAutreAchatTravaux.prixUnitaire|number}} </td>
     </ng-container>
     <ng-container matColumnDef="quantite">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantite </th>
-      <td mat-cell *matCellDef="let detailAchatTravaux"> {{detailAchatTravaux.quantite|number}} </td>
+      <td mat-cell *matCellDef="let detailAutreAchatTravaux"> {{detailAutreAchatTravaux.quantite|number}} </td>
     </ng-container>
 
 
     <ng-container matColumnDef="montant">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Montant </th>
-      <td mat-cell *matCellDef="let detailAchatTravaux"> {{detailAchatTravaux.montant|number}} </td>
+      <td mat-cell *matCellDef="let detailAutreAchatTravaux"> {{detailAutreAchatTravaux.montant|number}} </td>
     </ng-container>
 
 
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef> Delete </th>
-      <td mat-cell *matCellDef="let detailAchatTravaux">
-        <button mat-icon-button color="warn" (click)="redirectToDelete(detailAchatTravaux.id)">
+      <td mat-cell *matCellDef="let detailAutreAchatTravaux">
+        <button mat-icon-button color="warn" (click)="redirectToDelete(detailAutreAchatTravaux.id)">
           <mat-icon class="mat-18">delete</mat-icon>
         </button>
       </td>

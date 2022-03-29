@@ -8,6 +8,7 @@ import {filter} from 'rxjs/operators';
 import {ManagerService} from '../../service/manager.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {NotificationService} from '../../helper/notification.service';
+import {UpdateEvolutionService} from '../../service/update-evolution.service';
 
 @Component({
   selector: 'app-admin-layout',
@@ -28,7 +29,8 @@ export class AdminLayoutComponent implements OnInit {
   constructor(public location: Location, private router: Router,
               private managerService: ManagerService,
               private notificationService: NotificationService,
-              private helper: JwtHelperService) {
+              private helper: JwtHelperService,
+              private updateEvolutionService: UpdateEvolutionService) {
   }
 
   ngOnInit(): void {

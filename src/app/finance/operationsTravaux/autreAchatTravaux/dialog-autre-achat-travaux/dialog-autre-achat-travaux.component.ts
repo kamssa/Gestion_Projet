@@ -19,7 +19,7 @@ export class DialogAutreAchatTravauxComponent implements OnInit {
   dataSource: MatTableDataSource<DetailAutreAchatTravaux>;
   receptacle: any = [];
   achatTravauxId: number;
-  detailAchatTravaux: DetailAutreAchatTravaux[] = [];
+  detailAutreAchatTravaux: DetailAutreAchatTravaux[] = [];
   @ViewChild(MatSort) sort: MatSort;
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -33,10 +33,10 @@ export class DialogAutreAchatTravauxComponent implements OnInit {
               private router: Router) {
 
     this.serviceAchat.getAutreAchatTravauxById(data['autreAchatTravaux']).subscribe(result => {
-      console.log('resultat retourne', result);
-      this.detailAchatTravaux = result.body.detailAutreAchatTravaux;
+      console.log('resultat retourne', result.body);
+      this.detailAutreAchatTravaux = result.body.detailAutreAchatTravaux;
 
-      this.detailAchatTravaux.forEach(value => {
+      this.detailAutreAchatTravaux.forEach(value => {
         console.log(value);
         let opp : DetailAutreAchatTravaux = value;
         this.receptacle.push(opp);

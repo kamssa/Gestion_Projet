@@ -7,7 +7,6 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-8">
-
           <mat-card>
             <mat-card-title class="tilte">Projet : {{travaux.site.nomChantier}}</mat-card-title>
 
@@ -20,13 +19,13 @@
                 <button mat-button color="primary" class="site">Budget : {{travaux.budget|number}} CFA</button>
               </li>
               <li>
-                <button mat-button color="primary" class="site">Debousser Sec : {{travaux.debousserSec|number}} CFA</button>
+                <button mat-button color="primary" class="site">Debousser Sec : {{travaux.debousserSec | number}} CFA</button>
               </li>
               <li>
                 <button mat-button color="primary" class="site">Acompte : {{travaux.accompte|number}} CFA</button>
               </li>
               <li>
-                <button mat-button color="warn"> <span>Solde :</span>  {{travaux.reste| number}} CFA</button>
+                <button mat-button color="warn"> <span>Solde :</span>  {{travaux.reste | number}} CFA</button>
               </li>
               <li>
                 <button mat-button color="warn" class="site">Dépense : {{travaux.total| number}} CFA</button>
@@ -43,7 +42,7 @@
             </ul>
             <mat-card-actions>
               <button mat-button (click)="update(travaux.id)">Modifier</button>
-
+              <button mat-button (click)="updateEvolution(travaux.id)">Mise à jour</button>
             </mat-card-actions>
           </mat-card>
           <hr>

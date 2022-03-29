@@ -11,6 +11,7 @@ import {UpdateProjetComponent} from '../../../finance/siteTravaux/update-projet/
 import {ManagerService} from '../../../service/manager.service';
 import {JwtHelperService} from '@auth0/angular-jwt';
 import {AutresService} from '../../../service/autres.service';
+import {UpdateEvolutionService} from '../../../service/update-evolution.service';
 
 @Component({
   selector: 'app-list-projet',
@@ -43,8 +44,8 @@ export class ListProjetComponent implements OnInit {
               private  router: Router,
               private mediaObserver: MediaObserver,
               private helper: JwtHelperService,
-              private achatTravauxService: AchatTravauxService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private updateEvolutionService: UpdateEvolutionService) {
 
   }
   ngOnInit(): void {
@@ -100,6 +101,15 @@ export class ListProjetComponent implements OnInit {
 
   onLocation(travail: Travaux) {
     this.router.navigate(['finance/location', travail.id]);
+
+  }
+  // tslint:disable-next-line:typedef
+  updateEvolution(id) {
+    this.updateEvolutionService.getEvolution(id)
+      .subscribe(result => {
+        this.travaux = result.body;
+        this.travauxId = result.body.id;
+      });
 
   }
 

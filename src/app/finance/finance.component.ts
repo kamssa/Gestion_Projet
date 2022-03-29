@@ -6,7 +6,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {Travaux} from '../model/travaux';
 import {SteTravauxService} from '../service/ste-travaux.service';
-
+declare const $: any;
 @Component({
   selector: 'app-finance',
   templateUrl: './finance.component.html',
@@ -168,5 +168,11 @@ export class FinanceComponent implements OnInit{
 
   onAutres(travail: Travaux) {
     this.router.navigate(['finance/autre', travail.id]);
+  }
+  isMobileMenu() {
+    if ($(window).width() > 991) {
+      return false;
+    }
+    return true;
   }
 }

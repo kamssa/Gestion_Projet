@@ -36,15 +36,15 @@
 
                               </mat-form-field>
                             </div>
-                            <div>
+                            <div >
                               <div  *ngFor="let tr of oTravaux | async"  class="list-group">
                                 <a class="list-group-item  clearfix"
-                                   [routerLink]="[tr.id]" routerLinkActive="active"
+                                   [routerLink]="[tr.id]"
                                    (click)="onSelect(tr)">
-                                  <div class="pull-left">
+                                  <li class="pull-left"  >
                                     <p >{{tr.libelle}}</p>
                                     <p> {{tr.budget | number}}</p>
-                                  </div>
+                                  </li>
                                 </a>
                                 <div  fxLayout="row" fxLayoutAlign="space-around center">
                                   <button  mat-button color="primary" (click)="onAchat(tr)">Liste retrait Stock</button>

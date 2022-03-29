@@ -69,7 +69,7 @@
                         <input #quantite matInput placeholder="Quantite" formControlName="quantite">
                       </mat-form-field>
                       <mat-form-field  class="example-full-width">
-                        <input   #montant type="number" matInput placeholder="{{montant || 0 | number}}" (click)="getCalcul()">
+                        <input   #montant type="text" matInput placeholder="{{montant || 0 | number}}" (click)="getCalcul()">
                         <mat-error>Ce champ est obligatoire.</mat-error>
                       </mat-form-field>
                       <div>
@@ -78,7 +78,7 @@
                     </mat-step>
                     <mat-step  label="INFORMATIONS COMPLEMENTAIRES">
                       <mat-form-field  class="example-full-width">
-                        <input   #nomPrenomInput type="text" matInput placeholder="Nom et Prenom" formControlName="nomPrenom">
+                        <input  #nomPrenom type="text" matInput placeholder="Nom et Prenom" formControlName="nomPrenom">
                         <mat-error>Ce champ est obligatoire.</mat-error>
                       </mat-form-field>
                       <div>
