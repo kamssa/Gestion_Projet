@@ -25,7 +25,8 @@ export class EditAchatComponent implements OnInit {
   panelOpenState = false;
   constructor(private route: ActivatedRoute,
               private travauxService: SteTravauxService, private  router: Router,
-              private mediaObserver: MediaObserver,  private achatService: AchatTravauxService) {
+              private mediaObserver: MediaObserver,
+              private achatService: AchatTravauxService) {
 
   }
 

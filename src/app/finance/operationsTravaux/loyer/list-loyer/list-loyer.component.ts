@@ -37,7 +37,6 @@ export class ListLoyerComponent implements OnInit, AfterViewInit {
     this.loyerService.getLoyerByTravaux(this.travauxId)
       .subscribe( data => {
         this.loyer = data;
-        console.log(data);
         console.log(this.loyer);
         this.loyer.forEach(value => {
           console.log(value);
@@ -66,7 +65,7 @@ export class ListLoyerComponent implements OnInit, AfterViewInit {
   }
 
   redirectToDelete(id: number) {
-    if (confirm("Voulez vous vraiment supprimer l'achat ")) {
+    if (confirm("Voulez vous vraiment supprimer le loyer ")) {
       this.loyerService.supprimerLoyer(id).subscribe(data => {
 
       });

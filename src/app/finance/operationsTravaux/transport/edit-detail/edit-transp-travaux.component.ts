@@ -8,6 +8,7 @@ import {Transport} from "../../../../model/Transport";
 import {TransportService} from "../../../../service/transport.service";
 import {Loyer} from "../../../../model/Loyer";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {NotificationService} from '../../../../helper/notification.service';
 
 @Component({
   selector: 'app-edit-transp-travaux',
@@ -32,6 +33,7 @@ export class EditTranspTravauxComponent implements OnInit {
   constructor(private  fb: FormBuilder, private  router: Router,
               private transportService: TransportService,
               private travauxServices: SteTravauxService,
+              private notificationService: NotificationService,
               @Inject(MAT_DIALOG_DATA) public data: Transport) {
   }
 
@@ -105,7 +107,7 @@ export class EditTranspTravauxComponent implements OnInit {
       this.travauxId,
       formValue['detailTransport']);
     this.transportService.ajoutTransport(transport).subscribe(data => {
-      console.log('MainOeuvre enregistrer', data.body);
+      this.notificationService.warn('Enregistrement effectué avec succès');
       console.log(data.body);
     }, error => {
       //this.errorHandler.handleError(error);

@@ -6,6 +6,7 @@ import {MainOeuvre} from "../../../../model/MainOeuvre";
 import {MainoeuvreService} from "../../../../service/mainoeuvre.service";
 import {Loyer} from "../../../../model/Loyer";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {NotificationService} from '../../../../helper/notification.service';
 
 @Component({
   selector: 'app-edit-mainouvre-travaux',
@@ -30,6 +31,7 @@ export class EditMainouvreTravauxComponent implements OnInit {
   constructor(private  fb: FormBuilder, private  router: Router,
               private mainOeuvreService: MainoeuvreService,
               private travauxServices: SteTravauxService,
+              private notificationService: NotificationService,
               @Inject(MAT_DIALOG_DATA) public data: Loyer) {
   }
 
@@ -121,7 +123,7 @@ export class EditMainouvreTravauxComponent implements OnInit {
       this.travauxId,
       formValue['detailMainOeuvre']);
     this.mainOeuvreService.ajoutMainDoeuvre(mainoeuvre).subscribe(data => {
-      console.log('MainOeuvre enregistrer', data.body);
+      this.notificationService.warn('Enregistrement effectué avec succès');
       console.log(data.body);
       }, error => {
       //this.errorHandler.handleError(error);

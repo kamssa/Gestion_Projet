@@ -5,6 +5,7 @@ import {LocationService} from "../../../../service/location.service";
 import {AchatTravaux} from "../../../../model/AchatTravaux";
 import {LocationTravaux} from "../../../../model/LocationTravaux";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
+import {NotificationService} from '../../../../helper/notification.service';
 
 @Component({
   selector: 'app-edit-location-travaux',
@@ -19,6 +20,7 @@ export class EditLocationTravauxComponent implements OnInit {
   @Input() travauxId: number;
   constructor(private  fb: FormBuilder,
               private  router: Router,
+              private notificationService: NotificationService,
               private locationService: LocationService,
               @Inject(MAT_DIALOG_DATA) public data: LocationTravaux) { }
 
@@ -102,6 +104,7 @@ export class EditLocationTravauxComponent implements OnInit {
       this.locationService.ajoutLocationTravaux(locationTravaux).subscribe(data => {
       console.log('location enregistrer', data.body);
       //this.montant = data.body.montant;
+        this.notificationService.warn('Enregistrement effectué avec succès');
 
 
     }, error => {

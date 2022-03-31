@@ -6,6 +6,7 @@ import {LoyService} from '../../../../service/loy.service';
 import {Loyer} from '../../../../model/Loyer';
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {LocationTravaux} from "../../../../model/LocationTravaux";
+import {NotificationService} from '../../../../helper/notification.service';
 
 @Component({
   selector: 'app-detail-loyer',
@@ -27,6 +28,7 @@ export class DetailLoyerComponent implements OnInit {
 
   constructor(private  fb: FormBuilder,
               private  router: Router,
+              private notificationService: NotificationService,
               private loyerService: LoyService,
               @Inject(MAT_DIALOG_DATA) public data: Loyer) {
   }
@@ -98,7 +100,8 @@ export class DetailLoyerComponent implements OnInit {
       formValue['detailLoyer']);
     this.loyerService.ajoutLoyer(loyer).subscribe(data => {
       console.log('Loyer enregistrer', data);
-      console.log(data.body);
+      this.notificationService.warn('Enregistrement effectué avec succès');
+
 
     }, error => {
         console.log('desole');
