@@ -8,7 +8,10 @@ export class DetailAutreAchatTravaux {
               public frais?: number,
               public montant?: number,
               public fournisseur?: number,
+              public  date?: Date,
+              public  travauxId?: number
 
-  ) {
+
+) {
   }
 }

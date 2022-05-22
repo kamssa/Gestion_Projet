@@ -35,27 +35,29 @@
     </div>
   </div>
   <ng-template #newAchat>
-    <form class="example-form" [formGroup]="autreDepenseForm" (ngSubmit)="onSubmit()" *ngIf ="autreDepenseForm">
-          <mat-card> Effectuer le paiement pour la caisse</mat-card>
-          <br>
-        <div class="well">
 
-          <div class="achat">
-            <div class="row">
-              <div formArrayName="detailAutres">
+    <form class="example-form" [formGroup]="autreDepenseForm" (ngSubmit)="onSubmit()" *ngIf ="autreDepenseForm">
+          <mat-card>Paiement pour la caisse</mat-card>
+          <br>
+      <div formArrayName="detailAutres">
                 <div *ngFor="let itemrow of autreDepenseForm.controls.detailAutres['controls']; let i=index"
                      [formGroupName]="i">
-                  <mat-stepper [linear]="isLinear" #stepper>
+                  <div class="row">
+                    <div class="col-md-8">
+                      <ng-container [ngSwitch]="stepperOrientation | async">
+                        <div *ngSwitchCase="'horizontal'"></div>
+                        <div *ngSwitchCase="'vertical'"></div>
+                      </ng-container>
+                  <mat-stepper [linear]="isLinear" #stepper class="example-stepper">
                     <mat-step>
                       <ng-template matStepLabel>INFORMATIONS SUR L'OPERATION</ng-template>
                       <input type="hidden" formControlName="id">
-                      <!--<mat-form-field class="example-full-width">
-                        <input matInput [matDatepicker]="picker" placeholder="Choisir la date" formControlName="date" id="date"
+                      <mat-form-field class="example-full-width">
+                        <input #dat matInput [matDatepicker]="picker" placeholder="Date" formControlName="date" id="date"
                                readonly (click)="picker.open()">
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
-                      </mat-form-field>-->
-
+                      </mat-form-field>
                       <mat-form-field appearance="fill">
                         <mat-label>Designation</mat-label>
                         <input #designation matInput placeholder="Designation" formControlName="designation">
@@ -88,22 +90,19 @@
                     </mat-step>
                   </mat-stepper>
 
-                </div>
-              </div>
+
             </div>
-            <mat-action-row>
-              <button type="button" mat-raised-button color="warn" (click)="addNewRows()">
-                <span class="material-icons">add</span>
-              </button>
-            </mat-action-row>
-
           </div>
+                </div>
+      </div>
 
-        </div>
+
+
         </form>
 
 
   </ng-template>
+
 </div>
 
 

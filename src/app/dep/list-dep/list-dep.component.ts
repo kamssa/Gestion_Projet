@@ -60,6 +60,7 @@ export class ListDepComponent implements OnInit {
       const token = localStorage.getItem('currentUser');
       const decoded = this.helper.decodeToken(token);
       this.managerService.getPersonneById(decoded.sub).subscribe(resultat => {
+        console.log(resultat.body);
         this.personne = resultat.body;
         this.roles = resultat.body.roles;
         this.roles.forEach(val => {
@@ -73,6 +74,7 @@ export class ListDepComponent implements OnInit {
 
         if (this.personne.type === 'MANAGER'){
           this.managerService.getManagerById(this.personne.id).subscribe( result => {
+            console.log(result.body.entreprise.id);
             this.personne = result.body;
             this.nav = true;
             this.departementService.getDepByIdEntreprise(this.personne.entreprise.id).subscribe(list => {

@@ -12,6 +12,8 @@ import {MatTableDataSource} from '@angular/material/table';
 import {UpdateProjetComponent} from '../update-projet/update-projet.component';
 import {AddTravauxSiteComponent} from '../add-travaux-site/add-travaux-site.component';
 import {AutresService} from '../../../service/autres.service';
+import {EditAchatTravauxComponent} from '../../operationsTravaux/achat/edit-achat-travaux/edit-achat-travaux.component';
+import {CumulDepensesComponent} from '../../operationsTravaux/cumul-depenses/cumul-depenses.component';
 
 @Component({
   selector: 'app-liste-site-travaux-operation',
@@ -158,6 +160,19 @@ export class ListeSiteTravauxOperationComponent implements OnInit{
           site: id
         }
       });
+
+  }
+
+
+    onCumulDepense(id: number) {
+    console.log(id);
+        this.dialog.open(CumulDepensesComponent,{
+          data: {
+            travaux: id
+          }
+        });
+
+
 
   }
 }

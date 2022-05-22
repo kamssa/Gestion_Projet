@@ -57,6 +57,7 @@ export class EditAchatTravauxComponent implements OnInit {
   error = '';
   ROLE_MANAGER: any;
   public errorMessage: string = '';
+  @ViewChild("dat", {static: false}) dateInput: ElementRef;
   @ViewChild("value", {static: false}) valueInput: ElementRef;
   @ViewChild("quantite", {static: false}) quantiteInput: ElementRef;
   @ViewChild("frais", {static: false}) fraisInput: ElementRef;
@@ -142,6 +143,8 @@ export class EditAchatTravauxComponent implements OnInit {
                           prixUnitaire: detailAchatTravaux.prixUnitaire,
                           quantite: detailAchatTravaux.quantite,
                           montant: detailAchatTravaux.montant,
+                          travauxId: detailAchatTravaux.travauxId,
+                          date: detailAchatTravaux.date
                         })
                       );
                     }
@@ -207,6 +210,8 @@ export class EditAchatTravauxComponent implements OnInit {
       prixUnitaire: [''],
       quantite: ['', Validators.required],
       montant: [''],
+      travauxId: [''],
+      date: [''],
     });
   }
   initForm() {
@@ -229,7 +234,6 @@ export class EditAchatTravauxComponent implements OnInit {
     if (!this.editMode) {
       if (this.personne.type === 'MANAGER') {
         this.detailAticleStockGenerale = JSON.parse(localStorage.getItem('materiau'));
-
         this.achatTravaux = {
           libelle: this.detailAticleStockGenerale.libelleMateriaux,
           date: new  Date(),
@@ -239,7 +243,6 @@ export class EditAchatTravauxComponent implements OnInit {
               libelleMateriaux: this.detailAticleStockGenerale.libelleMateriaux,
               prixUnitaire: this.detailAticleStockGenerale.prixUnitaire,
               quantite: parseInt(this.quantiteInput.nativeElement.value),
-
             }
           ]
         };
@@ -252,7 +255,7 @@ export class EditAchatTravauxComponent implements OnInit {
         };
       }
 
-
+      console.log(this.achatTravaux);
       //localStorage.removeItem('materiau');
       this.travauxService.getTravauxById(this.travauxId)
         .subscribe(res => {

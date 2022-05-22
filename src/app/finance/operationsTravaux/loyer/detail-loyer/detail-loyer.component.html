@@ -39,9 +39,8 @@
     <form class="example-form"  [formGroup]="loyerForm" (ngSubmit)="onSubmit()" novalidate>
       <mat-card> Effectuer un nouvau paiement pour le loyer</mat-card>
       <br>
-          <div class="well">
-          <div class="achat">
             <div class="row">
+              <div class="col-md-8">
               <div formArrayName="detailLoyer">
                 <div *ngFor="let itemrow of loyerForm.controls.detailLoyer['controls']; let i=index"
                      [formGroupName]="i">
@@ -50,6 +49,13 @@
                       <mat-icon class="material-icons">delete</mat-icon>
                     </button>
                   </mat-action-row>
+                  <div>
+                    <mat-form-field class="example-full-width">
+                      <input matInput [matDatepicker]="picker" placeholder="Date" formControlName="date" id="date"
+                             readonly (click)="picker.open()">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
                   <mat-form-field  class="example-full-width">
                     <input  type="text" matInput placeholder="Libelle" formControlName="libelle">
                   </mat-form-field>
@@ -60,6 +66,8 @@
                     <input  #date type="text" matInput placeholder="Mois" formControlName="date">
                   </mat-form-field>-->
                 </div>
+              </div>
+            </div>
               </div>
             </div>
             <mat-action-row>
@@ -74,8 +82,8 @@
               <button mat-raised-button class="boutonAnn" type="button" type="reset">Annuler
               </button>
             </div>
-          </div>
-    </div>
+
+
         </form>
 
 

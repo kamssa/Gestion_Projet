@@ -8,6 +8,7 @@ import {Loyer} from '../model/Loyer';
 import {environment} from '../../environments/environment';
 import {catchError, map, tap} from 'rxjs/operators';
 import {MainOeuvre} from '../model/MainOeuvre';
+import {DetailMainOeuvre} from '../model/DetailMainDoeuvre';
 
 @Injectable({
   providedIn: 'root'
@@ -53,13 +54,23 @@ export class MainoeuvreService {
 
   }
 // recuperer achat par id travaux
-  getMainOeuvreByTravaux(id: number): Observable<Loyer[]> {
+  getMainOeuvreByTravaux(id: number): Observable<MainOeuvre[]> {
     // @ts-ignore
     return this.http.get<Resultat<MainOeuvre[]>>(`${environment.apiUrl}/api/mainOeuvre/${id}`)
       .pipe(map(res => res.body,
         tap(res =>
           this.log(`location trouve =${res}`))),
         catchError(this.handleError<Resultat<MainOeuvre[]>>('getMainOeuvreByTravaux'))
+      );
+  }
+// recuperer achat par id travaux
+  getDetailMainOeuvreByTravaux(id: number): Observable<DetailMainOeuvre[]> {
+    // @ts-ignore
+    return this.http.get<Resultat<DetailMainOeuvre[]>>(`${environment.apiUrl}/api/detailMainOeuvre/${id}`)
+      .pipe(map(res => res.body,
+        tap(res =>
+          this.log(`location trouve =${res}`))),
+        catchError(this.handleError<Resultat<DetailMainOeuvre[]>>('getDetailMainOeuvreByTravaux'))
       );
   }
 

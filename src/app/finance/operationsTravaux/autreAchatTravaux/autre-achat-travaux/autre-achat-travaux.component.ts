@@ -31,7 +31,6 @@ export class AutreAchatTravauxComponent implements OnInit {
   autreAchatTravauxForm: FormGroup;
   editMode = false;
   autreAchatTravaux: AutreAchatTravaux;
-  detailAchatTravaux: DetailAchatTravaux;
   detailAutreAchatTravauxInit: any;
   montant: number;
 
@@ -48,6 +47,8 @@ export class AutreAchatTravauxComponent implements OnInit {
   error = '';
   ROLE_MANAGER: any;
   public errorMessage: string = '';
+  @ViewChild("dat", {static: false}) dateInput: ElementRef;
+  @ViewChild("libelleMateriaux", {static: false}) libelleMateriauxInput: ElementRef;
   @ViewChild("value", {static: false}) valueInput: ElementRef;
   @ViewChild("quantite", {static: false}) quantiteInput: ElementRef;
   @ViewChild("frais", {static: false}) fraisInput: ElementRef;
@@ -61,6 +62,8 @@ export class AutreAchatTravauxComponent implements OnInit {
   myControl = new FormControl();
   travaux: Travaux;
   travauxId: number;
+  startDate: Date;
+
   constructor(private  fb: FormBuilder,
               private categorieService: CategorieService,
               private  autreAchatTravauxService: AutreAchatTravauxService,
@@ -112,12 +115,12 @@ export class AutreAchatTravauxComponent implements OnInit {
             this.categorieService.getMatByIdEntreprise(this.personne.entreprise.id).subscribe(data => {
               console.log('materiel par entreprise: ', data.body);
               this.materiaux = data.body;
-              this.filteredOptions = this.myControl.valueChanges.pipe(
+              /*this.filteredOptions = this.myControl.valueChanges.pipe(
 
                 startWith(''),
                 map(value => (typeof value === 'string' ? value : value.libelle)),
                 map(libelle => (libelle ? this.filter(libelle) : this.materiaux.slice())),
-              );
+              );*/
             });
             if (this.data['autreAchatTravaux']){
               this.editMode = true;
@@ -138,6 +141,8 @@ export class AutreAchatTravauxComponent implements OnInit {
                           frais: detailAutreAchatTravaux.frais,
                           fournisseur: detailAutreAchatTravaux.fournisseur,
                           montant: detailAutreAchatTravaux.montant,
+                          date: detailAutreAchatTravaux.date,
+                          travauxId: detailAutreAchatTravaux.travauxId
                         })
                       );
                     }
@@ -200,6 +205,8 @@ export class AutreAchatTravauxComponent implements OnInit {
       fournisseur: [''],
       quantite: ['', Validators.required],
       montant: [''],
+      date: [''],
+      travauxId: ['']
     });
   }
   initForm() {
@@ -217,37 +224,51 @@ export class AutreAchatTravauxComponent implements OnInit {
   get formArr() {
     return this.autreAchatTravauxForm.get('detailAutreAchatTravaux') as FormArray;
   }
+  searchFor() {
+    console.log(this.startDate.toString());
+  }
   onSubmit() {
 
     if (!this.editMode) {
       if (this.personne.type === 'MANAGER') {
         this.materiau = JSON.parse(localStorage.getItem('materiau'));
+        let formValue = this.autreAchatTravauxForm.value;
 
-        this.autreAchatTravaux = {
-          libelle: this.materiau.libelle,
+        let autreAchatTravaux = new AutreAchatTravaux(
+         null,
+         null,
+         this.libelleMateriauxInput.nativeElement.value,
+         null,
+         null,
+         this.travauxId,
+         formValue['detailAutreAchatTravaux']
+
+       );
+        /*this.autreAchatTravaux = {
+          libelle: this.libelleMateriauxInput.nativeElement.value,
           date: new  Date(),
           travauxId: this.travauxId,
           detailAutreAchatTravaux: [
             {
-              libelleMateriaux: this.materiau.libelle,
+              libelleMateriaux: this.libelleMateriauxInput.nativeElement.value,
               prixUnitaire: parseInt(this.valueInput.nativeElement.value),
               frais: parseInt(this.fraisInput.nativeElement.value),
               quantite: parseInt(this.quantiteInput.nativeElement.value),
               fournisseur: (this.fournisseurInput.nativeElement.value),
-
+              date: this.autreAchatTravauxForm.getRawValue().date
             }
           ]
-        };
-        console.log('Voir Autre stock retourne', this.autreAchatTravaux);
-        this.autreAchatTravauxService.ajoutAutreAchatTravaux(this.autreAchatTravaux)
+        };*/
+        console.log('Voir Autre stock retourne', autreAchatTravaux);
+        this.autreAchatTravauxService.ajoutAutreAchatTravaux(autreAchatTravaux)
           .subscribe(data => {
             if (data.status === 0){
               localStorage.removeItem('materiau');
               this.autreAchatTravaux = data.body;
               this.notificationService.warn('Enregistrement effectué avec succès');
-              this.router.navigate(['/listDetailStock']);
             }
           });
+        this.autreAchatTravauxForm.reset();
       }
 
     }

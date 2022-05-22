@@ -3,6 +3,7 @@ export class Journalier {
               public  version?: number,
               public nom?: string,
               public prenom?: string,
+              public nomComplet?: string,
               public fonction?: string) {
   }
 }

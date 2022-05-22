@@ -28,8 +28,9 @@ export class AdministrationComponent implements OnInit {
       const token = localStorage.getItem('currentUser');
       const decoded = this.helper.decodeToken(token);
       this.managerService.getPersonneById(decoded.sub).subscribe(resultat => {
+
         this.personne = resultat.body;
-        console.log(this.personne.id);
+        //console.log(this.personne.id);
         if (this.personne.type === 'EMPLOYE') {
           this.managerService.getPersonneById(this.personne.id).subscribe(res => {
             this.personne = res.body;

@@ -53,10 +53,9 @@
     <form class="example-form" [formGroup]="autreAchatTravauxForm" (ngSubmit)="onSubmit()"  *ngIf="autreAchatTravauxForm">
       <mat-card> Achat d'article</mat-card>
       <br>
-      <div class="well">
 
-        <div class="achat">
           <div class="row">
+            <div class="col-md-8">
             <div formArrayName="detailAutreAchatTravaux">
               <div *ngFor="let itemrow of autreAchatTravauxForm.controls.detailAutreAchatTravaux['controls']; let i=index"
                    [formGroupName]="i">
@@ -65,7 +64,8 @@
                     <mat-icon class="material-icons">delete</mat-icon>
                   </button>
                 </mat-action-row>
-                <mat-form-field style="position: relative; margin-top:20px;"
+                <div class="parent">
+               <!-- <mat-form-field style="position: relative; margin-top:20px;"
                                 class="example-full-width" appearance="fill">
                   <mat-label >Selectionner un article</mat-label>
                   <input type="text" matInput matInput [formControl]="myControl" [matAutocomplete]="auto">
@@ -74,8 +74,17 @@
                       {{option?.libelle}}
                     </mat-option>
                   </mat-autocomplete>
-                </mat-form-field>
+                </mat-form-field>-->
 
+                  <mat-form-field class="example-full-width">
+                    <input #dat matInput [matDatepicker]="picker"  placeholder="Date" formControlName="date" id="date"
+                           readonly (click)="picker.open()">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
+                <mat-form-field>
+                  <input #libelleMateriaux matInput type="text" placeholder="Libelle" formControlName="libelleMateriaux">
+                </mat-form-field>
                 <mat-form-field>
                   <input #value matInput type="number" placeholder="Prix unitaire" formControlName="prixUnitaire">
                 </mat-form-field>
@@ -85,15 +94,17 @@
                 <mat-form-field>
                   <input  #frais type="number" matInput placeholder="frais" formControlName="frais">
                 </mat-form-field>
-                <mat-label>
-                  <input matInput #montant  placeholder="{{montant}}"  (click)="getCalcul()">
-                </mat-label>
+                  <mat-form-field  class="example-full-width">
+                    <input   #montant type="number" matInput placeholder="{{montant || 0 | number}}" (click)="getCalcul()">
+                    <mat-error>Ce champ est obligatoire.</mat-error>
+                  </mat-form-field>
                 <mat-form-field>
                   <input  #fournisseur type="text" matInput placeholder="Fournisseur" formControlName="fournisseur">
                 </mat-form-field>
-
+                </div>
               </div>
             </div>
+          </div>
           </div>
           <mat-action-row>
             <button type="button" mat-raised-button color="warn" (click)="addNewRows()">
@@ -107,9 +118,8 @@
             <button mat-raised-button class="boutonAnn" type="button" type="reset">Annuler
             </button>
           </div>
-        </div>
 
-      </div>
+
     </form>
   </ng-template>
 </div>

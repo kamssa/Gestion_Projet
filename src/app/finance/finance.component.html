@@ -1,8 +1,8 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12">
-        <div class="card">
+      <div class="col-md-8">
+        <div class="">
           <div class="action-2">
             <div *ngIf="!role">
               <a mat-mini-fab matTooltip="Accueil appli" routerLink="/accueil" matTooltipPosition="before">
@@ -21,40 +21,50 @@
             <h4 class="card-title" routerLink="active">Gestion financière </h4>
           </div>
           <div class="card-body">
+            <div class="input-group no-border">
+              <mat-form-field style="width: 100%">
+                <input matInput placeholder="Filtre" #searchbox (keyup)="search(searchbox.value)">
+              </mat-form-field>
+            </div>
             <div>
               <div>
                 <div class="listes">
                   <span>{{travaux?.length}} projet(s)</span>
                   <div class="item">
-                    <mat-sidenav-container class="contsidnav">
+                    <div class="">
                       <div>
 
-                          <mat-card class="mat-card" matTooltip="Selectioner un site pour les details">
-                            <div>
-                              <mat-form-field style="width: 100%">
+                          <div>
+                            <div class="row">
+                              <div class="col-md-8">
+                              <!--<mat-form-field>
                                 <input  matInput #searchbox (keyup)="search(searchbox.value)" placeholder="Rechercher un projet">
 
-                              </mat-form-field>
+                              </mat-form-field>-->
+
+                              </div>
                             </div>
                             <div >
                               <div  *ngFor="let tr of oTravaux | async"  class="list-group">
                                 <a class="list-group-item  clearfix"
                                    [routerLink]="[tr.id]"
                                    (click)="onSelect(tr)">
-                                  <li class="pull-left"  >
+                                  <span class="pull-left"  >
                                     <p >{{tr.libelle}}</p>
                                     <p> {{tr.budget | number}}</p>
-                                  </li>
+                                  </span>
                                 </a>
                                 <div  fxLayout="row" fxLayoutAlign="space-around center">
                                   <button  mat-button color="primary" (click)="onAchat(tr)">Liste retrait Stock</button>
                                   <button  mat-button color="primary" (click)="onAutreAchat(tr)">Liste achat</button>
                                   <button  mat-button color="primary" (click)="onLocation(tr)">Liste Location</button>
-                                  <button  mat-button color="primary" (click)="onLoyer(tr)">Liste Loyer</button>
                                   <button  mat-icon-button [matMenuTriggerFor]="menu">
                                     <mat-icon>more_vert</mat-icon>
                                   </button>
                                   <mat-menu #menu = "matMenu" yPosition="above">
+                                    <button  mat-button color="primary" (click)="onLoyer(tr)">
+                                      <span> Liste Loyer</span>
+                                    </button>
                                     <button mat-menu-item (click)="onOeuvre(tr)">
                                       <span>Liste Main d'oeuvre</span>
                                     </button>
@@ -69,29 +79,29 @@
                                 <mat-divider></mat-divider>
                               </div>
                             </div>
-                          </mat-card>
+                          </div>
 
 
                       </div>
                       <div>
 
                       </div>
-                    </mat-sidenav-container>
+                    </div>
                   </div>
                   <div class="item">
                     <div class="action">
                       <div class="action-1">
-                        <a mat-mini-fab matTooltip="Accueil appli" routerLink="/accueil" matTooltipPosition="before">
+                        <a mat-mini-fab matTooltip="Accueil appli" routerLink="/finance" matTooltipPosition="before">
                           <mat-icon>home</mat-icon>
                         </a>
                       </div>
 
                       <div class="action-2">
                         <div>
-                          <a mat-mini-fab color="primary" matTooltip="Accueil des projets" routerLink="/finance"
+                          <!--<a mat-mini-fab color="primary" matTooltip="Accueil des projets" routerLink="/finance"
                              matTooltipPosition="after">
                             <mat-icon>face</mat-icon>
-                          </a>
+                          </a>-->
                         </div>
                       </div>
                       <div class="action-3">
@@ -122,3 +132,5 @@
     </div>
   </div>
 </div>
+</div>
+

@@ -1,10 +1,14 @@
+<div class="row">
 <div *ngIf="travaux">
+  <button mat-button color="primary" (click)="onCumulDepense(travaux.id)">Ouvrir dépense</button>
   <mat-accordion class="example-headers-align" >
     <mat-expansion-panel (opened)="panelOpenState = true"
                          (closed)="panelOpenState = false">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          <p>Les informations sur le projet : {{travaux.site.nomChantier}}</p>
+
+        <br>
+        <mat-panel-title class="info">
+          <h3>Les informations sur le projet : {{travaux.site.nomChantier}}</h3>
         </mat-panel-title>
         <mat-panel-description>
           {{panelOpenState ? 'Fermer' : 'Ouvrir'}}
@@ -13,7 +17,7 @@
       <h3 class="site">Projet : {{travaux.site.nomChantier}}</h3>
       <h3 class="site">Site : {{travaux.libelle}}</h3>
       <h3 class="site">Numero du bon  : {{travaux.numeroBon}}</h3>
-      <h3 class="site">Budget : {{travaux.budget|number}} CFA</h3>
+      <h3 class="site">Budget : {{travaux.budget | number}} CFA</h3>
       <h3 class="site">Debousser Sec : {{travaux.debousserSec|number}} CFA</h3>
       <h3 class="site">Acompte : {{travaux.accompte|number}} CFA</h3>
       <h3 class="site"> Solde : {{travaux.reste| number}} CFA</h3>
@@ -69,5 +73,6 @@
     <app-autre-achat-travaux travauxId="{{travauxId}}" *ngIf="edit==7" (change)="montantChange($event)"></app-autre-achat-travaux>
 
   </div>
+</div>
 </div>
 

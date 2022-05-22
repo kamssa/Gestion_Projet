@@ -46,6 +46,7 @@ import { AddTravauxSiteComponent } from './siteTravaux/add-travaux-site/add-trav
 import { ListAutreAchatComponent } from './operationsTravaux/autreAchatTravaux/list-autre-achat/list-autre-achat.component';
 import { DialogAutreAchatTravauxComponent } from './operationsTravaux/autreAchatTravaux/dialog-autre-achat-travaux/dialog-autre-achat-travaux.component';
 import { EditAutreAchatTravauxComponent } from './operationsTravaux/autreAchatTravaux/edit-autre-achat-travaux/edit-autre-achat-travaux.component';
+import { CumulDepensesComponent } from './operationsTravaux/cumul-depenses/cumul-depenses.component';
 
 
 
@@ -108,7 +109,8 @@ import { EditAutreAchatTravauxComponent } from './operationsTravaux/autreAchatTr
     AddTravauxSiteComponent,
     ListAutreAchatComponent,
     DialogAutreAchatTravauxComponent,
-    EditAutreAchatTravauxComponent
+    EditAutreAchatTravauxComponent,
+    CumulDepensesComponent
 
 
   ],

@@ -53,6 +53,7 @@ export class EditTranspTravauxComponent implements OnInit {
                   version: detailTransport.version,
                   libelle: detailTransport.libelle,
                   montant: detailTransport.montant,
+                  date: detailTransport.date
                 })
               );
             }
@@ -92,7 +93,8 @@ export class EditTranspTravauxComponent implements OnInit {
       id: [''],
       version: [''],
       libelle: [''],
-      montant: ['']
+      montant: [''],
+      date: ['']
     });
   }
   onSubmit() {

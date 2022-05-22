@@ -2,7 +2,6 @@ import {Component, Inject, Input, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from "@angular/router";
 import {LocationService} from "../../../../service/location.service";
-import {AchatTravaux} from "../../../../model/AchatTravaux";
 import {LocationTravaux} from "../../../../model/LocationTravaux";
 import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 import {NotificationService} from '../../../../helper/notification.service';
@@ -39,6 +38,7 @@ export class EditLocationTravauxComponent implements OnInit {
                   id: detailLocation.id,
                   version: detailLocation.version,
                   montant: detailLocation.montant,
+                  date: detailLocation.date,
                   materiaux: this.fb.group({
                     id: detailLocation.materiaux.id,
                     version: detailLocation.materiaux.version,
@@ -77,6 +77,7 @@ export class EditLocationTravauxComponent implements OnInit {
       id: [''],
       version: [''],
       montant: [''],
+      date: [''],
       materiaux: this.fb.group({
         id: [''],
         version: [''],

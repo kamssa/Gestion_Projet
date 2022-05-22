@@ -16,9 +16,11 @@ import {JwtHelperService} from '@auth0/angular-jwt';
 import {ManagerService} from '../../../../service/manager.service';
 import {EmployeService} from '../../../../service/employe.service';
 import {DetailAutres} from '../../../../model/DetailAutres';
-import {switchMap} from 'rxjs/operators';
+import {map, switchMap} from 'rxjs/operators';
 import {SteTravauxService} from '../../../../service/ste-travaux.service';
 import {Travaux} from '../../../../model/travaux';
+import {StepperOrientation} from '@angular/material/stepper';
+import {BreakpointObserver} from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-edit-autredepense-travaux',
@@ -32,7 +34,7 @@ export class EditAutredepenseTravauxComponent implements OnInit {
   detailAutres: DetailAutres;
   detailAutresInit: any;
   montant: number;
-
+  stepperOrientation: Observable<StepperOrientation>;
   now = Date.now();
   personne: any;
   array: any;
@@ -47,6 +49,7 @@ export class EditAutredepenseTravauxComponent implements OnInit {
   error = '';
   ROLE_MANAGER: any;
   public errorMessage: string = '';
+  @ViewChild("dat", {static: false}) dateInput: ElementRef;
   @ViewChild("employe", {static: false}) employeInput: ElementRef;
   @ViewChild("quantite", {static: false}) quantiteInput: ElementRef;
   @ViewChild("designation", {static: false}) designationInput: ElementRef;
@@ -71,9 +74,12 @@ export class EditAutredepenseTravauxComponent implements OnInit {
               private managerService: ManagerService,
               private employeService: EmployeService,
               private travauxService: SteTravauxService,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              breakpointObserver: BreakpointObserver
   ) {
-
+    this.stepperOrientation = breakpointObserver
+      .observe('(min-width: 800px)')
+      .pipe(map(({matches}) => (matches ? 'horizontal' : 'vertical')));
 
   }
 
@@ -129,7 +135,8 @@ export class EditAutredepenseTravauxComponent implements OnInit {
                           prixUnitaire: detailAutreTravaux.prixUnitaire,
                           quantite: detailAutreTravaux.quantite,
                           montant: detailAutreTravaux.montant,
-                          nomPrenom: detailAutreTravaux.nomPrenom
+                          nomPrenom: detailAutreTravaux.nomPrenom,
+                          travauxId: detailAutreTravaux.travauxId
                         })
                       );
                     }
@@ -180,6 +187,7 @@ export class EditAutredepenseTravauxComponent implements OnInit {
       quantite: [''],
       montant: [''],
       nomPrenom: [''],
+      travauxId: ['']
 
     });
   }
@@ -202,37 +210,49 @@ export class EditAutredepenseTravauxComponent implements OnInit {
 
     if (!this.editMode) {
       if (this.personne.type === 'MANAGER') {
-        this.autre = {
+        let formValue = this.autreDepenseForm.value;
+        let autre = new  Autres(
+          null,
+          null,
+          this.designationInput.nativeElement.value,
+          null,
+          new Date,
+          this.travauxId,
+          formValue['detailAutres']
+
+        );
+       /* this.autre = {
           libelle: this.designationInput.nativeElement.value,
           date: null,
           travauxId: this.travauxId,
           detailAutres: [
             {
-              date: null,
+              date: this.dateInput.nativeElement.value,
               designation: this.designationInput.nativeElement.value,
               prixUnitaire:  this.prixUnitaireInput.nativeElement.value,
               quantite:  this.quantiteInput.nativeElement.value,
               nomPrenom: this.nomPrenomInput.nativeElement.value,
 
+
             }
           ]
-        };
-        console.log('Voir autre retourne', this.autre);
-
+        };*/
+        console.log('Voir autre retourne', autre);
+        this.autresService.ajoutAutres(autre)
+          .subscribe(data => {
+            if (data.status === 0){
+              this.autre = data.body;
+              this.notificationService.warn('Enregistrement effectué avec succès');
+              this.autreDepenseForm.reset();
+            }
+          });
       } else if (this.personne.type === 'EMPLOYE') {
         this.autre = {
 
 
         };
       }
-      this.autresService.ajoutAutres(this.autre)
-        .subscribe(data => {
-          if (data.status === 0){
-            this.autre = data.body;
-            this.notificationService.warn('Enregistrement effectué avec succès');
-           // this.router.navigate(['/listDetailStock']);
-          }
-        });
+
     }
     localStorage.removeItem('materiau');
   }

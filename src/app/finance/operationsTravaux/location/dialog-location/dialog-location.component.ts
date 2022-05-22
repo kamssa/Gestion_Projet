@@ -39,7 +39,7 @@ export class DialogLocationComponent implements OnInit {
 
       this.detailLocation.forEach(value => {
         console.log(value);
-        let opp : LocationTravaux = value;
+        let opp: DetailLocation = value;
         this.receptacle.push(opp);
 
       });

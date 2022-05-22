@@ -8,6 +8,8 @@ export class DetailAchatTravaux {
               public quantite?: number,
               public prixUnitaire?: number,
               public montant?: number,
+              public  travauxId?: number,
+              public  date?: Date
 
   ) {
   }

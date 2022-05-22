@@ -39,10 +39,10 @@ export class FinanceComponent implements OnInit{
   ngOnInit(): void {
     this.oTravaux = this.searchTravauxSource
       .pipe(
-        debounceTime(300),
+        debounceTime(100),
         distinctUntilChanged(),
         switchMap(mc => mc ?  this.siteTravauxService.rechercheTravauxParMc(mc)
-          : this.siteTravauxService.rechercheTravauxParMc(' '))
+          : this.siteTravauxService.rechercheTravauxParMc('Aucun projet trouvé !'))
       );
     this.toutsLesTravaux();
     // renvoie le site créé
@@ -124,6 +124,7 @@ export class FinanceComponent implements OnInit{
   }
 
   search(mc: string) {
+    console.log(mc);
     this.searchTravauxSource.next(mc);
   }
 
@@ -174,5 +175,9 @@ export class FinanceComponent implements OnInit{
       return false;
     }
     return true;
+  }
+
+  onSearch() {
+
   }
 }

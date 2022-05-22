@@ -1,4 +1,3 @@
-import {Employe} from './Employe';
 
 export class DetailAutres {
   constructor(public id?: number,
@@ -8,7 +7,8 @@ export class DetailAutres {
               public  prixUnitaire?: number,
               public  quantite?: number,
               public montant?: number,
-              public nomPrenom?: string
+              public nomPrenom?: string,
+              public travauxId?: number,
               ) {
   }
 }

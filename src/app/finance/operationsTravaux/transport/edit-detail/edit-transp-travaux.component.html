@@ -49,10 +49,9 @@
     <form class="example-form"  [formGroup]="transportForm" (ngSubmit)="onSubmit()" novalidate>
       <mat-card> Payer un nouveau transport</mat-card>
 
-      <div class="well">
 
-          <div class="achat">
-            <div class="row">
+        <div class="row">
+          <div class="col-md-8">
               <div formArrayName="detailTransport">
                 <div *ngFor="let itemrow of transportForm.controls.detailTransport['controls']; let i=index"
                      [formGroupName]="i">
@@ -61,6 +60,13 @@
                       <mat-icon class="material-icons">delete</mat-icon>
                     </button>
                   </mat-action-row>
+                  <div>
+                    <mat-form-field class="example-full-width">
+                      <input matInput [matDatepicker]="picker" placeholder="Date" formControlName="date" id="date"
+                             readonly (click)="picker.open()">
+                      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
                   <mat-form-field class="example-full-width">
                     <input matInput placeholder="Libelle" formControlName="libelle">
                   </mat-form-field>
@@ -70,6 +76,8 @@
                 </div>
               </div>
             </div>
+        </div>
+        </div>
             <mat-action-row>
               <button type="button" mat-raised-button color="warn" (click)="addNewRows()">
                 <span class="material-icons">add</span>
@@ -81,8 +89,7 @@
               </button>
               <button mat-raised-button class="boutonAnn" type="button" type="reset">Annuler
               </button>
-            </div>
-          </div>
+
 
 
 

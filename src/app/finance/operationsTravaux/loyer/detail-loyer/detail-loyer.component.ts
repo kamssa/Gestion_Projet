@@ -48,6 +48,8 @@ export class DetailLoyerComponent implements OnInit {
                   version: detailLoyer.version,
                   libelle: detailLoyer.libelle,
                   montant: detailLoyer.montant,
+                  date: detailLoyer.date,
+                  travauxId: detailLoyer.travauxId
                 })
               );
             }
@@ -86,6 +88,8 @@ export class DetailLoyerComponent implements OnInit {
       version: [''],
       libelle: [''],
       montant: [''],
+      date: [''],
+      travauxId: ['']
     });
   }
   onSubmit() {

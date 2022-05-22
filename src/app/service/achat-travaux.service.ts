@@ -6,6 +6,7 @@ import {MessageService} from "./message.service";
 import {environment} from "../../environments/environment";
 import {catchError, map, tap} from "rxjs/operators";
 import {AchatTravaux} from "../model/AchatTravaux";
+import {DetailAchatTravaux} from '../model/DtailAchat';
 
 @Injectable({
   providedIn: 'root'
@@ -63,6 +64,17 @@ export class AchatTravauxService {
         catchError(this.handleError<Resultat<AchatTravaux[]>>('getAchatTravauxByTravaux'))
       );
   }
+  // recuperer achat par id travaux
+  getDetailAchatTravauxByTravaux(id: number): Observable<DetailAchatTravaux[]> {
+    // @ts-ignore
+    return this.http.get<Resultat<DetailAchatTravaux[]>>(`${environment.apiUrl}/api/detailAchatTravaux/${id}`)
+      .pipe(map(res => res.body,
+        tap(res =>
+          this.log(`travaux trouve =${res}`))),
+        catchError(this.handleError<Resultat<DetailAchatTravaux[]>>('getAchatTravauxByTravaux'))
+      );
+  }
+
   supprimerUnAchat(id: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/api/achat/${id}`)
       .pipe(map(res => res,

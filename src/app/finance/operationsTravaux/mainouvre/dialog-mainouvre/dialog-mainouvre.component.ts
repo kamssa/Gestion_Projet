@@ -15,7 +15,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./dialog-mainouvre.component.scss']
 })
 export class DialogMainouvreComponent implements OnInit {
-  displayedColumns: string[] = ['nom', 'montantVerser', 'reste', 'salaire', 'delete'];
+  displayedColumns: string[] = ['date', 'nom', 'salaire', 'nbreJours', 'total', 'delete'];
   dataSource: MatTableDataSource<DetailMainOeuvre>;
   receptacle: any = [];
   detailMainOeuvre: DetailMainOeuvre[] = [];
@@ -33,9 +33,8 @@ export class DialogMainouvreComponent implements OnInit {
               private router: Router) {
    this.mainOeuvreId = data['mainOeuvres'];
     this.mainoeuvreService.getMainOeuvreById(data['mainOeuvres']).subscribe(result => {
-      console.log('resultat retourne', result);
-      this.detailMainOeuvre = result.body.detailMainOeuvre;
 
+      this.detailMainOeuvre = result.body.detailMainOeuvre;
       this.detailMainOeuvre.forEach(value => {
         console.log(value);
         let opp : DetailMainOeuvre = value;

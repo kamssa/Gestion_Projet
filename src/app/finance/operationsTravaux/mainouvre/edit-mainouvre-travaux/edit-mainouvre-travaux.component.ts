@@ -25,8 +25,8 @@ export class EditMainouvreTravauxComponent implements OnInit {
   @ViewChild("value", {static: false}) valueInput: ElementRef;
   @ViewChild("quantite", {static: false}) quantiteInput: ElementRef;
   @ViewChild("frais", {static: false}) fraisInput: ElementRef;
+  @ViewChild("picker", {static: false}) pickerInput: ElementRef;
   @Output() change = new EventEmitter<number>();
-
 
   constructor(private  fb: FormBuilder, private  router: Router,
               private mainOeuvreService: MainoeuvreService,
@@ -52,6 +52,8 @@ export class EditMainouvreTravauxComponent implements OnInit {
                   salaire: detailMainOeuvre.salaire,
                   montantVerser: detailMainOeuvre.montantVerser,
                   reste: detailMainOeuvre.reste,
+                  nbreJours: detailMainOeuvre.nbreJours,
+                  date: detailMainOeuvre.date,
                   journalier: this.fb.group({
                     id: detailMainOeuvre.journalier.id,
                     version: detailMainOeuvre.journalier.version,
@@ -102,6 +104,8 @@ export class EditMainouvreTravauxComponent implements OnInit {
       salaire: [''],
       montantVerser: [''],
       reste: [''],
+      nbreJours: [''],
+      date: [''],
       journalier: this.fb.group({
         id: [''],
         version: [''],
@@ -142,4 +146,5 @@ export class EditMainouvreTravauxComponent implements OnInit {
   deleteRow(index: number) {
     this.formArr.removeAt(index);
   }
+
 }

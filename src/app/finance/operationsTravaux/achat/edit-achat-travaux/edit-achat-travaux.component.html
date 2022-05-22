@@ -55,8 +55,8 @@
       <br>
       <div class="well">
 
-          <div class="achat">
-            <div class="row">
+        <div class="row">
+          <div class="col-md-8">
               <div formArrayName="detailAchatTravaux">
                 <div *ngFor="let itemrow of achatTravauxForm.controls.detailAchatTravaux['controls']; let i=index"
                      [formGroupName]="i">
@@ -65,6 +65,12 @@
                       <mat-icon class="material-icons">delete</mat-icon>
                     </button>
                   </mat-action-row>
+                  <mat-form-field class="example-full-width">
+                    <input #dat matInput [matDatepicker]="picker" placeholder="Date" formControlName="date" id="date"
+                           readonly (click)="picker.open()">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
                   <mat-form-field style="position: relative; margin-top:20px;"
                                   class="example-full-width" appearance="fill">
                     <mat-label >Selectionner un article</mat-label>
