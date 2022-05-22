@@ -267,9 +267,9 @@ export class EditAchatTravauxComponent implements OnInit {
                   localStorage.removeItem('materiau');
                   this.achatTravaux = data.body;
                   this.notificationService.warn('Enregistrement effectué avec succès');
-                  this.router.navigate(['/listDetailStock']);
                 }
               });
+            this.achatTravauxForm.reset();
           }else {
             this.notificationService.warn("Le déboursé sec n\'est pas renseigné");
 

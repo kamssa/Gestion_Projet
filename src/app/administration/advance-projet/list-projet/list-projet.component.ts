@@ -4,7 +4,6 @@ import {Travaux} from '../../../model/travaux';
 import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import {SteTravauxService} from '../../../service/ste-travaux.service';
 import {MediaChange, MediaObserver} from '@angular/flex-layout';
-import {AchatTravauxService} from '../../../service/achat-travaux.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {switchMap} from 'rxjs/operators';
 import {UpdateProjetComponent} from '../../../finance/siteTravaux/update-projet/update-projet.component';

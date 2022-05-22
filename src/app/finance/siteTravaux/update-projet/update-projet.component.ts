@@ -61,13 +61,16 @@ export class UpdateProjetComponent implements OnInit {
                     id: this.travau.site.id,
                     version: this.travau.site.version ,
                     nomChantier: this.travau.site.nomChantier,
-                    entreprise: this.personne.entreprise
+                    entreprise: this.travau.site.entreprise
                   }),
                   ville: this.fb.group({
-
-                    nom: this.travau.ville.nom,
+                     id: this.travau.ville.id,
+                     version: this.travau.ville.version,
+                     nom: this.travau.ville.nom,
                   }),
                   client: this.fb.group({
+                   id: this.travau.client.id,
+                    version: this.travau.client.version,
                     nom: this.travau.client.nom,
                     type: 'CLIENT'
                   }),

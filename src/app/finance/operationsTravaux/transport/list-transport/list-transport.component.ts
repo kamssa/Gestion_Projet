@@ -66,7 +66,7 @@ export class ListTransportComponent implements OnInit, AfterViewInit {
   }
 
   redirectToDelete(id: number) {
-    if (confirm("Voulez vous vraiment supprimer l'achat ")) {
+    if (confirm("Voulez vous vraiment supprimer le transport ?")) {
       this.serviceTransport.supprimerTransport(id).subscribe(data => {
 
       });
