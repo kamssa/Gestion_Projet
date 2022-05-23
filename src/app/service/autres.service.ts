@@ -9,6 +9,8 @@ import {environment} from "../../environments/environment";
 import {catchError, map, tap} from "rxjs/operators";
 import {Autres} from "../model/Autres";
 import {AchatTravaux} from '../model/AchatTravaux';
+import {DetailLocation} from '../model/DetailLocation';
+import {DetailAutres} from '../model/DetailAutres';
 
 
 @Injectable({
@@ -72,7 +74,16 @@ export class AutresService {
         catchError(this.handleError<Resultat<Loyer[]>>('getautresByTravaux'))
       );
   }
-
+// recuperer achat par id travaux
+  getDetailAutreByTravaux(id: number): Observable<DetailAutres[]> {
+    // @ts-ignore
+    return this.http.get<Resultat<DetailAutres[]>>(`${environment.apiUrl}/api/detailAutre/${id}`)
+      .pipe(map(res => res.body,
+        tap(res =>
+          this.log(`travaux trouve =${res}`))),
+        catchError(this.handleError<Resultat<DetailAutres[]>>('getAchatTravauxByTravaux'))
+      );
+  }
   autreCreer(res: Resultat<Autres>) {
     console.log('Travail a ete  creer correctement essaie source');
     this.autreCreerSource.next(res);

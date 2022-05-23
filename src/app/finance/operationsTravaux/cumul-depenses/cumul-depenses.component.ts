@@ -1,19 +1,26 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {AchatTravauxService} from '../../../service/achat-travaux.service';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
-import {AchatTravaux} from '../../../model/AchatTravaux';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
 import {DetailAchatTravaux} from '../../../model/DtailAchat';
 import {MatTableDataSource} from '@angular/material/table';
-import {DatailAchatDialogComponent} from '../achat/dialogue/datail-achat-dialog/datail-achat-dialog.component';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {DetailMainOeuvre} from '../../../model/DetailMainDoeuvre';
 import {MainoeuvreService} from '../../../service/mainoeuvre.service';
-import {MainOeuvre} from '../../../model/MainOeuvre';
 import {DialogMainouvreComponent} from '../mainouvre/dialog-mainouvre/dialog-mainouvre.component';
 import {Travaux} from '../../../model/travaux';
+import {AutreAchatTravauxService} from '../../../service/autre-achat-travaux.service';
+import {DetailAutreAchatTravaux} from '../../../model/DetailAutreAchatTravaux';
+import {LocationService} from '../../../service/location.service';
+import {DetailLocation} from '../../../model/DetailLocation';
+import {LoyService} from '../../../service/loy.service';
+import {DetailLoyer} from '../../../model/DetailLoyer';
+import {DetailTransport} from '../../../model/DetailTransport';
+import {TransportService} from '../../../service/transport.service';
+import {AutresService} from '../../../service/autres.service';
+import {DetailAutres} from '../../../model/DetailAutres';
 
 @Component({
   selector: 'app-cumul-depenses',
@@ -28,7 +35,12 @@ export class CumulDepensesComponent implements OnInit {
   dataSource1: MatTableDataSource<DetailAchatTravaux>;
   receptacle1: any = [];
   detailMainOeuvre: DetailMainOeuvre[] = [];
+  detailAutreAchatTravaux: DetailAutreAchatTravaux[];
   detailAchatTravaux: DetailAchatTravaux[] = [];
+  detailLoyeTravaux: DetailLoyer[] = [];
+  detailTransport: DetailAutres[] = [];
+  detailAutre: DetailTransport[] = [];
+  detailLocation: DetailLocation[];
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
@@ -36,36 +48,38 @@ export class CumulDepensesComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public data: Travaux,
               public dialogRef: MatDialogRef<DialogMainouvreComponent>,
               private snackBar: MatSnackBar,
-              private router: Router, private serviceAchat: AchatTravauxService) {
+              private router: Router,
+              private  autreAchatTravauxService: AutreAchatTravauxService,
+              private locationService: LocationService,
+              private loyeService: LoyService,
+              private  transportService: TransportService,
+              private  autresService: AutresService) {
 
-    this.mainoeuvreService.getDetailMainOeuvreByTravaux(this.data['travaux']).subscribe(result => {
+
+    this.autreAchatTravauxService.getDetailAutreAchatByTravaux(data['travaux']).subscribe(result => {
+      console.log('detail autre achat travaux par id travaux', result);
+      this.detailAutreAchatTravaux = result;
+    });
+    this.locationService.getDetailLocationByTravaux(data['travaux']).subscribe(result => {
+      console.log('detail detail location par id travaux', result);
+      this.detailLocation = result;
+    });
+    this.loyeService.getDetailLoyeByTravaux(data['travaux']).subscribe(result => {
+      console.log('detail detail loyer par id travaux', result);
+      this.detailLoyeTravaux = result;
+    });
+    this.mainoeuvreService.getDetailMainOeuvreByTravaux(data['travaux']).subscribe(result => {
+      console.log('detail detail main oeuvre par id travaux', result);
       this.detailMainOeuvre = result;
-      this.detailMainOeuvre.forEach(value => {
-        console.log(value);
-        let opp : DetailMainOeuvre = value;
-        // this.dataSource = opp;
-        this.receptacle.push(opp);
-
-      });
-      this.dataSource = this.receptacle;
-      this.dataSource = new MatTableDataSource<DetailMainOeuvre>(this.receptacle);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
     });
-    this.serviceAchat.getAchatTravauxById(data['achatTravaux']).subscribe(result => {
-      console.log('resultat retourne', result);
-      this.detailAchatTravaux = result.body.detailAchatTravaux;
-
-      this.detailAchatTravaux.forEach(value => {
-        console.log(value);
-        let opp : DetailAchatTravaux = value;
-        this.receptacle1.push(opp);
-      });
-      this.dataSource1 = this.receptacle;
-      this.dataSource1 = new MatTableDataSource<DetailAchatTravaux>(this.receptacle);
-
+    this.transportService.getDetailTransportByTravaux(data['travaux']).subscribe(result => {
+      console.log('detail detail transport par id travaux', result);
+      this.detailTransport = result;
     });
-
+    this.autresService.getDetailAutreByTravaux(data['travaux']).subscribe(result => {
+      console.log('detail detail autre par id travaux', result);
+      this.detailAutre = result;
+    });
   }
   ngOnInit(): void {
   }

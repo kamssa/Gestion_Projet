@@ -6,6 +6,8 @@ import {environment} from '../../environments/environment';
 import {catchError, map, tap} from 'rxjs/operators';
 import {HttpClient} from '@angular/common/http';
 import {MessageService} from './message.service';
+import {AchatTravaux} from '../model/AchatTravaux';
+import {DetailAutreAchatTravaux} from '../model/DetailAutreAchatTravaux';
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +73,16 @@ export class AutreAchatTravauxService {
         catchError(this.handleError<Resultat<AutreAchatTravaux[]>>('supprimerUnAchat'))
       );
 
+  }
+  // recuperer achat par id travaux
+  getDetailAutreAchatByTravaux(id: number): Observable<DetailAutreAchatTravaux[]> {
+    // @ts-ignore
+    return this.http.get<Resultat<DetailAutreAchatTravaux[]>>(`${environment.apiUrl}/api/detailAutreAchatTravaux/${id}`)
+      .pipe(map(res => res.body,
+        tap(res =>
+          this.log(`travaux trouve =${res}`))),
+        catchError(this.handleError<Resultat<DetailAutreAchatTravaux[]>>('getAchatTravauxByTravaux'))
+      );
   }
   supprimerDetail(id: number, idDetail: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/api/autreAchatTravaux/${id}/${idDetail}`);

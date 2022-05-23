@@ -28,7 +28,9 @@
       <mat-list-item>
         <button mat-button (click)="loyer()" color="accent">La liste des Loyers</button>
       </mat-list-item>
-
+      <mat-list-item>
+        <button mat-button color="primary" (click)="onCumulDepense(travaux.id)">Ouvrir dépense</button>
+      </mat-list-item>
     </mat-list>
   <div>
     <app-list-loyer travauxId="{{travauxId}}" *ngIf="edit==0"></app-list-loyer>

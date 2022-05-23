@@ -5,6 +5,8 @@ import {ActivatedRoute, ParamMap, Router} from "@angular/router";
 import {SteTravauxService} from "../../../../service/ste-travaux.service";
 import {MediaChange, MediaObserver} from "@angular/flex-layout";
 import {switchMap} from "rxjs/operators";
+import {CumulDepensesComponent} from '../../cumul-depenses/cumul-depenses.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-edit-autre-depense',
@@ -24,7 +26,8 @@ export class EditAutreDepenseComponent implements OnInit {
   panelOpenState = false;
   constructor(private route: ActivatedRoute,
               private travauxService: SteTravauxService, private  router: Router,
-              private mediaObserver: MediaObserver) {
+              private mediaObserver: MediaObserver,
+              public dialog: MatDialog) {
 
   }
 
@@ -51,5 +54,15 @@ export class EditAutreDepenseComponent implements OnInit {
 
   autre() {
     this.edit = 0;
+  }
+
+  onCumulDepense(id: number) {
+    console.log(id);
+    this.dialog.open(CumulDepensesComponent,{
+      data: {
+        travaux: id
+      }
+    });
+
   }
 }

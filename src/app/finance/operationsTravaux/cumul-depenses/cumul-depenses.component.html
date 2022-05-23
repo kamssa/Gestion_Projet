@@ -1,63 +1,136 @@
-<div class="mat-elevation-z8">
-  <table mat-table [dataSource]="dataSource1">
-    <ng-container matColumnDef="date">
-      <th mat-header-cell *matHeaderCellDef> Date </th>
-      <td mat-cell *matCellDef="let detailMainOeuvre"> {{detailMainOeuvre.date | date: 'dd/MM/yyyy'}} </td>
-    </ng-container>
-    <ng-container matColumnDef="nom">
-      <th mat-header-cell *matHeaderCellDef> Nom et Prenom</th>
-      <td mat-cell *matCellDef="let detailMainOeuvre"> {{detailMainOeuvre.journalier.nomComplet}} </td>
-    </ng-container>
-    <ng-container matColumnDef="salaire">
-      <th mat-header-cell *matHeaderCellDef> Salaire </th>
-      <td mat-cell *matCellDef="let detailMainOeuvre"> {{detailMainOeuvre.salaire|number}} </td>
-    </ng-container>
-    <ng-container matColumnDef="nombreJour">
-      <th mat-header-cell *matHeaderCellDef> Nombre de jours </th>
-      <td mat-cell *matCellDef="let detailMainOeuvre"> {{detailMainOeuvre.nbreJours | number}} </td>
-    </ng-container>
-    <ng-container matColumnDef="montantVerser">
-      <th mat-header-cell *matHeaderCellDef> Total </th>
-      <td mat-cell *matCellDef="let detailMainOeuvre"> {{detailMainOeuvre.montantVerser | number}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  <table mat-table [dataSource]="dataSource"  matSort>
-    <ng-container matColumnDef="materiaux">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Materiel </th>
-      <td mat-cell *matCellDef="let detailAchatTravaux"> {{detailAchatTravaux.libelleMateriaux}} </td>
-    </ng-container>
-    <ng-container matColumnDef="prix_unitaire">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Prix unitaire </th>
-      <td mat-cell *matCellDef="let detailAchatTravaux"> {{detailAchatTravaux.prixUnitaire|number}} </td>
-    </ng-container>
-    <ng-container matColumnDef="quantite">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantite </th>
-      <td mat-cell *matCellDef="let detailAchatTravaux"> {{detailAchatTravaux.quantite|number}} </td>
-    </ng-container>
-
-
-    <ng-container matColumnDef="montant">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Montant </th>
-      <td mat-cell *matCellDef="let detailAchatTravaux"> {{detailAchatTravaux.montant|number}} </td>
-    </ng-container>
-
-
-    <ng-container matColumnDef="delete">
-      <th mat-header-cell *matHeaderCellDef> Delete </th>
-      <td mat-cell *matCellDef="let detailAchatTravaux">
-        <button mat-icon-button color="warn" (click)="redirectToDelete(detailAchatTravaux.id)">
-          <mat-icon class="mat-18">delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    <tr class="mat-row" *matNoDataRow>
-      <td class="mat-cell" colspan="4">Pas de donnée "{{input.value}}"</td>
+<div class="container">
+<table class="table table-bordered">
+  <div class="">
+  <table class="table table-striped" >
+    <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Désignation</th>
+      <th scope="col">Prix unitaire</th>
+      <th scope="col">Quantité</th>
+      <th scope="col">Montant</th>
     </tr>
+    </thead>
+    <tbody *ngFor="let autre of detailAutreAchatTravaux">
+    <tr>
+      <td>{{autre.date | date: 'dd/MM/yyyy'}}</td>
+      <td>{{autre.libelleMateriaux}}</td>
+      <td>{{autre.prixUnitaire}}</td>
+      <td>{{autre.quantite}}</td>
+      <td>{{autre.montant}}</td>
+    </tr>
+
+    </tbody>
   </table>
-  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+</div>
+<hr>
+<div>
+  <table class="table table-striped" >
+    <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Designation</th>
+      <th scope="col">Montant</th>
+      <th scope="col">Fournisseur</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let loc of detailLocation">
+    <tr>
+      <td>{{loc.date | date: 'dd/MM/yyyy'}}</td>
+      <td>{{loc.materiaux.libelle}}</td>
+      <td>{{loc.montant}}</td>
+      <td>{{loc.fournisseur.libelle}}</td>
+    </tr>
+
+    </tbody>
+  </table>
+</div>
+<hr>
+<div>
+  <table class="table table-striped" >
+    <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Designation</th>
+      <th scope="col">Montant</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let loy of detailLoyeTravaux">
+    <tr>
+      <td>{{loy.date | date: 'dd/MM/yyyy'}}</td>
+      <td>{{loy.libelle}}</td>
+      <td>{{loy.montant}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<hr>
+<div>
+  <table class="table table-striped" >
+    <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Nom et Prénom</th>
+      <th scope="col">Salaire</th>
+      <th scope="col">Nombre de jours</th>
+      <th scope="col">Total</th>
+    </tr>
+    </thead>
+    <tbody *ngFor="let mainOeuvre of detailMainOeuvre">
+    <tr>
+      <td>{{mainOeuvre.date | date: 'dd/MM/yyyy'}}</td>
+      <td>{{mainOeuvre.journalier.nomComplet}}</td>
+      <td>{{mainOeuvre.salaire}}</td>
+      <td>{{mainOeuvre.nbreJours}}</td>
+      <td>{{mainOeuvre.montantVerser}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<hr>
+<div>
+  <table class="table table-striped" >
+    <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Designation</th>
+      <th scope="col">montant</th>
+
+    </tr>
+    </thead>
+    <tbody *ngFor="let trans of detailTransport">
+    <tr>
+      <td>{{trans.date | date: 'dd/MM/yyyy'}}</td>
+      <td>{{trans.libelle}}</td>
+      <td>{{trans.montant}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<hr>
+<div>
+  <table class="table table-striped" >
+    <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Designation</th>
+      <th scope="col">Prix</th>
+      <th scope="col">Quantité</th>
+      <th scope="col">montant</th>
+
+    </tr>
+    </thead>
+    <tbody *ngFor="let trans of detailAutre">
+    <tr>
+      <td>{{trans.date | date: 'dd/MM/yyyy'}}</td>
+      <td>{{trans.designation}}</td>
+      <td>{{trans.prixUnitaire}}</td>
+      <td>{{trans.quantite}}</td>
+      <td>{{trans.montant}}</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+</table>
 </div>

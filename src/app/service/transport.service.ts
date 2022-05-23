@@ -8,6 +8,8 @@ import {Loyer} from "../model/Loyer";
 import {environment} from "../../environments/environment";
 import {catchError, map, tap} from "rxjs/operators";
 import {Transport} from "../model/Transport";
+import {DetailLoyer} from '../model/DetailLoyer';
+import {DetailTransport} from '../model/DetailTransport';
 
 
 @Injectable({
@@ -63,7 +65,16 @@ export class TransportService {
         catchError(this.handleError<Resultat<Transport[]>>('getTransportByTravaux'))
       );
   }
-
+// recuperer achat par id travaux
+  getDetailTransportByTravaux(id: number): Observable<DetailTransport[]> {
+    // @ts-ignore
+    return this.http.get<Resultat<DetailTransport[]>>(`${environment.apiUrl}/api/detailTransport/${id}`)
+      .pipe(map(res => res.body,
+        tap(res =>
+          this.log(`travaux trouve =${res}`))),
+        catchError(this.handleError<Resultat<DetailTransport[]>>('getAchatTravauxByTravaux'))
+      );
+  }
   travauxCreer(res: Resultat<LocationTravaux>) {
     console.log('Travail a ete  creer correctement essaie source');
     this.travauxCreerSource.next(res);

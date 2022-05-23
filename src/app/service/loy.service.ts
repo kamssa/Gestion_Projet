@@ -7,6 +7,8 @@ import {MessageService} from "./message.service";
 import {Loyer} from "../model/Loyer";
 import {environment} from "../../environments/environment";
 import {catchError, map, tap} from "rxjs/operators";
+import {DetailLocation} from '../model/DetailLocation';
+import {DetailLoyer} from '../model/DetailLoyer';
 
 
 @Injectable({
@@ -43,6 +45,16 @@ export class LoyService {
   }
   getLoyerById(id: Loyer): Observable<Resultat<Loyer>> {
     return this.http.get<Resultat<Loyer>>(`${environment.apiUrl}/api/loye/${id}`);
+  }
+  // recuperer achat par id travaux
+  getDetailLoyeByTravaux(id: number): Observable<DetailLoyer[]> {
+    // @ts-ignore
+    return this.http.get<Resultat<DetailLoyer[]>>(`${environment.apiUrl}/api/detailLoye/${id}`)
+      .pipe(map(res => res.body,
+        tap(res =>
+          this.log(`travaux trouve =${res}`))),
+        catchError(this.handleError<Resultat<DetailLoyer[]>>('getAchatTravauxByTravaux'))
+      );
   }
   supprimerLoyer(id: number): Observable<any> {
     return this.http.delete(`${environment.apiUrl}/api/loyer/${id}`);

@@ -2,7 +2,8 @@ table {
   width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
-  min-width: 700px;
+  //min-width: 700px;
+  max-height: 400px;
 }
 
 th.mat-header-cell  {
@@ -12,4 +13,10 @@ th.mat-header-cell  {
 .example-full-width {
   width: 100%;
 }
-
+.container{
+  height: 400px;
+  width: 700px;
+}
+div {
+  overflow-y: scroll;
+}
