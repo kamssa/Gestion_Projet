@@ -16,7 +16,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./dialog-location.component.scss']
 })
 export class DialogLocationComponent implements OnInit {
-  displayedColumns: string[] = ['materiaux', 'montant', 'fournisseur', 'delete'];
+  displayedColumns: string[] = ['materiaux', 'montant', 'fournisseur'];
   dataSource: MatTableDataSource<DetailLocation>;
   receptacle: any = [];
   locationId: number;

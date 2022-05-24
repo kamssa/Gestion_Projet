@@ -1,7 +1,10 @@
 <div class="container">
-<table class="table table-bordered">
-  <div class="">
-  <table class="table table-striped" >
+  <div id="content" #content>
+    <div>
+  <table class="table" >
+    <thead>
+    <h3>Achat de materiel</h3>
+    </thead>
     <thead>
     <tr>
       <th scope="col">Date</th>
@@ -19,13 +22,15 @@
       <td>{{autre.quantite}}</td>
       <td>{{autre.montant}}</td>
     </tr>
-
     </tbody>
   </table>
-</div>
-<hr>
+    </div>
+    <hr>
 <div>
-  <table class="table table-striped" >
+  <table class="table" >
+    <thead>
+    <h3>Location de materiel</h3>
+    </thead>
     <thead>
     <tr>
       <th scope="col">Date</th>
@@ -47,7 +52,10 @@
 </div>
 <hr>
 <div>
-  <table class="table table-striped" >
+  <table class="table" >
+    <thead>
+    <h3>Payement de loyer</h3>
+    </thead>
     <thead>
     <tr>
       <th scope="col">Date</th>
@@ -66,7 +74,10 @@
 </div>
 <hr>
 <div>
-  <table class="table table-striped" >
+  <table class="table" >
+    <thead>
+    <h3>Payement de main d'oeuvre</h3>
+    </thead>
     <thead>
     <tr>
       <th scope="col">Date</th>
@@ -89,7 +100,10 @@
 </div>
 <hr>
 <div>
-  <table class="table table-striped" >
+  <table class="table" >
+    <thead>
+    <h3>Payement de transport</h3>
+    </thead>
     <thead>
     <tr>
       <th scope="col">Date</th>
@@ -109,7 +123,10 @@
 </div>
 <hr>
 <div>
-  <table class="table table-striped" >
+  <table class="table" >
+    <thead>
+    <h3>Payement de autre dépense </h3>
+    </thead>
     <thead>
     <tr>
       <th scope="col">Date</th>
@@ -132,5 +149,6 @@
   </table>
 
 </div>
-</table>
 </div>
+</div>
+<button mat-raised-button color="primary" (click)="makePDF()">Télécharger en PDF</button>

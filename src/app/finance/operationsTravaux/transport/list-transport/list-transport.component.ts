@@ -9,6 +9,9 @@ import {EditTranspTravauxComponent} from '../edit-detail/edit-transp-travaux.com
 import {Transport} from '../../../../model/Transport';
 import {DialogTransportComponent} from "../dialog-transport/dialog-transport.component";
 import {Travaux} from '../../../../model/travaux';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {NotificationService} from '../../../../helper/notification.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-list-transport',
@@ -18,16 +21,26 @@ import {Travaux} from '../../../../model/travaux';
 export class ListTransportComponent implements OnInit, AfterViewInit {
 
   displayedColumns: string[] = ['date', 'total', 'details', 'update', 'delete'];
-  dataSource: MatTableDataSource<DetailTransport>;
   transports: Transport[] = [];
   receptacle: any = [];
+  listData: MatTableDataSource<any>;
+  array: any;
+  roles: any;
+  ROLE_ADMIN: any;
+  ROLE_NAME: any;
+  error = '';
+  ROLE_MANAGER: any;
+  personne: any;
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() travauxId: number;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(private serviceTransport: TransportService,
               @Inject(MAT_DIALOG_DATA) public data: Travaux,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private helper: JwtHelperService,
+              private notificationService: NotificationService,
+              private router: Router) {
   }
   ngAfterViewInit(): void {
 
@@ -35,20 +48,21 @@ export class ListTransportComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     console.log(this.travauxId);
     this.serviceTransport.getTransportByTravaux(this.travauxId)
-      .subscribe( data => {
-        this.transports = data;
-        console.log(data);
-        console.log(this.transports);
-        this.transports.forEach(value => {
-          console.log(value);
-          let opp : DetailTransport = value;
+      .subscribe( list => {
+        if(list.length !== 0){
+          this.array = list.map(item => {
+            return {
+              id: item.id,
+              ...item
+            };
+          });
+        }else{
+          console.log('aucune donnée');
+        }
 
-          this.receptacle.push(opp);
-        });
-        this.dataSource = this.receptacle;
-        this.dataSource = new MatTableDataSource<DetailTransport>(this.receptacle);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.listData = new MatTableDataSource(this.array);
+        this.listData.sort = this.sort;
+        this.listData.paginator = this.paginator;
       });
 
   }
@@ -65,17 +79,30 @@ export class ListTransportComponent implements OnInit, AfterViewInit {
     });
   }
 
-  redirectToDelete(id: number) {
+  redirectToDelete(row) {
     if (confirm("Voulez vous vraiment supprimer le transport ?")) {
-      this.serviceTransport.supprimerTransport(id).subscribe(data => {
+      this.serviceTransport.supprimerTransport(row.id).subscribe(data => {
+        if(data.status === 0){
+          const index: number = this.array.indexOf(row);
+          if (index !== -1) {
+            this.array.splice(index, 1);
+            this.listData = new MatTableDataSource(this.array);
+            this.listData.sort = this.sort;
+            this.listData.paginator = this.paginator;
 
+          }
+          this.notificationService.warn("Suppression avec succès") ;
+          this.router.navigate(['finance/transport', this.travauxId]);
+        }else {
+          this.notificationService.warn("Le déboursé sec n\'est pas renseigné") ;
+        }
       });
     }
   }
 
   public doFilter(event: Event){
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.listData.filter = filterValue.trim().toLowerCase();
 
   }
 

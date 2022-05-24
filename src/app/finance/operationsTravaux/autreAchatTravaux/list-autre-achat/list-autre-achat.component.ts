@@ -117,7 +117,7 @@ export class ListAutreAchatComponent implements OnInit {
 
             }
             this.notificationService.warn("Suppression avec succès") ;
-            this.router.navigate(['finance/achat', this.travauxId]);
+            this.router.navigate(['finance/autreAchat', this.travauxId]);
           }else {
             this.notificationService.warn("Le déboursé sec n\'est pas renseigné") ;
           }

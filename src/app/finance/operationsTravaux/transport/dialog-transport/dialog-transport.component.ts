@@ -16,7 +16,7 @@ import {Transport} from '../../../../model/Transport';
   styleUrls: ['./dialog-transport.component.scss']
 })
 export class DialogTransportComponent implements OnInit {
-  displayedColumns: string[] = ['libelle' , 'montant', 'delete'];
+  displayedColumns: string[] = ['libelle' , 'montant'];
   dataSource: MatTableDataSource<DetailTransport>;
   receptacle: any = [];
   detailTransport: DetailTransport[] = [];

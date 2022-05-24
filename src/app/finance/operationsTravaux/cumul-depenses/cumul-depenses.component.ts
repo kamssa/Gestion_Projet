@@ -1,5 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {AchatTravauxService} from '../../../service/achat-travaux.service';
+import {Component, Inject, OnInit, ViewChild, ElementRef} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
@@ -21,6 +20,7 @@ import {DetailTransport} from '../../../model/DetailTransport';
 import {TransportService} from '../../../service/transport.service';
 import {AutresService} from '../../../service/autres.service';
 import {DetailAutres} from '../../../model/DetailAutres';
+import {jsPDF} from 'jspdf';
 
 @Component({
   selector: 'app-cumul-depenses',
@@ -41,9 +41,11 @@ export class CumulDepensesComponent implements OnInit {
   detailTransport: DetailAutres[] = [];
   detailAutre: DetailTransport[] = [];
   detailLocation: DetailLocation[];
+  somme: any;
+  array:  any;
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
+  @ViewChild('content', {static: false}) el: ElementRef;
   constructor(private mainoeuvreService: MainoeuvreService,
               @Inject(MAT_DIALOG_DATA) public data: Travaux,
               public dialogRef: MatDialogRef<DialogMainouvreComponent>,
@@ -59,10 +61,23 @@ export class CumulDepensesComponent implements OnInit {
     this.autreAchatTravauxService.getDetailAutreAchatByTravaux(data['travaux']).subscribe(result => {
       console.log('detail autre achat travaux par id travaux', result);
       this.detailAutreAchatTravaux = result;
+      this.detailAutreAchatTravaux.forEach(el => {
+       // this.somme  += el.montant;
+        console.log(el.montant);
+        const initialValue = 0;
+
+      });
+      console.log('Voir reduce', this.array);
+
+      /*const sumWithInitial = this.array.reduce(
+        (previousValue, currentValue) => previousValue + currentValue
+
+      );*/
     });
     this.locationService.getDetailLocationByTravaux(data['travaux']).subscribe(result => {
       console.log('detail detail location par id travaux', result);
       this.detailLocation = result;
+
     });
     this.loyeService.getDetailLoyeByTravaux(data['travaux']).subscribe(result => {
       console.log('detail detail loyer par id travaux', result);
@@ -83,5 +98,12 @@ export class CumulDepensesComponent implements OnInit {
   }
   ngOnInit(): void {
   }
-
+makePDF(){
+    let pdf = new jsPDF('p', 'pt', 'a4');
+    pdf.html(this.el.nativeElement, {
+      callback: (pdf) => {
+        pdf.save('NEFF-CI.pdf');
+      }
+    });
+}
 }

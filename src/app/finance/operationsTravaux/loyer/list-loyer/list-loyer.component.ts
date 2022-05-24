@@ -3,8 +3,6 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
-import {EditLocationTravauxComponent} from "../../location/edit-detail/edit-location-travaux.component";
-import {DialogLocationComponent} from "../../location/dialog-location/dialog-location.component";
 import {DetailLoyer} from "../../../../model/DetailLoyer";
 import {Loyer} from "../../../../model/Loyer";
 import {LoyService} from "../../../../service/loy.service";
@@ -12,6 +10,10 @@ import {DialogLoyerComponent} from "../dialog-loyer/dialog-loyer.component";
 import {EditPaieLoyerComponent} from "../edit-paie-loyer/edit-paie-loyer.component";
 import {DetailLoyerComponent} from "../detail-loyer/detail-loyer.component";
 import {Travaux} from '../../../../model/travaux';
+import {ManagerService} from '../../../../service/manager.service';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {NotificationService} from '../../../../helper/notification.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-list-loyer',
@@ -20,34 +22,50 @@ import {Travaux} from '../../../../model/travaux';
 })
 export class ListLoyerComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['date', 'total', 'details', 'update', 'delete'];
-  dataSource: MatTableDataSource<DetailLoyer>;
+
   loyer: Loyer[] = [];
   receptacle: any = [];
+  listData: MatTableDataSource<any>;
+  array: any;
+  roles: any;
+  ROLE_ADMIN: any;
+  ROLE_NAME: any;
+  error = '';
+  ROLE_MANAGER: any;
+  personne: any;
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() travauxId: number;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-  constructor(private loyerService: LoyService, @Inject(MAT_DIALOG_DATA) public data: Travaux,
-              public dialog: MatDialog) {
+  constructor(private loyerService: LoyService,
+              @Inject(MAT_DIALOG_DATA) public data: Travaux,
+              public dialog: MatDialog,
+              private managerService: ManagerService,
+              private helper: JwtHelperService,
+              private notificationService: NotificationService,
+              private router: Router) {
   }
   ngAfterViewInit(): void {
 
   }
   ngOnInit() {
     this.loyerService.getLoyerByTravaux(this.travauxId)
-      .subscribe( data => {
-        this.loyer = data;
-        console.log(this.loyer);
-        this.loyer.forEach(value => {
-          console.log(value);
-          let opp : Loyer = value;
-          this.receptacle.push(opp);
+      .subscribe( list => {
+        if(list.length !== 0){
+          this.array = list.map(item => {
+            return {
+              id: item.id,
+              ...item
+            };
+          });
+        }else{
+          console.log('aucune donnée');
+        }
 
-        });
-        this.dataSource = this.receptacle;
-        this.dataSource = new MatTableDataSource<Loyer>(this.receptacle);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.listData = new MatTableDataSource(this.array);
+        this.listData.sort = this.sort;
+        this.listData.paginator = this.paginator;
+
       });
   }
   redirectToDetails(id: number){
@@ -64,10 +82,23 @@ export class ListLoyerComponent implements OnInit, AfterViewInit {
     });
   }
 
-  redirectToDelete(id: number) {
+  redirectToDelete(row) {
     if (confirm("Voulez vous vraiment supprimer le loyer ")) {
-      this.loyerService.supprimerLoyer(id).subscribe(data => {
+      this.loyerService.supprimerLoyer(row.id).subscribe(data => {
+        if(data.status === 0){
+          const index: number = this.array.indexOf(row);
+          if (index !== -1) {
+            this.array.splice(index, 1);
+            this.listData = new MatTableDataSource(this.array);
+            this.listData.sort = this.sort;
+            this.listData.paginator = this.paginator;
 
+          }
+          this.notificationService.warn("Suppression avec succès") ;
+          this.router.navigate(['finance/loyer', this.travauxId]);
+        }else {
+          this.notificationService.warn("Le déboursé sec n\'est pas renseigné") ;
+        }
       });
     }
   }
@@ -75,7 +106,7 @@ export class ListLoyerComponent implements OnInit, AfterViewInit {
   public doFilter(event: Event){
     // this.dataSource.filter = value.trim().toLocaleLowerCase();
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.listData.filter = filterValue.trim().toLowerCase();
   }
 
   openDialog(id: number) {

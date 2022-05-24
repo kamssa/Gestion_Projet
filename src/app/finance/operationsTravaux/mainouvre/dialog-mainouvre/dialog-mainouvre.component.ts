@@ -15,7 +15,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./dialog-mainouvre.component.scss']
 })
 export class DialogMainouvreComponent implements OnInit {
-  displayedColumns: string[] = ['date', 'nom', 'salaire', 'nbreJours', 'total', 'delete'];
+  displayedColumns: string[] = ['date', 'nom', 'salaire', 'nbreJours', 'total'];
   dataSource: MatTableDataSource<DetailMainOeuvre>;
   receptacle: any = [];
   detailMainOeuvre: DetailMainOeuvre[] = [];

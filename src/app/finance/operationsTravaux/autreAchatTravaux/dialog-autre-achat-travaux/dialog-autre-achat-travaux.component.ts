@@ -15,7 +15,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./dialog-autre-achat-travaux.component.scss']
 })
 export class DialogAutreAchatTravauxComponent implements OnInit {
-  displayedColumns: string[] = ['materiaux', 'prix_unitaire', 'quantite', 'montant', 'delete'];
+  displayedColumns: string[] = ['materiaux', 'prix_unitaire', 'quantite', 'montant'];
   dataSource: MatTableDataSource<DetailAutreAchatTravaux>;
   receptacle: any = [];
   achatTravauxId: number;

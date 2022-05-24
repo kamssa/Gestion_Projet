@@ -1,19 +1,17 @@
 import {AfterViewInit, Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
-import {DetailAchatTravaux} from "../../../../model/DtailAchat";
-import {AchatTravaux} from "../../../../model/AchatTravaux";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
-import {AchatTravauxService} from "../../../../service/achat-travaux.service";
 import {MAT_DIALOG_DATA, MatDialog} from '@angular/material/dialog';
-import {EditAchatTravauxComponent} from "../../achat/edit-achat-travaux/edit-achat-travaux.component";
-import {DatailAchatDialogComponent} from "../../achat/dialogue/datail-achat-dialog/datail-achat-dialog.component";
 import {MainOeuvre} from "../../../../model/MainOeuvre";
 import {DetailMainOeuvre} from "../../../../model/DetailMainDoeuvre";
 import {MainoeuvreService} from "../../../../service/mainoeuvre.service";
 import {EditMainouvreTravauxComponent} from "../edit-mainouvre-travaux/edit-mainouvre-travaux.component";
 import {DialogMainouvreComponent} from "../dialog-mainouvre/dialog-mainouvre.component";
 import {Travaux} from '../../../../model/travaux';
+import {JwtHelperService} from '@auth0/angular-jwt';
+import {NotificationService} from '../../../../helper/notification.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-list-main-doeuvre',
@@ -22,16 +20,26 @@ import {Travaux} from '../../../../model/travaux';
 })
 export class ListMainDoeuvreComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['date', 'total', 'details', 'update', 'delete'];
-  dataSource: MatTableDataSource<DetailMainOeuvre>;
   mainOeuvres: MainOeuvre[] = [];
   receptacle: any = [];
+  listData: MatTableDataSource<any>;
+  array: any;
+  roles: any;
+  ROLE_ADMIN: any;
+  ROLE_NAME: any;
+  error = '';
+  ROLE_MANAGER: any;
+  personne: any;
   @ViewChild(MatSort) sort: MatSort;
 
   @Input() travauxId: number;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   constructor(private mainoeuvreService: MainoeuvreService,
               @Inject(MAT_DIALOG_DATA) public data: Travaux,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private helper: JwtHelperService,
+              private notificationService: NotificationService,
+              private router: Router) {
   }
   ngAfterViewInit(): void {
 
@@ -39,22 +47,23 @@ export class ListMainDoeuvreComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     console.log(this.travauxId);
     this.mainoeuvreService.getMainOeuvreByTravaux(this.travauxId)
-      .subscribe( data => {
-        this.mainOeuvres = data;
-        console.log(data);
-        console.log(this.mainOeuvres);
-        this.mainOeuvres.forEach(value => {
-          console.log(value);
-          let opp : MainOeuvre = value;
+      .subscribe( list => {
+        if(list.length !== 0){
+          this.array = list.map(item => {
+            return {
+              id: item.id,
+              ...item
+            };
+          });
+        }else{
+          console.log('aucune donnée');
+        }
 
-          this.receptacle.push(opp);
-        });
-        this.dataSource = this.receptacle;
-        this.dataSource = new MatTableDataSource<MainOeuvre>(this.receptacle);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.listData = new MatTableDataSource(this.array);
+        this.listData.sort = this.sort;
+        this.listData.paginator = this.paginator;
+
       });
-
   }
   redirectToDetails(id: number){
     console.log(id);
@@ -69,17 +78,30 @@ export class ListMainDoeuvreComponent implements OnInit, AfterViewInit {
     });
   }
 
-  redirectToDelete(id: number) {
-    if (confirm("Voulez vous vraiment supprimer l'achat ")) {
-      this.mainoeuvreService.supprimerMainOeuvre(id).subscribe(data => {
-        //console.log('Voir la suppression', data);
+  redirectToDelete(row) {
+    if (confirm("Voulez vous vraiment supprimer la main d\' oeuvre ? ")) {
+      this.mainoeuvreService.supprimerMainOeuvre(row.id).subscribe(data => {
+        if(data.status === 0){
+          const index: number = this.array.indexOf(row);
+          if (index !== -1) {
+            this.array.splice(index, 1);
+            this.listData = new MatTableDataSource(this.array);
+            this.listData.sort = this.sort;
+            this.listData.paginator = this.paginator;
+
+          }
+          this.notificationService.warn("Suppression avec succès") ;
+          this.router.navigate(['finance/oeuvre', this.travauxId]);
+        }else {
+          this.notificationService.warn("Le déboursé sec n\'est pas renseigné") ;
+        }
       });
     }
   }
 
   public doFilter(event: Event){
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.listData.filter = filterValue.trim().toLowerCase();
 
   }
 

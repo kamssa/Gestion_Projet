@@ -4,7 +4,7 @@
       <input matInput type="text" (keyup)="doFilter($event)" placeholder="Filter" #input>
     </mat-form-field>
   </div>
-  <table mat-table [dataSource]="dataSource" matSort>
+  <table mat-table [dataSource]="listData" matSort>
     <ng-container matColumnDef="date">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
       <td mat-cell *matCellDef="let autres"> {{autres.createdAt | date:'dd-MM-yyyy'}} </td>
@@ -33,8 +33,8 @@
 
     <ng-container matColumnDef="delete">
       <th mat-header-cell *matHeaderCellDef> Delete </th>
-      <td mat-cell *matCellDef="let autres">
-        <button mat-icon-button color="warn" (click)="redirectToDelete(autres.id)">
+      <td mat-cell *matCellDef="let row">
+        <button mat-icon-button color="warn" (click)="redirectToDelete(row)">
           <mat-icon class="mat-18">delete</mat-icon>
         </button>
       </td>
